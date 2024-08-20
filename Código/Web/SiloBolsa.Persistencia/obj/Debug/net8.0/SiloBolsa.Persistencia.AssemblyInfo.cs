@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SiloBolsa.Persistencia")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4303872dce55f63a7ef66ac4d9c1e6d9cfceb64d")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4270d23cffbfee3dcc70fa7eb697115393b695e1")]
 [assembly: System.Reflection.AssemblyProductAttribute("SiloBolsa.Persistencia")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SiloBolsa.Persistencia")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
