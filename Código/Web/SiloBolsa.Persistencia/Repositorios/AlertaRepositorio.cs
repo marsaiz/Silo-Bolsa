@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using SiloBolsa.Core.Modelos;
-using SiloBolsa.Persistencia.Negocio;
 
 namespace SiloBolsa.Persistencia.Repositorios;
 
@@ -22,5 +21,11 @@ public class AlertaRepositorio
     {
         //return _siloBolsaContexto.Alertas.Include(d => d.Mensaje).ToList();
         return _siloBolsaContexto.Alertas.Include(a => a.Silo).ToList();
+    }
+
+    public void CrearAlerta(Alerta alerta)
+    {
+        _siloBolsaContexto.Alertas.Add(alerta);
+        _siloBolsaContexto.SaveChanges();
     }
 }

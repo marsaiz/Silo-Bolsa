@@ -22,4 +22,10 @@ public class SiloRepositorio
     {
         return _siloBolsaContexto.Silos.Include(d => d.IdSilo).ToList();
     }
+
+    public void CrearSilo(Silo silo)
+    {
+        _siloBolsaContexto.Silos.Add(silo);
+        _siloBolsaContexto.SaveChanges();
+    }
 }

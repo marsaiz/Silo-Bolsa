@@ -16,4 +16,9 @@ public class AlertaServicio
     {
         return _alertaServicio.ListarAlertas();
     }
+
+    public void AgregarAlerta(Alerta alerta)
+    {
+        _alertaServicio.CrearAlerta(alerta);
+    }
 }

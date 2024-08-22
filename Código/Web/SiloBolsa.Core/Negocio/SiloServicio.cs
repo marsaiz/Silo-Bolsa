@@ -17,4 +17,9 @@ public class SiloServicio
     {
         return _siloServicio.ListarId();
     }
+
+    public void AgregarSilo(Silo silo)
+    {
+        _siloServicio.CrearSilo(silo);
+    }
 }
