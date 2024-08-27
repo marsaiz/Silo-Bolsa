@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SiloBolsa.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a033dc9f19b4b0cabc4223b27acfd4cc6e99b021")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a3d5351121c3d897217a2c4d727edb169e030f71")]
 [assembly: System.Reflection.AssemblyProductAttribute("SiloBolsa.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SiloBolsa.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
