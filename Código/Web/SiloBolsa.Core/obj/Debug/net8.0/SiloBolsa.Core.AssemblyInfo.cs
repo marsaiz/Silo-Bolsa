@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SiloBolsa.Core")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+de852bf7fbfaa4c95d619f8c5b928e4208a95d87")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a033dc9f19b4b0cabc4223b27acfd4cc6e99b021")]
 [assembly: System.Reflection.AssemblyProductAttribute("SiloBolsa.Core")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SiloBolsa.Core")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

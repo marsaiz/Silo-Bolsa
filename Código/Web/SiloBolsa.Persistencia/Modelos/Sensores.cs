@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace SiloBolsa.Core.Modelos
 {
@@ -12,15 +13,16 @@ namespace SiloBolsa.Core.Modelos
     {
         [Key]
         [Column("id_caja")]
-        public int IdCaja { get; set; }
+        public Guid IdCaja { get; set; }
 
         [Column("ubicacion_en_silo")]
         public int UbicacionEnSilo { get; set; }
 
-        [ForeignKey("silo")]
-        [Column("id")]
-        public int IdSilo { get; set; }
+        [ForeignKey("Silo")]
+        [Column("id_silo")]
+        public Guid IdSilo { get; set; }
 
-        public Silo id_silo { get; set; }
+        public Silo Silo { get; set; }
+        public ICollection<Lectura> Lecturas { get; set; }
     }
 }

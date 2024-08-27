@@ -15,9 +15,13 @@ public class SiloServicio
 
     public List<Silo> ObtenerDato()
     {
-        return _siloServicio.ListarId();
+        return _siloServicio.ListarSilos();
     }
 
+    public List<Silo> ObtenerSiloPorNombre(string nombre)
+    {
+        return _siloServicio.ListarSilosPorNombre(nombre);
+    }
     public void AgregarSilo(Silo silo)
     {
         _siloServicio.CrearSilo(silo);

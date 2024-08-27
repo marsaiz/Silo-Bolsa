@@ -19,8 +19,7 @@ public class AlertaRepositorio
 
     public List<Alerta> ListarAlertas()
     {
-        //return _siloBolsaContexto.Alertas.Include(d => d.Mensaje).ToList();
-        return _siloBolsaContexto.Alertas.Include(a => a.Silo).ToList();
+        return _siloBolsaContexto.Alertas.ToList();
     }
 
     public void CrearAlerta(Alerta alerta)

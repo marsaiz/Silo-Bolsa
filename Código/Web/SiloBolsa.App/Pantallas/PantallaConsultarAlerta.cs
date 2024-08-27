@@ -1,7 +1,7 @@
-namespace SiloBolsa.App.Pantallas;
 using SiloBolsa.Persistencia.Negocio;
 using SiloBolsa.Core.Modelos;
 
+namespace SiloBolsa.App.Pantallas;
 public class PantallaConsultarAlerta
 {
     private readonly AlertaServicio _alertaServicio;
