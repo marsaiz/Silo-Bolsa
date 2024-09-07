@@ -24,6 +24,11 @@ public class SiloBolsaContexto : DbContext
         base.OnConfiguring(optionsBuilder);
     }
 
+    /* protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Silo>().HasNoKey();
+        base.OnModelCreating(modelBuilder);
+    } */
     public static SiloBolsaContexto CrearInstancia()
     {
         if (instanciaContexto == null)

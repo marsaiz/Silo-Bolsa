@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SiloBolsa.App")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+70e5ec8692c1e2620be3f1f88d9e9886a4563aa7")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+115371eb050b42a3b6957d429a4fe94f7a1b8c97")]
 [assembly: System.Reflection.AssemblyProductAttribute("SiloBolsa.App")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SiloBolsa.App")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
