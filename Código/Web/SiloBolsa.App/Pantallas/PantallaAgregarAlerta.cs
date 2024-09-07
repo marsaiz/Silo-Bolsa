@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using SiloBolsa.Core.Modelos;
+using SiloBolsa.Core.Negocio;
 using SiloBolsa.Persistencia.Negocio;
 using SiloBolsa.Persistencia.Repositorios;
 
@@ -11,6 +12,7 @@ namespace SiloBolsa.App.Pantallas
     public class PantallaAgregarAlerta
     {
         private AlertaServicio _alertaServicio;
+        private SiloServicio _siloServicio;
 
         public PantallaAgregarAlerta()
         {
@@ -21,8 +23,13 @@ namespace SiloBolsa.App.Pantallas
         {
             DateOnly fechaAlerta;
             TimeOnly horaAlerta;
-            int idSilo;
-            Console.WriteLine("Ingrese el id del silo: ");
+            
+            PantallaConsultarSilo pantallaConsultarSilo = new PantallaConsultarSilo();
+            pantallaConsultarSilo.ListarSilos();
+
+            // Crear consulta para identificar silo
+
+            Console.Write("Ingrese la descripción del silo para seleccionarlo: ");
             string entrada = Console.ReadLine();
 
             Console.WriteLine("Ingrese fecha de la alerta (formato YYYY-MM-DD): ");
@@ -36,10 +43,8 @@ namespace SiloBolsa.App.Pantallas
             {
                 fechaAlerta = DateOnly.Parse(inputFecha);
                 horaAlerta = TimeOnly.Parse(inputHora);
-                idSilo = int.Parse(entrada);
 
                 Alerta alerta = new Alerta();
-                alerta.IdSilo = idSilo;
                 alerta.FechaAlerta = fechaAlerta;
                 alerta.HoraAlerta = horaAlerta;
                 alerta.Mensaje = mensaje;
@@ -49,7 +54,6 @@ namespace SiloBolsa.App.Pantallas
             {
                 Console.WriteLine("El formato de la fecha o la hora no es válido.");
             }
-
         }
     }
 }

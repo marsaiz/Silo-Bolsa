@@ -7,8 +7,8 @@ namespace SiloBolsa.Core.Modelos
     public class Silo
     {
         [Key]
-        [Column("id")]
-        public int IdSilo { get; set; }
+        [Column("id_silo")]
+        public Guid IdSilo { get; set; }
 
         [Column("latitud")]
         public double Latitud { get; set; }
@@ -22,6 +22,10 @@ namespace SiloBolsa.Core.Modelos
         [Column("tipo_grano")]
         public int TipoGrano{ get; set; }
 
+        [Column("descripcion")]
+        public string? Descripcion { get; set; }
+
         public ICollection<Alerta> Alertas { get; set; }
+        public ICollection<Sensores> Sensores { get; set; }
     }
 }

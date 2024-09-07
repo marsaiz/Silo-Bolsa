@@ -9,7 +9,7 @@ namespace SiloBolsa.Core.Modelos
     {
         [Key]
         [Column("id_alerta")]
-        public int IdAlerta { get; set; }
+        public Guid IdAlerta { get; set; }
 
         [Column("fecha_alerta")]
         public DateOnly FechaAlerta { get; set; }
@@ -22,7 +22,7 @@ namespace SiloBolsa.Core.Modelos
 
         [ForeignKey("Silo")]
         [Column("id_silo")]
-        public int IdSilo { get; set;}
+        public Guid IdSilo { get; set;}
 
         public Silo Silo { get; set;}
     }

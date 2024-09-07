@@ -13,16 +13,21 @@ public class SiloRepositorio
         _siloBolsaContexto = SiloBolsaContexto.CrearInstancia();
     }
 
-    internal List<Silo> ObtenerDato()
+    public List<Silo> ObtenerDato()
     {
         return _siloBolsaContexto.Silos.ToList();
     }
 
-    public List<Silo> ListarId()
+    public List<Silo> ListarSilos()
     {
-        return _siloBolsaContexto.Silos.Include(d => d.IdSilo).ToList();
+        //return _siloBolsaContexto.Silos.Include(a => ((Silo)a).IdSilo).ToList();
+        return _siloBolsaContexto.Silos.ToList();
     }
 
+    public List<Silo> ListarSilosPorNombre(string descripcion)
+    {
+        return _siloBolsaContexto.Silos.Where(d => d.Descripcion.ToLower().Contains(descripcion.ToLower())).ToList();
+    }
     public void CrearSilo(Silo silo)
     {
         _siloBolsaContexto.Silos.Add(silo);
