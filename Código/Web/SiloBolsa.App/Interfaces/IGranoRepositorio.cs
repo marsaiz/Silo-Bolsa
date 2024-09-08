@@ -11,7 +11,7 @@ namespace SiloBolsa.App.Interfaces
         IEnumerable<Grano> GetGranos();
         Grano GetGranoById(int id);
         void AddGrano(Grano grano);
-        void UpdateGrno(Grano grano);
+        void UpdateGrano(Grano grano);
         void DeleteGrano(int id);
     }
 }
