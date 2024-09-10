@@ -1,7 +1,24 @@
+using SiloBolsa.Persistencia.Repositorios;
+using SiloBolsa.App.Interfaces;
+using Microsoft.Extensions.Options;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
+//Obtener la conexión desde appsetings.json
+var conexionString =
+builder.Configuration.GetConnectionString("DefaultConnection");
+
+//Registrar SiloBolsaContexto con Postresql
+builder.Services.AddDbContext<SiloBolsaContexto>(Options =>
+    Options.UseNpgsql(conexionString));
+
+
 // Add services to the container.
+builder.Services.AddScoped<IAlertaRepositorio, AlertaRepositorio>();
+
+builder.Services.AddControllers();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -16,6 +33,10 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseAuthorization();
+
+app.MapControllers();
+
 
 var summaries = new[]
 {

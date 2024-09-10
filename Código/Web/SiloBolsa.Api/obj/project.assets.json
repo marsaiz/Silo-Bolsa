@@ -380,7 +380,8 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v8.0",
         "dependencies": {
-          "SiloBolsa.Core": "1.0.0"
+          "SiloBolsa.Core": "1.0.0",
+          "SiloBolsa.Persistencia": "1.0.0"
         },
         "compile": {
           "bin/placeholder/SiloBolsa.App.dll": {}
@@ -1217,6 +1218,7 @@
     "net8.0": [
       "Microsoft.AspNetCore.OpenApi >= 8.0.8",
       "SiloBolsa.App >= 1.0.0",
+      "SiloBolsa.Persistencia >= 1.0.0",
       "Swashbuckle.AspNetCore >= 6.4.0"
     ]
   },
@@ -1247,6 +1249,9 @@
           "projectReferences": {
             "/home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.App/SiloBolsa.App.csproj": {
               "projectPath": "/home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.App/SiloBolsa.App.csproj"
+            },
+            "/home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.Persistencia/SiloBolsa.Persistencia.csproj": {
+              "projectPath": "/home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.Persistencia/SiloBolsa.Persistencia.csproj"
             }
           }
         }

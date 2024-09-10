@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using SiloBolsa.Core.Modelos;
+using SiloBolsa.Persistencia.Modelos;
+using SiloBolsa.Persistencia.Repositorios;
 
-namespace SiloBolsa.App.Interfaces
-{
+namespace SiloBolsa.App.Interfaces;
     public interface IAlertaRepositorio
     {
         IEnumerable<Alerta> GetAlertas();
@@ -14,4 +14,3 @@ namespace SiloBolsa.App.Interfaces
         void UpdateAlerta(Alerta alerta);
         void DeleteAlerta(Guid id_alerta);
     }
-}

@@ -1,5 +1,4 @@
-
-using SiloBolsa.Core.Modelos;
+using SiloBolsa.Persistencia.Modelos;
 using Microsoft.EntityFrameworkCore;
 
 namespace SiloBolsa.Persistencia.Repositorios;
@@ -7,7 +6,7 @@ public class SiloBolsaContexto : DbContext
 {
     private static SiloBolsaContexto instanciaContexto;
     private readonly string _cadenaConexion;
-    private SiloBolsaContexto (string cadenaConexion)
+    private SiloBolsaContexto(string cadenaConexion)
     {
         _cadenaConexion = cadenaConexion;
     }
@@ -18,23 +17,30 @@ public class SiloBolsaContexto : DbContext
     public DbSet<Sensores> Sensores { get; set; }
     public DbSet<Silo> Silos { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        optionsBuilder.UseNpgsql(_cadenaConexion);
-        base.OnConfiguring(optionsBuilder);
+        base.OnModelCreating(modelBuilder);
     }
 
-    /* protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        modelBuilder.Entity<Silo>().HasNoKey();
-        base.OnModelCreating(modelBuilder);
-    } */
-    public static SiloBolsaContexto CrearInstancia()
-    {
-        if (instanciaContexto == null)
+    /*
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            instanciaContexto = new SiloBolsaContexto("Server=localhost;Database=monitoreo_silo_bolsa;User Id=postgres;Password=itesql");
+            optionsBuilder.UseNpgsql(_cadenaConexion);
+            base.OnConfiguring(optionsBuilder);
         }
-        return instanciaContexto;
-    }
+
+         protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Silo>().HasNoKey();
+            base.OnModelCreating(modelBuilder);
+        }
+        public static SiloBolsaContexto CrearInstancia()
+        {
+            if (instanciaContexto == null)
+            {
+                instanciaContexto = new SiloBolsaContexto("Server=localhost;Database=monitoreo_silo_bolsa;User Id=postgres;Password=itesql");
+            }
+            return instanciaContexto;
+        }
+        */
 }

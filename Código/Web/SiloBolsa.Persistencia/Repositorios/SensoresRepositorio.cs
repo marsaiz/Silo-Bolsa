@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using SiloBolsa.Core.Modelos;
+using SiloBolsa.Persistencia.Modelos;
+
 
 namespace SiloBolsa.Persistencia.Repositorios;
 
@@ -8,7 +9,38 @@ public class SensoresRepositorio
 
     private readonly SiloBolsaContexto _siloBolsaContexto;
 
-    public SensoresRepositorio()
+     public IEnumerable<Sensores> GetSensores()
+    {
+        return _siloBolsaContexto.Sensores.ToList();
+    }
+
+    public Sensores GetSensoresById(Guid id_caja)
+    {
+        return _siloBolsaContexto.Sensores.Find(id_caja);
+    }
+
+    public void AddSensores(Sensores sensores)
+    {
+        _siloBolsaContexto.Sensores.Add(sensores);
+        _siloBolsaContexto.SaveChanges();
+    }
+
+    public void UpdateSensores (Sensores sensores)
+    {
+        throw new NotImplementedException();
+    }
+    public void DeleteSennsores(Guid id_caja)
+    {
+        var caja = _siloBolsaContexto.Sensores.Find(id_caja);
+        if (caja != null)
+        {
+            _siloBolsaContexto.Sensores.Remove(caja);
+            _siloBolsaContexto.SaveChanges();
+        }
+    }
+
+
+    /* public SensoresRepositorio()
     {
         _siloBolsaContexto = SiloBolsaContexto.CrearInstancia();
     }
@@ -21,5 +53,5 @@ public class SensoresRepositorio
     public List<Sensores> ListarId()
     {
         return _siloBolsaContexto.Sensores.Include(d => d.IdCaja).ToList();
-    }
+    } */
 }

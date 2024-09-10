@@ -28,6 +28,9 @@
             "projectReferences": {
               "/home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.App/SiloBolsa.App.csproj": {
                 "projectPath": "/home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.App/SiloBolsa.App.csproj"
+              },
+              "/home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.Persistencia/SiloBolsa.Persistencia.csproj": {
+                "projectPath": "/home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.Persistencia/SiloBolsa.Persistencia.csproj"
               }
             }
           }
@@ -98,6 +101,9 @@
             "projectReferences": {
               "/home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.Core/SiloBolsa.Core.csproj": {
                 "projectPath": "/home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.Core/SiloBolsa.Core.csproj"
+              },
+              "/home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.Persistencia/SiloBolsa.Persistencia.csproj": {
+                "projectPath": "/home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.Persistencia/SiloBolsa.Persistencia.csproj"
               }
             }
           }

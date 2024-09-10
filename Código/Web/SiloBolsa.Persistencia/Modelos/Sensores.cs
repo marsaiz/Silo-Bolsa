@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore.Storage;
 
-namespace SiloBolsa.Core.Modelos
+namespace SiloBolsa.Persistencia.Modelos
 {
     [Table("sensores")]
     public class Sensores

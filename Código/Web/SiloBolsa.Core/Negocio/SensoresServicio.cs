@@ -1,4 +1,4 @@
-using SiloBolsa.Core.Modelos;
+using SiloBolsa.Persistencia.Modelos;
 using SiloBolsa.Persistencia.Repositorios;
 
 namespace SiloBolsa.Core.Negocio;

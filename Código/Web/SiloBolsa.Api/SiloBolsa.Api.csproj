@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SiloBolsa.App\SiloBolsa.App.csproj" />
+    <ProjectReference Include="..\SiloBolsa.Persistencia\SiloBolsa.Persistencia.csproj" />
   </ItemGroup>
 
 </Project>

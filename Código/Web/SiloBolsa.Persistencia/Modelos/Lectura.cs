@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore.ValueGeneration;
 
-namespace SiloBolsa.Core.Modelos
+namespace SiloBolsa.Persistencia.Modelos
 {
     [Table("lectura")]
     public class Lectura

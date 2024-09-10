@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace SiloBolsa.Core.Modelos
+namespace SiloBolsa.Persistencia.Modelos
 {
     [Table("grano")]
     public class Grano

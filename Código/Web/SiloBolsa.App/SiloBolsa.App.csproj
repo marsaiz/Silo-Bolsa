@@ -1,6 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
     <ProjectReference Include="..\SiloBolsa.Core\SiloBolsa.Core.csproj" />
+    <ProjectReference Include="..\SiloBolsa.Persistencia\SiloBolsa.Persistencia.csproj" />
   </ItemGroup>
   <PropertyGroup>
     <OutputType>Exe</OutputType>

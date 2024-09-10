@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
     using System.Threading.Tasks;
-    using SiloBolsa.Core.Modelos;
+    using SiloBolsa.Persistencia.Modelos;
     using SiloBolsa.Core.Negocio;
     using SiloBolsa.Persistencia.Negocio;
     using SiloBolsa.Persistencia.Repositorios;
