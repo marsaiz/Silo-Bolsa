@@ -1,19 +1,17 @@
-using SiloBolsa.Persistencia.Negocio;
 using SiloBolsa.Core.Modelos;
+using SiloBolsa.App.Negocio;
 
 namespace SiloBolsa.App.Pantallas;
 public class PantallaConsultarAlerta
 {
     private readonly AlertaServicio _alertaServicio;
 
-    public PantallaConsultarAlerta()
+    public PantallaConsultarAlerta(AlertaServicio alertaServicio)
     {
-        _alertaServicio = new AlertaServicio();
-    }
+        _alertaServicio = alertaServicio ?? throw new ArgumentNullException(nameof(alertaServicio));    }
 
     public void ListarAlertas()
     {
-        AlertaServicio alertaServicio = new AlertaServicio();
         List<Alerta> listadoAlertas = _alertaServicio.ObtenerAlertas();
 
         foreach (Alerta alerta in listadoAlertas)

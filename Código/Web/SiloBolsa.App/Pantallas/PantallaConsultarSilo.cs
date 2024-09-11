@@ -1,6 +1,5 @@
-using SiloBolsa.Persistencia.Negocio;
 using SiloBolsa.Core.Modelos;
-using SiloBolsa.Core.Negocio;
+using SiloBolsa.App.Negocio;
 
 namespace SiloBolsa.App.Pantallas;
 
@@ -8,9 +7,9 @@ public class PantallaConsultarSilo
 {
     private readonly SiloServicio _siloServicio;
 
-    public PantallaConsultarSilo()
+    public PantallaConsultarSilo(SiloServicio siloServicio)
     {
-        _siloServicio = new SiloServicio();
+        _siloServicio = siloServicio ?? throw new ArgumentNullException(nameof(siloServicio));
     }
     public void ListarSilos()
     {

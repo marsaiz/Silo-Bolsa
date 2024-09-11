@@ -269,20 +269,6 @@
             "related": ".xml"
           }
         }
-      },
-      "SiloBolsa.Persistencia/1.0.0": {
-        "type": "project",
-        "framework": ".NETCoreApp,Version=v8.0",
-        "dependencies": {
-          "Microsoft.EntityFrameworkCore": "8.0.8",
-          "Npgsql.EntityFrameworkCore.PostgreSQL": "8.0.4"
-        },
-        "compile": {
-          "bin/placeholder/SiloBolsa.Persistencia.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/SiloBolsa.Persistencia.dll": {}
-        }
       }
     }
   },
@@ -721,18 +707,12 @@
         "npgsql.entityframeworkcore.postgresql.nuspec",
         "postgresql.png"
       ]
-    },
-    "SiloBolsa.Persistencia/1.0.0": {
-      "type": "project",
-      "path": "../SiloBolsa.Persistencia/SiloBolsa.Persistencia.csproj",
-      "msbuildProject": "../SiloBolsa.Persistencia/SiloBolsa.Persistencia.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net8.0": [
       "Microsoft.EntityFrameworkCore >= 8.0.8",
-      "Npgsql.EntityFrameworkCore.PostgreSQL >= 8.0.4",
-      "SiloBolsa.Persistencia >= 1.0.0"
+      "Npgsql.EntityFrameworkCore.PostgreSQL >= 8.0.4"
     ]
   },
   "packageFolders": {
@@ -759,11 +739,7 @@
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
-          "projectReferences": {
-            "/home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.Persistencia/SiloBolsa.Persistencia.csproj": {
-              "projectPath": "/home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.Persistencia/SiloBolsa.Persistencia.csproj"
-            }
-          }
+          "projectReferences": {}
         }
       },
       "warningProperties": {

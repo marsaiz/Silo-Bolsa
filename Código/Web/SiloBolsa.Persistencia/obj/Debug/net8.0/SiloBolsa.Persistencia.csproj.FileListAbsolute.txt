@@ -11,3 +11,6 @@
 /home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.Persistencia/obj/Debug/net8.0/refint/SiloBolsa.Persistencia.dll
 /home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.Persistencia/obj/Debug/net8.0/SiloBolsa.Persistencia.pdb
 /home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.Persistencia/obj/Debug/net8.0/ref/SiloBolsa.Persistencia.dll
+/home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.Persistencia/bin/Debug/net8.0/SiloBolsa.Core.dll
+/home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.Persistencia/bin/Debug/net8.0/SiloBolsa.Core.pdb
+/home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.Persistencia/obj/Debug/net8.0/SiloBolsa.Persistencia.csproj.CopyComplete

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using SiloBolsa.App.Interfaces;
+using SiloBolsa.Core.Interfaces;
 using SiloBolsa.Core.Modelos;
 
 namespace SiloBolsa.Api.Controllers;

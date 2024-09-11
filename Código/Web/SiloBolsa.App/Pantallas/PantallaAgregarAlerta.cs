@@ -2,10 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using SiloBolsa.Persistencia.Modelos;
-using SiloBolsa.Core.Negocio;
-using SiloBolsa.Persistencia.Negocio;
-using SiloBolsa.Persistencia.Repositorios;
+using SiloBolsa.Core.Modelos;
+using SiloBolsa.App.Negocio;
 
 namespace SiloBolsa.App.Pantallas
 {
@@ -13,19 +11,20 @@ namespace SiloBolsa.App.Pantallas
     {
         private AlertaServicio _alertaServicio;
         private SiloServicio _siloServicio;
+        private readonly PantallaConsultarSilo _pantallaConsultarSilo;
 
-        public PantallaAgregarAlerta()
+        public PantallaAgregarAlerta(AlertaServicio alertaServicio, SiloServicio siloServicio)
         {
-            _alertaServicio = new AlertaServicio();
+            _alertaServicio = alertaServicio ?? throw new ArgumentNullException(nameof(alertaServicio));
+            _siloServicio = siloServicio ?? throw new ArgumentNullException(nameof(siloServicio));
         }
 
         public void MostrarPantallaAccion()
         {
             DateOnly fechaAlerta;
             TimeOnly horaAlerta;
-            
-            PantallaConsultarSilo pantallaConsultarSilo = new PantallaConsultarSilo();
-            pantallaConsultarSilo.ListarSilos();
+
+            _pantallaConsultarSilo.ListarSilos();
 
             // Crear consulta para identificar silo
 

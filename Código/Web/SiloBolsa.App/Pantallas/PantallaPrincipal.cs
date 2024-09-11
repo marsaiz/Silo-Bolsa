@@ -2,9 +2,21 @@ namespace SiloBolsa.App.Pantallas;
 
 public class PantallaPrincipal
 {
-    public PantallaPrincipal()
-    {
 
+    private readonly PantallaAgregarSilo _pantallaAgregarSilo;
+    private readonly PantallaConsultarSilo _pantallaConsultarSilo;
+    private readonly PantallaConsultarAlerta _pantallaConsultarAlerta;
+    private readonly PantallaAgregarAlerta _pantallaAgregarAlerta;
+
+    public PantallaPrincipal(PantallaAgregarSilo pantallaAgregarSilo,
+        PantallaConsultarSilo pantallaConsultarSilo,
+        PantallaConsultarAlerta pantallaConsultarAlerta,
+        PantallaAgregarAlerta pantallaAgregarAlerta)
+    {
+        _pantallaAgregarSilo = pantallaAgregarSilo;
+        _pantallaConsultarSilo = pantallaConsultarSilo;
+        _pantallaConsultarAlerta = pantallaConsultarAlerta;
+        _pantallaAgregarAlerta = pantallaAgregarAlerta;
     }
 
     public void MostrarPantallaPrincial()
@@ -23,7 +35,7 @@ public class PantallaPrincipal
             Console.WriteLine("Digite una selección (o digite exit para salir)");
 
             readResult = Console.ReadLine();
-            if(readResult != null)
+            if (readResult != null)
             {
                 menuSeleccion = readResult.ToLower();
             }
@@ -31,24 +43,19 @@ public class PantallaPrincipal
             switch (menuSeleccion)
             {
                 case "1":
-                    PantallaAgregarSilo pantallaAgregarSilo = new PantallaAgregarSilo();
-                    pantallaAgregarSilo.MostrarPantallaAccion();
-                break;
-
+                    _pantallaAgregarSilo.MostrarPantallaAccion();
+                    break;
                 case "2":
-                    PantallaConsultarSilo pantallaConsultarSilo = new PantallaConsultarSilo();
-                    pantallaConsultarSilo.ListarSilos();
+                    _pantallaConsultarSilo.ListarSilos();
                     break;
                 case "3":
-                    PantallaConsultarAlerta pantallaConsultarAlerta = new PantallaConsultarAlerta();
-                    pantallaConsultarAlerta.ListarAlertas();
+                    _pantallaConsultarAlerta.ListarAlertas();
                     break;
                 case "4":
-                    PantallaAgregarAlerta pantallaAgregarAlerta = new PantallaAgregarAlerta();
-                    pantallaAgregarAlerta.MostrarPantallaAccion();
+                    _pantallaAgregarAlerta.MostrarPantallaAccion();
                     break;
             }
-        }while (menuSeleccion != "exit");
+        } while (menuSeleccion != "exit");
     }
 
 }

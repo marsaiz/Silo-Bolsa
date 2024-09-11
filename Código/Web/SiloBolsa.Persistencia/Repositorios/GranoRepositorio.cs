@@ -1,10 +1,11 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
-using SiloBolsa.Persistencia.Modelos;
+using SiloBolsa.Core.Interfaces;
+using SiloBolsa.Core.Modelos;
 
 namespace SiloBolsa.Persistencia.Repositorios;
 
-public class GranoRepositorio
+public class GranoRepositorio : IGranoRepositorio
 {
     private readonly SiloBolsaContexto _siloBolsaContexto;
 
@@ -18,7 +19,7 @@ public class GranoRepositorio
         return _siloBolsaContexto.Granos.ToList();
     }
 
-    public Grano GetGranosById(int id)
+    public Grano GetGranoById(int id)
     {
         return _siloBolsaContexto.Granos.Find(id);
     }

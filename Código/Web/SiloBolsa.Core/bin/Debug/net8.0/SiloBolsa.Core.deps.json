@@ -9,8 +9,7 @@
       "SiloBolsa.Core/1.0.0": {
         "dependencies": {
           "Microsoft.EntityFrameworkCore": "8.0.8",
-          "Npgsql.EntityFrameworkCore.PostgreSQL": "8.0.4",
-          "SiloBolsa.Persistencia": "1.0.0"
+          "Npgsql.EntityFrameworkCore.PostgreSQL": "8.0.4"
         },
         "runtime": {
           "SiloBolsa.Core.dll": {}
@@ -175,15 +174,6 @@
             "fileVersion": "8.0.4.0"
           }
         }
-      },
-      "SiloBolsa.Persistencia/1.0.0": {
-        "dependencies": {
-          "Microsoft.EntityFrameworkCore": "8.0.8",
-          "Npgsql.EntityFrameworkCore.PostgreSQL": "8.0.4"
-        },
-        "runtime": {
-          "SiloBolsa.Persistencia.dll": {}
-        }
       }
     }
   },
@@ -297,11 +287,6 @@
       "sha512": "sha512-/hHd9MqTRVDgIpsToCcxMDxZqla0HAQACiITkq1+L9J2hmHKV6lBAPlauF+dlNSfHpus7rrljWx4nAanKD6qAw==",
       "path": "npgsql.entityframeworkcore.postgresql/8.0.4",
       "hashPath": "npgsql.entityframeworkcore.postgresql.8.0.4.nupkg.sha512"
-    },
-    "SiloBolsa.Persistencia/1.0.0": {
-      "type": "project",
-      "serviceable": false,
-      "sha512": ""
     }
   }
 }

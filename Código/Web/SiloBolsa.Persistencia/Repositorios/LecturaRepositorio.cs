@@ -1,10 +1,11 @@
 using Microsoft.EntityFrameworkCore;
-using SiloBolsa.Persistencia.Modelos;
+using SiloBolsa.Core.Interfaces;
+using SiloBolsa.Core.Modelos;
 
 
 namespace SiloBolsa.Persistencia.Repositorios;
 
-public class LecturaRepositorio
+public class LecturaRepositorio : ILecturaRepositorio
 {
     private readonly SiloBolsaContexto _siloBolsaContexto;
 

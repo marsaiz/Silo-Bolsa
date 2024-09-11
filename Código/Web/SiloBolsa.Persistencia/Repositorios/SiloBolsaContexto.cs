@@ -1,4 +1,4 @@
-using SiloBolsa.Persistencia.Modelos;
+using SiloBolsa.Core.Modelos;
 using Microsoft.EntityFrameworkCore;
 
 namespace SiloBolsa.Persistencia.Repositorios;

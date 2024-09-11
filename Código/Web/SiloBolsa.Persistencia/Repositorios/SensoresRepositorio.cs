@@ -1,10 +1,11 @@
 using Microsoft.EntityFrameworkCore;
-using SiloBolsa.Persistencia.Modelos;
+using SiloBolsa.Core.Interfaces;
+using SiloBolsa.Core.Modelos;
 
 
 namespace SiloBolsa.Persistencia.Repositorios;
 
-public class SensoresRepositorio
+public class SensoresRepositorio : ISensoresRepositorio
 {
 
     private readonly SiloBolsaContexto _siloBolsaContexto;
@@ -29,7 +30,7 @@ public class SensoresRepositorio
     {
         throw new NotImplementedException();
     }
-    public void DeleteSennsores(Guid id_caja)
+    public void DeleteSensores(Guid id_caja)
     {
         var caja = _siloBolsaContexto.Sensores.Find(id_caja);
         if (caja != null)

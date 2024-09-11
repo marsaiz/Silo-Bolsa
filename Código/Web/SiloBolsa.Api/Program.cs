@@ -1,5 +1,5 @@
 using SiloBolsa.Persistencia.Repositorios;
-using SiloBolsa.App.Interfaces;
+using SiloBolsa.Core.Interfaces;
 using Microsoft.Extensions.Options;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,6 +16,7 @@ builder.Services.AddDbContext<SiloBolsaContexto>(Options =>
 
 // Add services to the container.
 builder.Services.AddScoped<IAlertaRepositorio, AlertaRepositorio>();
+builder.Services.AddScoped<IGranoRepositorio, GranoRepositorio>();
 
 builder.Services.AddControllers();
 
