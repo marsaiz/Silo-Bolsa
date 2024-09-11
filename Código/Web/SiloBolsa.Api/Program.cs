@@ -17,6 +17,9 @@ builder.Services.AddDbContext<SiloBolsaContexto>(Options =>
 // Add services to the container.
 builder.Services.AddScoped<IAlertaRepositorio, AlertaRepositorio>();
 builder.Services.AddScoped<IGranoRepositorio, GranoRepositorio>();
+builder.Services.AddScoped<ILecturaRepositorio, LecturaRepositorio>();
+builder.Services.AddScoped<ISensoresRepositorio, SensoresRepositorio>();
+builder.Services.AddScoped<ISiloRepositorio, SiloRepositorio>();
 
 builder.Services.AddControllers();
 
