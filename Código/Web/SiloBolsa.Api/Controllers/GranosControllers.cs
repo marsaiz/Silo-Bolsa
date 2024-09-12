@@ -9,7 +9,7 @@ using SiloBolsa.Core.Modelos;
 namespace SiloBolsa.Api.Controllers;
 
 [ApiController]
-[Route("controller")]
+[Route("api/granos")]
 public class GranosControllers : ControllerBase
 {
 

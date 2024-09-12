@@ -9,7 +9,7 @@ using SiloBolsa.Core.Modelos;
 namespace SiloBolsa.Api.Controllers;
 
 [ApiController]
-[Route("Controller")]
+[Route("api/sensores")]
 public class SensoresControllers : ControllerBase
 {
     private readonly ISensoresRepositorio _sensoresRepositorio;

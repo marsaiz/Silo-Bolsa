@@ -4,13 +4,17 @@ using Microsoft.EntityFrameworkCore;
 namespace SiloBolsa.Persistencia.Repositorios;
 public class SiloBolsaContexto : DbContext
 {
-    private static SiloBolsaContexto instanciaContexto;
+    /* private static SiloBolsaContexto instanciaContexto;
     private readonly string _cadenaConexion;
     private SiloBolsaContexto(string cadenaConexion)
     {
         _cadenaConexion = cadenaConexion;
-    }
+    } */
 
+public SiloBolsaContexto(DbContextOptions<SiloBolsaContexto> options) : base(options)
+{
+
+}
     public DbSet<Alerta> Alertas { get; set; }
     public DbSet<Grano> Granos { get; set; }
     public DbSet<Lectura> Lecturas { get; set; }
@@ -20,6 +24,9 @@ public class SiloBolsaContexto : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+
+        // Ejemplo de configuración de entidad (puedes personalizarlo)
+            //modelBuilder.Entity<Silo>().HasKey(s => s.IdSilo); // Suponiendo que Silo tiene una clave primaria
     }
 
     /*

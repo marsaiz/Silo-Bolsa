@@ -9,7 +9,7 @@ using SiloBolsa.Core.Modelos;
 namespace SiloBolsa.Api.Controllers;
 
 [ApiController]
-[Route("Controller")]
+[Route("api/alertas")]
 public class AlertasControllers : ControllerBase
 {
 private readonly IAlertaRepositorio _alertaRepositorio;

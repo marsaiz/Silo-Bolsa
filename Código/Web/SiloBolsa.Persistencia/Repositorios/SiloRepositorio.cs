@@ -9,6 +9,11 @@ public class SiloRepositorio : ISiloRepositorio
 
     private readonly SiloBolsaContexto _siloBolsaContexto;
 
+    public SiloRepositorio(SiloBolsaContexto siloBolsaContexto)
+    {
+        _siloBolsaContexto = siloBolsaContexto ?? throw new ArgumentNullException(nameof(siloBolsaContexto));
+    }
+
     public IEnumerable<Silo> GetSilos()
     {
         return _siloBolsaContexto.Silos.ToList();
