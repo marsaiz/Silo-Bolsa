@@ -19,3 +19,5 @@ Calibración paso a paso
 
     Una vez que obtengas el valor de R0 en aire limpio, guárdalo en tu código para futuras lecturas. Este valor no debería cambiar a menos que cambien las condiciones ambientales.
     Agrega una variable como:
+
+    # Link placa Wemis D1 Mini V3.0: https://uelectronics.com/producto/wemos-d1-mini-v3-0-modulo-wifi-esp8266ex/?srsltid=AfmBOopbCbupWz1ujJ1MvqN6_TdiQEBOt-sU-R10cR0o33ZOr2kTLhTZ
