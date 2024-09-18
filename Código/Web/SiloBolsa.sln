@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SiloBolsa.Core", "SiloBolsa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SiloBolsa.Persistencia", "SiloBolsa.Persistencia\SiloBolsa.Persistencia.csproj", "{AF8B9247-0192-40BF-969C-7528CBE5899A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SiloBolsa.App", "SiloBolsa.App\SiloBolsa.App.csproj", "{426C174B-9812-40B4-9712-2A582293E91E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SiloBolsa.Servicios", "SiloBolsa.Servicios\SiloBolsa.Servicios.csproj", "{CBFA5148-6CAE-4726-9463-17086B609853}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -32,9 +32,9 @@ Global
 		{AF8B9247-0192-40BF-969C-7528CBE5899A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AF8B9247-0192-40BF-969C-7528CBE5899A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AF8B9247-0192-40BF-969C-7528CBE5899A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{426C174B-9812-40B4-9712-2A582293E91E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{426C174B-9812-40B4-9712-2A582293E91E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{426C174B-9812-40B4-9712-2A582293E91E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{426C174B-9812-40B4-9712-2A582293E91E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CBFA5148-6CAE-4726-9463-17086B609853}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CBFA5148-6CAE-4726-9463-17086B609853}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CBFA5148-6CAE-4726-9463-17086B609853}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CBFA5148-6CAE-4726-9463-17086B609853}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

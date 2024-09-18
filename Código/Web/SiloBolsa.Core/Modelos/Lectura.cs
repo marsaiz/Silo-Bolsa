@@ -26,10 +26,10 @@ namespace SiloBolsa.Core.Modelos
         [Column("dioxido_de_carbono")]
         public double DioxidoDeCarbono { get; set; }
 
-        [ForeignKey("Sensores")]
+        [ForeignKey("Caja")]
         [Column("id_caja")]
         public Guid IdCaja { get; set;}
 
-        public Sensores Sensores { get; set; }
+        public Caja Cajas { get; set; }
     }
 }

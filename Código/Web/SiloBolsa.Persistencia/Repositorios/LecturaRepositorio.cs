@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using SiloBolsa.Core.Interfaces;
+using SiloBolsa.Servicios.Interfaces;
 using SiloBolsa.Core.Modelos;
 
 
@@ -9,7 +9,7 @@ public class LecturaRepositorio : ILecturaRepositorio
 {
     private readonly SiloBolsaContexto _siloBolsaContexto;
 
-     public IEnumerable<Lectura> GetLecturas()
+    public IEnumerable<Lectura> GetLecturas()
     {
         return _siloBolsaContexto.Lecturas.ToList();
     }
@@ -38,20 +38,4 @@ public class LecturaRepositorio : ILecturaRepositorio
             _siloBolsaContexto.SaveChanges();
         }
     }
-
-
-    /* public LecturaRepositorio()
-    {
-        _siloBolsaContexto = SiloBolsaContexto.CrearInstancia();
-    }
-
-    internal List<Lectura> ObtenerLectura()
-    {
-        return _siloBolsaContexto.Lecturas.ToList();
-    }
-
-    public List<Lectura> MostrarTemperatura()
-    {
-        return _siloBolsaContexto.Lecturas.Include(d => d.Temp).ToList();
-    } */
 }

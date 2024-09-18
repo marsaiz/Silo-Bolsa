@@ -283,6 +283,19 @@
         "runtime": {
           "bin/placeholder/SiloBolsa.Core.dll": {}
         }
+      },
+      "SiloBolsa.Servicios/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "SiloBolsa.Core": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/SiloBolsa.Servicios.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/SiloBolsa.Servicios.dll": {}
+        }
       }
     }
   },
@@ -726,13 +739,18 @@
       "type": "project",
       "path": "../SiloBolsa.Core/SiloBolsa.Core.csproj",
       "msbuildProject": "../SiloBolsa.Core/SiloBolsa.Core.csproj"
+    },
+    "SiloBolsa.Servicios/1.0.0": {
+      "type": "project",
+      "path": "../SiloBolsa.Servicios/SiloBolsa.Servicios.csproj",
+      "msbuildProject": "../SiloBolsa.Servicios/SiloBolsa.Servicios.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net8.0": [
       "Microsoft.EntityFrameworkCore >= 8.0.8",
       "Npgsql.EntityFrameworkCore.PostgreSQL >= 8.0.4",
-      "SiloBolsa.Core >= 1.0.0"
+      "SiloBolsa.Servicios >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -760,8 +778,8 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "/home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.Core/SiloBolsa.Core.csproj": {
-              "projectPath": "/home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.Core/SiloBolsa.Core.csproj"
+            "/home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.Servicios/SiloBolsa.Servicios.csproj": {
+              "projectPath": "/home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.Servicios/SiloBolsa.Servicios.csproj"
             }
           }
         }

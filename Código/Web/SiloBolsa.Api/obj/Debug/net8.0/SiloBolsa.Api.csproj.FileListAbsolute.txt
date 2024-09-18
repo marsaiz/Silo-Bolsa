@@ -1,6 +1,3 @@
-/home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.Api/bin/Debug/net8.0/SiloBolsa.App.deps.json
-/home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.Api/bin/Debug/net8.0/SiloBolsa.App.runtimeconfig.json
-/home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.Api/bin/Debug/net8.0/SiloBolsa.App
 /home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.Api/bin/Debug/net8.0/appsettings.Development.json
 /home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.Api/bin/Debug/net8.0/appsettings.json
 /home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.Api/bin/Debug/net8.0/SiloBolsa.Api
@@ -18,12 +15,12 @@
 /home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.Api/bin/Debug/net8.0/Swashbuckle.AspNetCore.Swagger.dll
 /home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.Api/bin/Debug/net8.0/Swashbuckle.AspNetCore.SwaggerGen.dll
 /home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.Api/bin/Debug/net8.0/Swashbuckle.AspNetCore.SwaggerUI.dll
-/home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.Api/bin/Debug/net8.0/SiloBolsa.App.dll
 /home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.Api/bin/Debug/net8.0/SiloBolsa.Core.dll
 /home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.Api/bin/Debug/net8.0/SiloBolsa.Persistencia.dll
-/home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.Api/bin/Debug/net8.0/SiloBolsa.App.pdb
-/home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.Api/bin/Debug/net8.0/SiloBolsa.Core.pdb
+/home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.Api/bin/Debug/net8.0/SiloBolsa.Servicios.dll
+/home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.Api/bin/Debug/net8.0/SiloBolsa.Servicios.pdb
 /home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.Api/bin/Debug/net8.0/SiloBolsa.Persistencia.pdb
+/home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.Api/bin/Debug/net8.0/SiloBolsa.Core.pdb
 /home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.Api/obj/Debug/net8.0/SiloBolsa.Api.csproj.AssemblyReference.cache
 /home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.Api/obj/Debug/net8.0/SiloBolsa.Api.GeneratedMSBuildEditorConfig.editorconfig
 /home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.Api/obj/Debug/net8.0/SiloBolsa.Api.AssemblyInfoInputs.cache

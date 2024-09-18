@@ -9,6 +9,6 @@
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.4" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SiloBolsa.Core\SiloBolsa.Core.csproj" />
+    <ProjectReference Include="..\SiloBolsa.Servicios\SiloBolsa.Servicios.csproj" />
   </ItemGroup>
 </Project>

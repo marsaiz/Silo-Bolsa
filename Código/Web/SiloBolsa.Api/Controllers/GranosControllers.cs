@@ -1,9 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using SiloBolsa.Core.Interfaces;
+using SiloBolsa.Servicios.Interfaces;
 using SiloBolsa.Core.Modelos;
 
 namespace SiloBolsa.Api.Controllers;
@@ -13,24 +9,24 @@ namespace SiloBolsa.Api.Controllers;
 public class GranosControllers : ControllerBase
 {
 
-    private readonly IGranoRepositorio _granoRepositorio;
+    private readonly IGranoServicio _granoServicio;
 
-    public GranosControllers(IGranoRepositorio granoRepositorio)
+    public GranosControllers(IGranoServicio granoServicio)
     {
-        _granoRepositorio = granoRepositorio;
+        _granoServicio = granoServicio;
     }
 
     [HttpGet]
     public ActionResult<IEnumerable<Grano>> GetGranos()
     {
-        var granos = _granoRepositorio.GetGranos();
+        var granos = _granoServicio.GetGranos();
         return Ok(granos);
     }
 
     [HttpGet("{id}")]
     public ActionResult<Grano> GetGranoById(int id)
     {
-        var grano = _granoRepositorio.GetGranoById(id);
+        var grano = _granoServicio.GetGranoById(id);
         if (grano == null)
         {
             return NotFound();
@@ -40,7 +36,7 @@ public class GranosControllers : ControllerBase
     [HttpPost]
     public IActionResult AddGrano([FromBody] Grano grano)
     {
-        _granoRepositorio.AddGrano(grano);
+        _granoServicio.AddGrano(grano);
         return CreatedAtAction(nameof(GetGranos), new { grano = grano.IdGrano }, grano);
     }
 
@@ -51,14 +47,14 @@ public class GranosControllers : ControllerBase
         {
             return BadRequest();
         }
-        _granoRepositorio.UpdateGrano(grano);
+        _granoServicio.UpdateGrano(grano);
         return NoContent();
     }
 
     [HttpDelete("{id}")]
     public IActionResult DeleteGrano(int id)
     {
-        _granoRepositorio.DeleteGrano(id);
+        _granoServicio.DeleteGrano(id);
         return NoContent();
     }
 

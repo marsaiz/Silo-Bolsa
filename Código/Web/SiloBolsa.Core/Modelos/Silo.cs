@@ -19,13 +19,17 @@ namespace SiloBolsa.Core.Modelos
         [Column("capacidad")]
         public int Capacidad { get; set; }
 
+
+        [ForeignKey("GranoSilo")]
         [Column("tipo_grano")]
         public int TipoGrano{ get; set; }
+
+        public Grano GranoSilo { get; set; }
 
         [Column("descripcion")]
         public string? Descripcion { get; set; }
 
         public ICollection<Alerta> Alertas { get; set; }
-        public ICollection<Sensores> Sensores { get; set; }
+        public ICollection<Caja> Cajas { get; set; }
     }
 }

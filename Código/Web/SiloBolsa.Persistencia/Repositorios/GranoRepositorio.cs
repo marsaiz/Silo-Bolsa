@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
-using SiloBolsa.Core.Interfaces;
+using SiloBolsa.Servicios.Interfaces;
 using SiloBolsa.Core.Modelos;
 
 namespace SiloBolsa.Persistencia.Repositorios;
@@ -43,20 +43,4 @@ public class GranoRepositorio : IGranoRepositorio
             _siloBolsaContexto.SaveChanges();
         }
     }
-
-
-    /* public GranoRepositorio()
-    {
-        _siloBolsaContexto = SiloBolsaContexto.CrearInstancia();
-    }
-
-    internal List<Grano> ObtenerDatos()
-    {
-        return _siloBolsaContexto.Granos.ToList();
-    }
-
-    public List<Grano> MostrarDescripcion()
-    {
-        return _siloBolsaContexto.Granos.Include(d => d.Descripcion).ToList();
-    } */
 }

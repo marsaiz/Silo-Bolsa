@@ -1,9 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using SiloBolsa.Core.Interfaces;
+using SiloBolsa.Servicios.Interfaces;
 using SiloBolsa.Core.Modelos;
 
 namespace SiloBolsa.Api.Controllers;
@@ -12,23 +8,23 @@ namespace SiloBolsa.Api.Controllers;
 [Route("api/lecturas")]
 public class LecturasControllers : ControllerBase
 {
-    private readonly ILecturaRepositorio _lecturaRepositorio;
-    public LecturasControllers(ILecturaRepositorio lecuraRepositorio)
+    private readonly ILecturaServicio _lecturaServicio;
+    public LecturasControllers(ILecturaServicio lecuraRepositorio)
     {
-        _lecturaRepositorio = lecuraRepositorio;
+        _lecturaServicio = lecuraRepositorio;
     }
 
     [HttpGet]
     public ActionResult<IEnumerable<Silo>> GetLecturas()
     {
-        var lecturas = _lecturaRepositorio.GetLecturas();
+        var lecturas = _lecturaServicio.GetLecturas();
         return Ok(lecturas);
     }
 
     [HttpGet("{id_lectura}")]
     public ActionResult<Lectura> GetLecturasById(Guid id_lectura)
     {
-        var lectura = _lecturaRepositorio.GetLecturaById(id_lectura);
+        var lectura = _lecturaServicio.GetLecturaById(id_lectura);
         if (lectura == null)
         {
             return NotFound();
@@ -39,7 +35,7 @@ public class LecturasControllers : ControllerBase
     [HttpPost]
     public IActionResult AddLectura([FromBody] Lectura lectura)
     {
-        _lecturaRepositorio.AddLectura(lectura);
+        _lecturaServicio.AddLectura(lectura);
         return CreatedAtAction(nameof(GetLecturas), new {id_lectura = lectura.IdLectura }, lectura);
     }
 
@@ -50,14 +46,14 @@ public class LecturasControllers : ControllerBase
         {
             return BadRequest();
         }
-        _lecturaRepositorio.UpdateLectura(lectura);
+        _lecturaServicio.UpdateLectura(lectura);
         return NoContent();
     }
 
     [HttpDelete("{id_lectura}")]
     public IActionResult DeleteLectura(Guid id_lectura)
     {
-        _lecturaRepositorio.DeleteLectura(id_lectura);
+        _lecturaServicio.DeleteLectura(id_lectura);
         return NoContent();
     }
 }

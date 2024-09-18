@@ -1,7 +1,9 @@
 using SiloBolsa.Persistencia.Repositorios;
-using SiloBolsa.Core.Interfaces;
+using SiloBolsa.Servicios.Interfaces;
 using Microsoft.Extensions.Options;
 using Microsoft.EntityFrameworkCore;
+using SiloBolsa.Servicios.Negocio;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,8 +20,14 @@ builder.Services.AddDbContext<SiloBolsaContexto>(Options =>
 builder.Services.AddScoped<IAlertaRepositorio, AlertaRepositorio>();
 builder.Services.AddScoped<IGranoRepositorio, GranoRepositorio>();
 builder.Services.AddScoped<ILecturaRepositorio, LecturaRepositorio>();
-builder.Services.AddScoped<ISensoresRepositorio, SensoresRepositorio>();
+builder.Services.AddScoped<ICajaRepositorio, CajaRepositorio>();
 builder.Services.AddScoped<ISiloRepositorio, SiloRepositorio>();
+builder.Services.AddScoped<IAlertaServicio, AlertaServicio>();
+builder.Services.AddScoped<ICajaServicio, CajaServicio>();
+builder.Services.AddScoped<IGranoServicio, GranoServicio>();
+builder.Services.AddScoped<ILecturaServicio, LecturaServicio>();
+builder.Services.AddScoped<ISiloServicio, SiloServicio>();
+
 
 builder.Services.AddControllers();
 

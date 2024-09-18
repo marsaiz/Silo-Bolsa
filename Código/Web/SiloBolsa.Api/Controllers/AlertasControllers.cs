@@ -1,9 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
 using Microsoft.AspNetCore.Mvc;
-using SiloBolsa.Core.Interfaces;
+using SiloBolsa.Servicios.Interfaces;
 using SiloBolsa.Core.Modelos;
 
 namespace SiloBolsa.Api.Controllers;
@@ -12,23 +9,23 @@ namespace SiloBolsa.Api.Controllers;
 [Route("api/alertas")]
 public class AlertasControllers : ControllerBase
 {
-private readonly IAlertaRepositorio _alertaRepositorio;
-    public AlertasControllers(IAlertaRepositorio alertaRepositorio)
+private readonly IAlertaServicio _alertaServicio;
+    public AlertasControllers(IAlertaServicio alertaServicio)
     {
-        _alertaRepositorio = alertaRepositorio;
+        _alertaServicio = alertaServicio;
     }
 
     [HttpGet]
     public ActionResult<IEnumerable<Alerta>> GetAlertas()
     {
-        var alertas = _alertaRepositorio.GetAlertas();
+        var alertas = _alertaServicio.GetAlertas();
         return Ok(alertas);
     }
 
-    [HttpGet("{id_alerta}")]
+    [HttpGet("{id_alerta}")] //Con los corchetes se indican variables
     public ActionResult<Alerta> GetAlertaByid(Guid id_alerta)
     {
-        var alerta = _alertaRepositorio.GetAlertaById(id_alerta);
+        var alerta = _alertaServicio.GetAlertaById(id_alerta);
         if (alerta == null)
         {
             return NotFound();
@@ -39,7 +36,7 @@ private readonly IAlertaRepositorio _alertaRepositorio;
     [HttpPost]
     public IActionResult AddAlerta([FromBody] Alerta alerta)
     {
-        _alertaRepositorio.AddAlerta(alerta);
+        _alertaServicio.AddAlerta(alerta);
         return CreatedAtAction(nameof(GetAlertas), new {id_alerta = alerta.IdAlerta}, alerta);
     }
 
@@ -50,14 +47,14 @@ private readonly IAlertaRepositorio _alertaRepositorio;
             {
                 return BadRequest();
             }
-            _alertaRepositorio.UpdateAlerta(alerta);
+            _alertaServicio.UpdateAlerta(alerta);
             return NoContent();
         }
 
         [HttpDelete("{id_alerta}")]
         public IActionResult DeleteAlerta(Guid id_alerta)
         {
-            _alertaRepositorio.DeleteAlerta(id_alerta);
+            _alertaServicio.DeleteAlerta(id_alerta);
             return NoContent();
         }
 }

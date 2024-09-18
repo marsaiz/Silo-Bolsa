@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using SiloBolsa.Core.Interfaces;
+using SiloBolsa.Servicios.Interfaces;
 using SiloBolsa.Core.Modelos;
 
 
@@ -13,23 +13,23 @@ namespace SiloBolsa.Api.Controllers;
 [Route("api/silos")]
 public class SilosControllers : ControllerBase
 {
-    private readonly ISiloRepositorio _siloRepositorio;
-    public SilosControllers(ISiloRepositorio siloRepositorio)
+    private readonly ISiloServicio _siloServicio;
+    public SilosControllers(ISiloServicio siloServicio)
     {
-        _siloRepositorio = siloRepositorio;
+        _siloServicio = siloServicio;
     }
 
     [HttpGet]
     public ActionResult<IEnumerable<Silo>> GetSilos()
     {
-        var silos = _siloRepositorio.GetSilos();
+        var silos = _siloServicio.GetSilos();
         return Ok(silos);
     }
 
-    [HttpGet("{id_silo}")]
+    [HttpGet("{id_silo}")] //Entre llaves se llama a un campo de una tabla de base de datos.
     public ActionResult<Silo> GetSiloById(Guid id_silo)
     {
-        var silo = _siloRepositorio.GetSiloById(id_silo);
+        var silo = _siloServicio.GetSiloById(id_silo);
         if (silo == null)
         {
             return NotFound();
@@ -38,9 +38,9 @@ public class SilosControllers : ControllerBase
     }
 
     [HttpPost]
-    public IActionResult AddSilo([FromBody] Silo silo)
+    public IActionResult AddSilo([FromBody] SiloDTO silo)
     {
-        _siloRepositorio.AddSilo(silo);
+        _siloServicio.AddSilo(silo);
         return CreatedAtAction(nameof(GetSilos), new {id_silo = silo.IdSilo}, silo);
     }
 
@@ -51,14 +51,14 @@ public class SilosControllers : ControllerBase
             {
                 return BadRequest();
             }
-            _siloRepositorio.UpdateSilo(silo);
+            _siloServicio.UpdateSilo(silo);
             return NoContent();
         }
 
         [HttpDelete("{id_silo}")]
         public IActionResult DeleteSilo(Guid id_silo)
         {
-            _siloRepositorio.DeleteSilo(id_silo);
+            _siloServicio.DeleteSilo(id_silo);
             return NoContent();
         }
 }
