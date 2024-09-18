@@ -6,7 +6,7 @@ public interface IGranoServicio
 {
     IEnumerable<Grano> GetGranos();
     Grano GetGranoById(int id);
-    void AddGrano(Grano grano);
+    void AddGrano(GranoDTO grano);
     void UpdateGrano(Grano grano);
     void DeleteGrano(int id);
 }

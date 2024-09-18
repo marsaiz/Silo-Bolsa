@@ -17,15 +17,18 @@ public class SiloServicio : ISiloServicio
     public void AddSilo(SiloDTO siloDTO)
     {
         Silo silo = new Silo();
-        silo.IdSilo = siloDTO.IdSilo;
-
-        silo.GranoSilo = _granoServicio.GetGranoById(siloDTO.IdGrano);
+        silo.IdSilo = Guid.NewGuid();
+        silo.Latitud = siloDTO.Latitud;
+        silo.Longitud = siloDTO.Longitud;
+        silo.Capacidad = siloDTO.Capacidad;
+        //silo.GranoSilo = _granoServicio.GetGranoById(siloDTO.IdGrano);
+        silo.Descripcion = siloDTO.Descripcion;
 
         _siloRepositorio.AddSilo(silo);
     }
     public void DeleteSilo(Guid id_silo)
     {
-        throw new NotImplementedException();
+        _siloRepositorio.DeleteSilo(id_silo);
     }
 
     public Silo GetSiloById(Guid id_silo)
@@ -38,8 +41,20 @@ public class SiloServicio : ISiloServicio
         return _siloRepositorio.GetSilos();
     }
 
-    public void UpdateSilo(Silo silo)
+    public void UpdateSilo(SiloDTO siloDTO)
     {
-        throw new NotImplementedException();
+        var siloExistente = _siloRepositorio.GetSiloById(siloDTO.IdSilo);
+
+        if(siloExistente == null)
+        {
+            throw new Exception("El silo no existe");
+        }
+
+        siloExistente.Latitud = siloDTO.Latitud;
+        siloExistente.Longitud = siloDTO.Longitud;
+        siloExistente.Capacidad = siloDTO.Capacidad;
+        siloExistente.Descripcion = siloDTO.Descripcion;
+
+        _siloRepositorio.UpdateSilo(siloExistente);
     }
 }

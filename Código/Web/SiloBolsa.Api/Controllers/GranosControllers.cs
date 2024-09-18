@@ -34,10 +34,18 @@ public class GranosControllers : ControllerBase
         return Ok(grano);
     }
     [HttpPost]
-    public IActionResult AddGrano([FromBody] Grano grano)
+    public IActionResult AddGrano([FromBody] GranoDTO grano)
     {
+        if (grano == null)
+        {
+            return BadRequest("El objeto Grano no puede ser nulo");
+        }
+
         _granoServicio.AddGrano(grano);
-        return CreatedAtAction(nameof(GetGranos), new { grano = grano.IdGrano }, grano);
+        return Ok("Grano agregado correctamente");
+        
+        /* _granoServicio.AddGrano(grano);
+        return CreatedAtAction(nameof(GetGranos), new { grano = grano.IdGrano }, grano); */
     }
 
     [HttpPut("{id}")]

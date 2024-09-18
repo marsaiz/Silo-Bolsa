@@ -32,7 +32,8 @@ public class SiloRepositorio : ISiloRepositorio
 
     public void UpdateSilo (Silo silo)
     {
-        throw new NotImplementedException();
+        _siloBolsaContexto.Silos.Update(silo);
+        _siloBolsaContexto.SaveChanges();
     }
     public void DeleteSilo(Guid id_silo)
     {
