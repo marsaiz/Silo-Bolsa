@@ -25,9 +25,10 @@ public class LecturaRepositorio : ILecturaRepositorio
         _siloBolsaContexto.SaveChanges();
     }
 
-    public void UpdateLectura (Lectura lectura)
+    public void UpdateLectura(Lectura lectura)
     {
-        throw new NotImplementedException();
+        _siloBolsaContexto.Lecturas.Update(lectura);
+        _siloBolsaContexto.SaveChanges();
     }
     public void DeleteLectura(Guid id_lectura)
     {

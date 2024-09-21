@@ -49,7 +49,7 @@ public class GranosControllers : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public IActionResult UpdateGrano(int id, [FromBody] Grano grano)
+    public IActionResult UpdateGrano(int id, [FromBody] GranoDTO grano)
     {
         if (id != grano.IdGrano)
         {

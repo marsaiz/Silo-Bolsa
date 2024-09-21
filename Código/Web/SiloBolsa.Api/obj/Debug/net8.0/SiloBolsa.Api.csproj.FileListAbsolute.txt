@@ -1,3 +1,11 @@
+/home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.Api/obj/Debug/net8.0/SiloBolsa.Api.csproj.AssemblyReference.cache
+/home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.Api/obj/Debug/net8.0/SiloBolsa.Api.GeneratedMSBuildEditorConfig.editorconfig
+/home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.Api/obj/Debug/net8.0/SiloBolsa.Api.AssemblyInfoInputs.cache
+/home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.Api/obj/Debug/net8.0/SiloBolsa.Api.AssemblyInfo.cs
+/home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.Api/obj/Debug/net8.0/SiloBolsa.Api.csproj.CoreCompileInputs.cache
+/home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.Api/obj/Debug/net8.0/SiloBolsa.Api.MvcApplicationPartsAssemblyInfo.cs
+/home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.Api/obj/Debug/net8.0/SiloBolsa.Api.MvcApplicationPartsAssemblyInfo.cache
+/home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.Api/obj/Debug/net8.0/SiloBolsa.Api.sourcelink.json
 /home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.Api/bin/Debug/net8.0/appsettings.Development.json
 /home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.Api/bin/Debug/net8.0/appsettings.json
 /home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.Api/bin/Debug/net8.0/SiloBolsa.Api
@@ -21,14 +29,6 @@
 /home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.Api/bin/Debug/net8.0/SiloBolsa.Servicios.pdb
 /home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.Api/bin/Debug/net8.0/SiloBolsa.Persistencia.pdb
 /home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.Api/bin/Debug/net8.0/SiloBolsa.Core.pdb
-/home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.Api/obj/Debug/net8.0/SiloBolsa.Api.csproj.AssemblyReference.cache
-/home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.Api/obj/Debug/net8.0/SiloBolsa.Api.GeneratedMSBuildEditorConfig.editorconfig
-/home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.Api/obj/Debug/net8.0/SiloBolsa.Api.AssemblyInfoInputs.cache
-/home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.Api/obj/Debug/net8.0/SiloBolsa.Api.AssemblyInfo.cs
-/home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.Api/obj/Debug/net8.0/SiloBolsa.Api.csproj.CoreCompileInputs.cache
-/home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.Api/obj/Debug/net8.0/SiloBolsa.Api.MvcApplicationPartsAssemblyInfo.cs
-/home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.Api/obj/Debug/net8.0/SiloBolsa.Api.MvcApplicationPartsAssemblyInfo.cache
-/home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.Api/obj/Debug/net8.0/SiloBolsa.Api.sourcelink.json
 /home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.Api/obj/Debug/net8.0/staticwebassets.build.json
 /home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.Api/obj/Debug/net8.0/staticwebassets.development.json
 /home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.Api/obj/Debug/net8.0/staticwebassets/msbuild.SiloBolsa.Api.Microsoft.AspNetCore.StaticWebAssets.props

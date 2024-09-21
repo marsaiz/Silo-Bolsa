@@ -23,15 +23,16 @@ public class CajaRepositorio : ICajaRepositorio
         return _siloBolsaContexto.Cajas.Find(id_caja);
     }
 
-    public void AddCaja(Caja cajas)
+    public void AddCaja(Caja caja)
     {
-        _siloBolsaContexto.Cajas.Add(cajas);
+        _siloBolsaContexto.Cajas.Add(caja);
         _siloBolsaContexto.SaveChanges();
     }
 
-    public void UpdateCaja(Caja cajas)
+    public void UpdateCaja(Caja caja)
     {
-        throw new NotImplementedException();
+        _siloBolsaContexto.Cajas.Update(caja);
+        _siloBolsaContexto.SaveChanges();
     }
     public void DeleteCaja(Guid id_caja)
     {

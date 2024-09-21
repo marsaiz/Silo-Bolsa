@@ -5,28 +5,46 @@ namespace SiloBolsa.Servicios.Negocio;
 
 public class CajaServicio : ICajaServicio
 {
-    public void AddCaja(Caja caja)
+    private ICajaRepositorio _cajaRepositorio;
+
+    public CajaServicio(ICajaRepositorio cajaRepositorio)
     {
-        throw new NotImplementedException();
+        _cajaRepositorio = cajaRepositorio;
+    }
+    public void AddCaja(CajaDTO cajaDTO)
+    {
+        Caja caja = new Caja();
+        caja.IdCaja = Guid.NewGuid();
+        caja.UbicacionEnSilo = cajaDTO.UbicacionEnSilo;
+        caja.IdSilo = cajaDTO.IdSilo;
     }
 
     public void DeleteCaja(Guid id_caja)
     {
-        throw new NotImplementedException();
+        _cajaRepositorio.DeleteCaja(id_caja);
     }
 
     public IEnumerable<Caja> GetCajas()
     {
-        throw new NotImplementedException();
+        return _cajaRepositorio.GetCajas();
     }
 
-    public Caja GetCajasById(Guid caja)
+    public Caja GetCajasById(Guid id_caja)
     {
-        throw new NotImplementedException();
+        return _cajaRepositorio.GetCajasById(id_caja);
     }
 
-    public void UpdateCaja(Guid id_caja)
+    public void UpdateCaja(CajaDTO cajaDTO)
     {
-        throw new NotImplementedException();
+        var cajaExistente = _cajaRepositorio.GetCajasById(cajaDTO.IdCaja);
+
+        if(cajaExistente == null)
+        {
+            throw new Exception("La Caja no existe");
+        }
+
+        cajaExistente.UbicacionEnSilo =  cajaDTO.UbicacionEnSilo;
+
+        _cajaRepositorio.UpdateCaja(cajaExistente);
     }
 }

@@ -33,14 +33,14 @@ public class LecturasControllers : ControllerBase
     }
 
     [HttpPost]
-    public IActionResult AddLectura([FromBody] Lectura lectura)
+    public IActionResult AddLectura([FromBody] LecturaDTO lectura)
     {
         _lecturaServicio.AddLectura(lectura);
         return CreatedAtAction(nameof(GetLecturas), new {id_lectura = lectura.IdLectura }, lectura);
     }
 
     [HttpPut("{id_lectura}")]
-    public IActionResult UpdateLectura(Guid id_lectura, [FromBody] Lectura lectura)
+    public IActionResult UpdateLectura(Guid id_lectura, [FromBody] LecturaDTO lectura)
     {
         if (id_lectura != lectura.IdLectura)
         {

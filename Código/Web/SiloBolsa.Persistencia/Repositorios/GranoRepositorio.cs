@@ -32,7 +32,8 @@ public class GranoRepositorio : IGranoRepositorio
 
     public void UpdateGrano(Grano grano)
     {
-        throw new NotImplementedException();
+        _siloBolsaContexto.Granos.Update(grano);
+        _siloBolsaContexto.SaveChanges();
     }
     public void DeleteGrano(int id)
     {

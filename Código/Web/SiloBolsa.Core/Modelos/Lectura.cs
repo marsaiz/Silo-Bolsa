@@ -1,6 +1,5 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.EntityFrameworkCore.ValueGeneration;
 
 namespace SiloBolsa.Core.Modelos
 {
@@ -14,12 +13,9 @@ namespace SiloBolsa.Core.Modelos
         [Column("temp")]
         public int Temp { get; set; }
 
-        [Column("fecha_lectura")]
-        public DateOnly FechaLecuta { get; set; }
+        [Column("fecha_hora_lectura")]
+        public DateTime FechaHoraLectura { get; set; }
 
-        [Column("hora_lectura")]
-        public TimeOnly HoraLecuta { get; set; }
-        
         [Column("humedad")]
         public double Humedad { get; set; }
 
@@ -30,6 +26,6 @@ namespace SiloBolsa.Core.Modelos
         [Column("id_caja")]
         public Guid IdCaja { get; set;}
 
-        public Caja Cajas { get; set; }
+        public Caja Caja { get; set; }
     }
 }

@@ -34,14 +34,21 @@ private readonly IAlertaServicio _alertaServicio;
     }
 
     [HttpPost]
-    public IActionResult AddAlerta([FromBody] Alerta alerta)
+    public IActionResult AddAlerta([FromBody] AlertaDTO alerta)
     {
+        if(alerta == null)
+        {
+            return BadRequest("El Alerta no puede ser nulo");
+        }
+
         _alertaServicio.AddAlerta(alerta);
-        return CreatedAtAction(nameof(GetAlertas), new {id_alerta = alerta.IdAlerta}, alerta);
+        return Ok("El Alerta agregada correctamente");
+       /*  _alertaServicio.AddAlerta(alerta);
+        return CreatedAtAction(nameof(GetAlertas), new {id_alerta = alerta.IdAlerta}, alerta); */
     }
 
     [HttpPut("{id_alerta}")]
-        public IActionResult UpdateAlerta(Guid id_alerta, [FromBody] Alerta alerta)
+        public IActionResult UpdateAlerta(Guid id_alerta, [FromBody] AlertaDTO alerta)
         {
             if (id_alerta != alerta.IdAlerta)
             {

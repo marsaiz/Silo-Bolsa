@@ -36,9 +36,24 @@ public class GranoServicio : IGranoServicio
         return _granoRepositorio.GetGranos();
     }
 
-    public void UpdateGrano(Grano grano)
+    public void UpdateGrano(GranoDTO granoDTO)
     {
-        throw new NotImplementedException();
+        var granoExistente = _granoRepositorio.GetGranoById(granoDTO.IdGrano);
+
+        if (granoExistente == null)
+        {
+            throw new Exception("El grano no existe");
+        }
+
+        granoExistente.Descripcion = granoDTO.Descripcion;
+        granoExistente.HumedadMax = granoDTO.HumedadMax;
+        granoExistente.HumedadMin = granoDTO.HumedadMin;
+        granoExistente.TempMax = granoDTO.TempMax;
+        granoExistente.TempMin = granoDTO.TempMin;
+        granoExistente.NivelDioxidoMax = granoDTO.NivelDioxidoMax;
+        granoExistente.NivelDioxidoMin = granoDTO.NivelDioxidoMin;
+
+        _granoRepositorio.UpdateGrano(granoExistente);
     }
 
     public void DeleteGrano(int id)

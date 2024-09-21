@@ -30,7 +30,8 @@ public class AlertaRepositorio : IAlertaRepositorio
 
     public void UpdateAlerta (Alerta alerta)
     {
-        throw new NotImplementedException();
+        _siloBolsaContexto.Alertas.Update(alerta);
+        _siloBolsaContexto.SaveChanges();
     }
     public void DeleteAlerta(Guid id_alerta)
     {

@@ -10,7 +10,7 @@ public interface IAlertaServicio
 {
     IEnumerable<Alerta> GetAlertas();
     Alerta GetAlertaById(Guid id_alerta);
-    void AddAlerta(Alerta alerta);
-    void UpdateAlerta(Alerta alerta);
+    void AddAlerta(AlertaDTO alerta);
+    void UpdateAlerta(AlertaDTO alerta);
     void DeleteAlerta(Guid id_alerta);
 }

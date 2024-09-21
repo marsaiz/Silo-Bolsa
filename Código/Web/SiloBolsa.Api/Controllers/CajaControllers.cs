@@ -33,20 +33,28 @@ public class CajaControllers : ControllerBase
     }
 
     [HttpPost]
-    public IActionResult AddCajas([FromBody] Caja cajas)
+    public IActionResult AddCaja([FromBody] CajaDTO caja)
     {
-        _cajaServicio.AddCaja(cajas);
-        return CreatedAtAction(nameof(GetCajas), new {id_caja = cajas.IdCaja}, cajas);
+        if(caja == null)
+        {
+            return BadRequest("La Caja no puede ser nulo");
+        }
+
+        _cajaServicio.AddCaja(caja);
+        return Ok("Caja agregada correctamente");
+
+        /* _cajaServicio.AddCaja(caja);
+        return CreatedAtAction(nameof(GetCajas), new {id_caja = caja.IdCaja}, caja);*/
     }
 
     [HttpPut("{id_caja}")]
-        public IActionResult UpdateCaja(Guid id_caja, [FromBody] Caja cajas)
+        public IActionResult UpdateCaja(Guid id_caja, [FromBody] CajaDTO caja)
         {
-            if (id_caja != cajas.IdCaja)
+            if (id_caja != caja.IdCaja)
             {
                 return BadRequest();
             }
-            _cajaServicio.UpdateCaja(id_caja);
+            _cajaServicio.UpdateCaja(caja);
             return NoContent();
         }
 
