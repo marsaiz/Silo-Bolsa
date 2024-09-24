@@ -1,3 +1,7 @@
+//COMPILAR CON WEMOS D1 MINI PRO
+// Y= A * POW (X,B)
+
+
 #include <AHT10.h>
 #include <Wire.h>
 #include <MQ135.h>
@@ -15,7 +19,8 @@ const int gasSensor = 0;
 float voltage = 0.00;
 float resistencia = 0.00;
 float dioxidoDeCarbono = 0.00;
-
+#define a 5.58
+#define b -0.365
 
 void setup() {
   Serial.begin(115200);
@@ -40,14 +45,19 @@ void loop() {
   Serial.print(F("Corrected PPM: "));Serial.println(correctedPPM);
   voltage = getVoltage(gasSensor);
   resistencia = 1000 * ((5.0 - voltage) / voltage);
-  dioxidoDeCarbono = 25 * pow(resistencia  / 5463, -2.26);
+  //dioxidoDeCarbono = 245 * pow(resistencia  / 5463, -2.26);
+dioxidoDeCarbono = pow(resistencia  / a, -b);
+  Serial.println(voltage);
+  Serial.print("Resistencia");
+  Serial.println(resistencia);
+  Serial.println(resistance);
   
   Serial.print(F("Dioxido de Carbono: "));Serial.println(dioxidoDeCarbono);
   delay(10000);
 }
 
 float getVoltage(int pin){
-  return (analogRead(pin) * 0.004882814);
+  return (analogRead(pin) * 0.0032258);
    // This equation converts the 0 to 1023 value that analogRead()
   // returns, into a 0.0 to 5.0 value that is the true voltage
   // being read at that pin.

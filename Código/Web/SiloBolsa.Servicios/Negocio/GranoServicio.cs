@@ -58,6 +58,6 @@ public class GranoServicio : IGranoServicio
 
     public void DeleteGrano(int id)
     {
-        throw new NotImplementedException();
+        _granoRepositorio.DeleteGrano(id);
     }
 }

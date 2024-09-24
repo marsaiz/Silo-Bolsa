@@ -17,6 +17,8 @@ public class CajaServicio : ICajaServicio
         caja.IdCaja = Guid.NewGuid();
         caja.UbicacionEnSilo = cajaDTO.UbicacionEnSilo;
         caja.IdSilo = cajaDTO.IdSilo;
+
+        _cajaRepositorio.AddCaja(caja);
     }
 
     public void DeleteCaja(Guid id_caja)
