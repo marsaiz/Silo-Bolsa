@@ -37,22 +37,33 @@ void loop() {
   hum = sensorTemp.readHumidity();
   Serial.print(F("Temperatura: "));Serial.println(temp);
   Serial.print(F("Humedad....: "));Serial.println(hum);
-  Serial.println();
-
+  Serial.println("Formulas libreria");
+  float rzero = mq135_sensor.getRZero();
   float correctedRZero = mq135_sensor.getCorrectedRZero(temp, hum); // Devuelve el valor del "R0", que es la resistencia básica del sensor en aire limpio. Este valor es crítico para la calibración., pero ajustado según la temperatura y humedad, lo cual es muy útil en entornos donde estas variables fluctúan.
   float resistance = mq135_sensor.getResistance(); //Obtiene la resistencia del sensor en función de la lectura analógica.
+  float ppm = mq135_sensor.getPPM();
   float correctedPPM = mq135_sensor.getCorrectedPPM(temp, hum); //Este método ajusta la lectura del sensor usando las correcciones basadas en la temperatura y la humedad, lo cual es crucial, ya que la resistencia del sensor cambia con estas condiciones.
-  Serial.print(F("Corrected PPM: "));Serial.println(correctedPPM);
+  Serial.print(F("MQ135 RZero: "));
+  Serial.print(rzero);
+  Serial.print(F("\t Corrected RZero: "));
+  Serial.print(correctedRZero);
+  Serial.print(F("\t Resistance: "));
+  Serial.print(resistance);
+  Serial.print(F("\t PPM: "));
+  Serial.print(ppm);
+  Serial.print(F("\t Corrected PPM: "));Serial.println(correctedPPM);
+  Serial.println(F("*********************"));
+  Serial.println(F("Formulas manuales"));
+   
   voltage = getVoltage(gasSensor);
   resistencia = 1000 * ((5.0 - voltage) / voltage);
-  //dioxidoDeCarbono = 245 * pow(resistencia  / 5463, -2.26);
-dioxidoDeCarbono = pow(resistencia  / a, -b);
-  Serial.println(voltage);
-  Serial.print("Resistencia");
+  dioxidoDeCarbono = 245 * pow(resistencia  / 5463, -2.26);
+  float dioxidoDeCarbonoNueva = pow(resistencia  / a, -b);
+  Serial.print("Voltaje");Serial.println(voltage);
+  Serial.print("Resistencia: ");
   Serial.println(resistencia);
-  Serial.println(resistance);
-  
   Serial.print(F("Dioxido de Carbono: "));Serial.println(dioxidoDeCarbono);
+  Serial.print(F("Dioxido de Carbono Nueva: "));Serial.println(dioxidoDeCarbonoNueva);
   delay(10000);
 }
 

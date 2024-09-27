@@ -9,13 +9,14 @@ namespace SiloBolsa.Api.Controllers;
 public class LecturasControllers : ControllerBase
 {
     private readonly ILecturaServicio _lecturaServicio;
+    private readonly ILecturaRepositorio _lecturaRepositorio;
     public LecturasControllers(ILecturaServicio lecuraRepositorio)
     {
         _lecturaServicio = lecuraRepositorio;
     }
 
     [HttpGet]
-    public ActionResult<IEnumerable<Silo>> GetLecturas()
+    public ActionResult<IEnumerable<Lectura>> GetLecturas()
     {
         var lecturas = _lecturaServicio.GetLecturas();
         return Ok(lecturas);
@@ -55,5 +56,12 @@ public class LecturasControllers : ControllerBase
     {
         _lecturaServicio.DeleteLectura(id_lectura);
         return NoContent();
+    }
+
+    [HttpGet("temperaturas/{id_silo}")]
+    public ActionResult<Lectura> GetLecturasBySilo(Guid id_silo)
+    {
+        var temperaturas = _lecturaRepositorio.GetLecturasBySilo(id_silo);
+        return Ok();
     }
 }

@@ -17,12 +17,12 @@ public class LecturaServicio : ILecturaServicio
     public LecturaServicio(ILecturaRepositorio lecturaRepositorio, ICajaRepositorio cajaRepositorio)
     {
         _lecturaRepositorio = lecturaRepositorio;
-        _cajaRepositorio = _cajaRepositorio;
+        _cajaRepositorio = cajaRepositorio;
     }
     public void AddLectura(LecturaDTO lecturaDTO)
     {
         Lectura lectura = new Lectura();
-        lectura.IdLectura = lecturaDTO.IdLectura;
+        lectura.IdLectura = Guid.NewGuid();
         lectura.FechaHoraLectura = lecturaDTO.FechaHoraLectura;
         lectura.Temp = lecturaDTO.Temp;
         lectura.Humedad = lecturaDTO.Humedad;

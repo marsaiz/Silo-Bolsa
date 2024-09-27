@@ -10,11 +10,11 @@ namespace SiloBolsa.Core.Modelos
         [Column("id_lectura")]
         public Guid IdLectura { get; set; }
 
-        [Column("temp")]
-        public int Temp { get; set; }
-
         [Column("fecha_hora_lectura")]
         public DateTime FechaHoraLectura { get; set; }
+
+        [Column("temp")]
+        public int Temp { get; set; }
 
         [Column("humedad")]
         public double Humedad { get; set; }
@@ -24,7 +24,7 @@ namespace SiloBolsa.Core.Modelos
 
         [ForeignKey("Caja")]
         [Column("id_caja")]
-        public Guid IdCaja { get; set;}
+        public Guid IdCaja { get; set; }
 
         public Caja Caja { get; set; }
     }
