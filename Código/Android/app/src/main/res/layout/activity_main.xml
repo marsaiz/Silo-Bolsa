@@ -11,7 +11,6 @@
         android:id="@+id/pag_principal"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/trigo"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,7 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_marginTop="23dp"
+            android:layout_marginTop="60dp"
             android:text="@string/bienvenidos_a_la_aplicaci_n_de_silo_bolsa"
             android:textAlignment="center"
             android:textAllCaps="false"
@@ -36,13 +35,24 @@
             android:layout_height="62dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_marginStart="263dp"
-            android:layout_marginTop="107dp"
+            android:layout_marginStart="255dp"
+            android:layout_marginTop="210dp"
             android:autoText="false"
             android:backgroundTint="#8BC34A"
             android:text="Ingresar"
             android:textColor="#009688"
             android:textSize="20sp" />
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="171dp"
+            android:layout_marginEnd="50dp"
+            app:srcCompat="@drawable/trigo" />
     </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
