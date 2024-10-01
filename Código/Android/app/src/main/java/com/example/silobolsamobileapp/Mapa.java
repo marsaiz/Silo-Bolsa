@@ -43,9 +43,12 @@ public class Mapa extends AppCompatActivity {
                 double latitud = p.getLatitude();
                 double longitud = p.getLongitude();
 
+                //Eliminar marcador anterior si existe
                 if (currentMarker != null) {
                     mapView.getOverlays().remove(currentMarker);
                 }
+
+                // Crear un nuevo marcador en la posición seleccionada
                 currentMarker = new Marker(mapView);
                 currentMarker.setPosition(p);
                 mapView.getOverlays().add(currentMarker);
@@ -64,6 +67,7 @@ public class Mapa extends AppCompatActivity {
                 return false;
             }
         };
+        //Detectar eventos de mapa como clics y pulsaciones
         MapEventsOverlay OverlayEventos = new MapEventsOverlay(getBaseContext(), mReceive);
         mapView.getOverlays().add(OverlayEventos);
     }

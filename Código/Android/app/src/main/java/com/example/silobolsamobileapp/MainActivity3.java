@@ -23,6 +23,7 @@ public class MainActivity3 extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main3);
 
+        //Inicializar los TextView
         latitudTextView = findViewById(R.id.latitud);
         longitudTextView = findViewById(R.id.longitud);
 
@@ -32,7 +33,6 @@ public class MainActivity3 extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity3.this, Mapa.class);
-
                 startActivityForResult(intent, CODIGO_SOLICITADO_MAPA);
             }
         });
@@ -56,7 +56,7 @@ public class MainActivity3 extends AppCompatActivity {
         });
 
     }
-
+//Verificar si la Activity fue finalizada correctamente y obtener los datos
     @Override
     protected void onActivityResult(int reqquestCode, int resultCode, Intent
             data) {
