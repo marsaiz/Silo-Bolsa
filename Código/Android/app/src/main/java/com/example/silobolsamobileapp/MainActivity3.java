@@ -1,5 +1,6 @@
 package com.example.silobolsamobileapp;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
@@ -7,11 +8,14 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-
+import android.widget.TextView;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity3 extends AppCompatActivity {
+    int CODIGO_SOLICITADO_MAPA = 1;
+    TextView longitudTextView;
+    TextView latitudTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,13 +23,17 @@ public class MainActivity3 extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main3);
 
+        latitudTextView = findViewById(R.id.latitud);
+        longitudTextView = findViewById(R.id.longitud);
+
         Button irAMapa = findViewById(R.id.buscarEnMapa);
 
         irAMapa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity3.this, Mapa.class);
-                startActivity(intent);
+
+                startActivityForResult(intent, CODIGO_SOLICITADO_MAPA);
             }
         });
 
@@ -46,5 +54,24 @@ public class MainActivity3 extends AppCompatActivity {
                 finish();
             }
         });
+
+    }
+
+    @Override
+    protected void onActivityResult(int reqquestCode, int resultCode, Intent
+            data) {
+        super.onActivityResult(reqquestCode, resultCode, data);
+
+        if (reqquestCode == CODIGO_SOLICITADO_MAPA && resultCode == Activity.RESULT_OK) {
+
+            double latitud = data.getDoubleExtra("latitud", 0.0);
+            double longitud = data.getDoubleExtra("longitud", 0.0);
+
+            latitudTextView.setText(String.valueOf(latitud));
+            longitudTextView.setText(String.valueOf(longitud));
+        } else {
+            latitudTextView.setText("Coordenadas no disponibles");
+            longitudTextView.setText("Coordenadas no disponibles");
+        }
     }
 }

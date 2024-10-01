@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.content.pm.ActivityInfo;
 
-public class MainActivity extends AppCompatActivity {
+public class PantallaBienvenida extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
         btnIrASegundaPantalla.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, MainActivity2.class);
+                Intent intent = new Intent(PantallaBienvenida.this, MainActivity2.class);
                 startActivity(intent);
             }
         });

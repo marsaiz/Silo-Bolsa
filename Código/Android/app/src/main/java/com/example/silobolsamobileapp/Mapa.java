@@ -1,45 +1,81 @@
 package com.example.silobolsamobileapp;
 
+import org.osmdroid.config.Configuration;
+import org.osmdroid.events.MapEventsReceiver;
+import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
+
+import android.content.Intent;
 import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.MapEventsOverlay;
+import org.osmdroid.views.overlay.Marker;
+
 
 public class Mapa extends AppCompatActivity {
 
     private MapView mapView;
-    private MapManager mapManager;
+    private Marker currentMarker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_mapa);
 
-        //mapView = findViewById(R.id.map);
-        mapManager = new MapManager(mapView);
+        Configuration.getInstance().load(getApplicationContext(),
+                getSharedPreferences("osmdroid", 0));
 
-        // Ejemplo de uso
-        GeoPoint startPoint = new GeoPoint(-35.9150100, -64.2944800);
-        mapManager.setCenter(startPoint, 15.0);
-        mapManager.addMarker(startPoint, "Eduardo Castex");
+        mapView = findViewById(R.id.map);
+        mapView.setTileSource(TileSourceFactory.MAPNIK);
+        mapView.setBuiltInZoomControls(true);
+        mapView.setMultiTouchControls(true);
+
+        GeoPoint startPoint = new GeoPoint(-35.9150100, -64.2944800); // Ejemplo: Eduardo Castex
+        mapView.getController().setCenter(startPoint);
+        mapView.getController().setZoom(15.0);
+
+        MapEventsReceiver mReceive = new MapEventsReceiver() {
+            @Override
+            public boolean singleTapConfirmedHelper(GeoPoint p) {
+                double latitud = p.getLatitude();
+                double longitud = p.getLongitude();
+
+                if (currentMarker != null) {
+                    mapView.getOverlays().remove(currentMarker);
+                }
+                currentMarker = new Marker(mapView);
+                currentMarker.setPosition(p);
+                mapView.getOverlays().add(currentMarker);
+
+                // Pasar coordenadas a la Activity anterior y finalizar
+                Intent intent = new Intent();
+                intent.putExtra("latitud", latitud);
+                intent.putExtra("longitud", longitud);
+                setResult(MainActivity3.RESULT_OK, intent);
+                finish();
+                return true;
+            }
+
+            @Override
+            public boolean longPressHelper(GeoPoint p) {
+                return false;
+            }
+        };
+        MapEventsOverlay OverlayEventos = new MapEventsOverlay(getBaseContext(), mReceive);
+        mapView.getOverlays().add(OverlayEventos);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        mapManager.onResume();
+        mapView.onResume();
     }
-
     @Override
     protected void onPause() {
         super.onPause();
-        mapManager.onPause();
-    }
-
-    // Método para obtener la ubicación actual y guardarla (puedes llamarlo
-    // cuando el usuario encuentre el punto buscado)
-    private void saveLocation() {
-        GeoPoint location = mapManager.getCurrentLocation();
-        // Aquí puedes guardar la ubicación en una base de datos, SharedPreferences, etc.
+        mapView.onPause();
     }
 }
