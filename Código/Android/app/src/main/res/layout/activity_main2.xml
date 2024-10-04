@@ -36,7 +36,7 @@
 
         <Button
             android:id="@+id/consultas"
-            android:layout_width="wrap_content"
+            android:layout_width="183dp"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
@@ -44,8 +44,8 @@
             android:layout_alignParentBottom="true"
             android:layout_marginStart="228dp"
             android:layout_marginTop="631dp"
-            android:layout_marginEnd="26dp"
-            android:layout_marginBottom="48dp"
+            android:layout_marginEnd="0dp"
+            android:layout_marginBottom="47dp"
             android:backgroundTint="#8BC34A"
             android:text="Consultas"
             android:textSize="20sp" />

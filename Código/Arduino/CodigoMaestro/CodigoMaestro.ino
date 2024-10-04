@@ -5,6 +5,8 @@
 #include <AHT10.h>
 #include <Wire.h>
 #include <MQ135.h>
+#include <WiFi.h>
+#include <ArduinoJson.h>
 
 #define PIN_MQ135 A0
 

@@ -27,5 +27,15 @@ public class MainActivity2 extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        Button btnIrPantallaConsultas = findViewById(R.id.consultas);
+        btnIrPantallaConsultas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity2.this, ConsultasActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 }
