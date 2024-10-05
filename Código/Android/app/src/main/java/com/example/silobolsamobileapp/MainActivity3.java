@@ -15,7 +15,9 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+
 import org.json.JSONException;
+
 import java.io.IOException;
 
 public class MainActivity3 extends AppCompatActivity {
@@ -87,23 +89,24 @@ public class MainActivity3 extends AppCompatActivity {
 
                     //String tipoGrano = tipoGranoEditText.getText().toString();
                     int capacidad = Integer.parseInt(capacidadEditText.getText().toString());
+
                     String descripcion = descripcionEditText.getText().toString();
 
                     String respuesta = NetwokUtils.realizarPeticionPOST("http://192.168.1.23:5006/api/silos", latitud, longitud, String.valueOf(idGrano), capacidad, descripcion);
 
                     //Mostrar la respuesta en el log
                     Log.d("Respuesta POST", respuesta);
-
-                }catch (NumberFormatException e){
+                } catch (NumberFormatException e) {
                     //Mostrar mensaje de error si los datos no son válidos
                     Toast.makeText(MainActivity3.this, "Por favor ingrese datos válidos", Toast.LENGTH_SHORT).show();
-                    } catch (IOException | JSONException e) {
+                } catch (IOException | JSONException e) {
                     Toast.makeText(MainActivity3.this, "Error al enviar los datos", Toast.LENGTH_SHORT).show();
                     Log.e("Error POST", "Error al realizar la petición POST", e);
                 }
             }
         });
     }
+
     //Funcion para convertir el nombre del grano a su ID
     private int obtenerIdGrano(String nombreGrano) {
         switch (nombreGrano) {
@@ -123,7 +126,8 @@ public class MainActivity3 extends AppCompatActivity {
                 return 0;//o un valor que indique un error
         }
     }
-//Verificar si la Activity fue finalizada correctamente y obtener los datos
+
+    //Verificar si la Activity fue finalizada correctamente y obtener los datos
     @Override
     protected void onActivityResult(int reqquestCode, int resultCode, Intent
             data) {
