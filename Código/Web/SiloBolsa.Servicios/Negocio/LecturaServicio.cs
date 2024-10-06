@@ -47,7 +47,7 @@ public class LecturaServicio : ILecturaServicio
         return _lecturaRepositorio.GetLecturas();
     }
 
-    public void UpdateLectura(LecturaDTO lecturaDTO)
+    /* public void UpdateLectura(LecturaDTO lecturaDTO)
     {
         var lecturaExistente = _lecturaRepositorio.GetLecturaById(lecturaDTO.IdLectura);
 
@@ -63,5 +63,5 @@ public class LecturaServicio : ILecturaServicio
         lecturaExistente.IdCaja = lecturaDTO.IdCaja;
 
         _lecturaRepositorio.UpdateLectura(lecturaExistente);
-    }
+    } */
 }

@@ -11,7 +11,7 @@ namespace SiloBolsa.Servicios.Interfaces
         IEnumerable<Lectura> GetLecturas();
         Lectura GetLecturaById(Guid id_lectura);
         void AddLectura(Lectura lectura);
-        void UpdateLectura(Lectura lectura);
+        //void UpdateLectura(Lectura lectura);
         void DeleteLectura(Guid id_lectura);
         IEnumerable<Lectura> GetLecturasBySilo(Guid id_silo);
     }

@@ -30,12 +30,12 @@ public class LecturaRepositorio : ILecturaRepositorio
         _siloBolsaContexto.SaveChanges();
     }
 
-    public void UpdateLectura(Lectura lectura)
+    /* public void UpdateLectura(Lectura lectura)
     {
         _siloBolsaContexto.Lecturas.Update(lectura);
         _siloBolsaContexto.SaveChanges();
     }
-    public void DeleteLectura(Guid id_lectura)
+ */    public void DeleteLectura(Guid id_lectura)
     {
         var lectura = _siloBolsaContexto.Lecturas.Find(id_lectura);
         if (lectura != null)

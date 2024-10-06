@@ -36,11 +36,17 @@ public class LecturasControllers : ControllerBase
     [HttpPost]
     public IActionResult AddLectura([FromBody] LecturaDTO lectura)
     {
-        _lecturaServicio.AddLectura(lectura);
-        return CreatedAtAction(nameof(GetLecturas), new {id_lectura = lectura.IdLectura }, lectura);
+        if (lectura == null)
+        {
+            return BadRequest("El objeto Lectura no puede ser nulo");
+        }
+
+        _lecturaServicio.AddLectura(lectura); //El servicio genera el IdLectura
+        return Ok("Lectura agregada correctamente");
+        //return CreatedAtAction(nameof(GetLecturas), new {id_lectura = lectura.IdLectura }, lectura);
     }
 
-    [HttpPut("{id_lectura}")]
+    /* [HttpPut("{id_lectura}")]
     public IActionResult UpdateLectura(Guid id_lectura, [FromBody] LecturaDTO lectura)
     {
         if (id_lectura != lectura.IdLectura)
@@ -49,7 +55,7 @@ public class LecturasControllers : ControllerBase
         }
         _lecturaServicio.UpdateLectura(lectura);
         return NoContent();
-    }
+    } */
 
     [HttpDelete("{id_lectura}")]
     public IActionResult DeleteLectura(Guid id_lectura)

@@ -14,7 +14,7 @@ namespace SiloBolsa.Core.Modelos
         public DateTime FechaHoraLectura { get; set; }
 
         [Column("temp")]
-        public int Temp { get; set; }
+        public double Temp { get; set; }
 
         [Column("humedad")]
         public double Humedad { get; set; }
