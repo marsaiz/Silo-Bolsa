@@ -19,6 +19,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import org.json.JSONException;
 
 import java.io.IOException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class MainActivity3 extends AppCompatActivity {
     int CODIGO_SOLICITADO_MAPA = 1;
@@ -30,6 +32,7 @@ public class MainActivity3 extends AppCompatActivity {
     AutoCompleteTextView tipoGranoEditText;
     EditText capacidadEditText;
     EditText descripcionEditText;
+    private ExecutorService executor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +78,8 @@ public class MainActivity3 extends AppCompatActivity {
             }
         });
 
+        executor = Executors.newSingleThreadExecutor();
+
         Button enviarDatosButton = findViewById(R.id.enviarDatosButton);
         enviarDatosButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,57 +97,95 @@ public class MainActivity3 extends AppCompatActivity {
 
                     String descripcion = descripcionEditText.getText().toString();
 
-                    String respuesta = NetwokUtils.realizarPeticionPOST("http://192.168.1.23:5006/api/silos", latitud, longitud, String.valueOf(idGrano), capacidad, descripcion);
+                    //Enviar la tarea al ThreadPoolExecutor
+                    executor.execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                String respuesta = NetwokUtils.realizarPeticionPOST("http://192.168.1.21:5006/api/silos", latitud, longitud, String.valueOf(idGrano), capacidad, descripcion);
 
-                    //Mostrar la respuesta en el log
-                    Log.d("Respuesta POST", respuesta);
+                                //Actualizar la UI en el hilo principal
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        //Mostrar la respuesta en el log
+                                        Log.d("Respuesta POST", respuesta);
+                                        //mostrar un toast con la respuesta o un mensaje de texto
+                                        Toast.makeText(MainActivity3.this, "Datos enviados correctamente", Toast.LENGTH_SHORT).show();
+
+                                    }
+                                });
+                            } catch (NumberFormatException e) {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        //Mostrar mensaje de error si los datos no son válidos
+                                        Toast.makeText(MainActivity3.this, "Por favor ingrese datos válidos", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            } catch (IOException | JSONException e) {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(MainActivity3.this, "Error al enviar los datos", Toast.LENGTH_SHORT).show();
+                                        Log.e("Error POST", "Error al realizar la petición POST", e);
+                                    }
+                                });
+
+                            }
+                        }
+                    });
                 } catch (NumberFormatException e) {
                     //Mostrar mensaje de error si los datos no son válidos
                     Toast.makeText(MainActivity3.this, "Por favor ingrese datos válidos", Toast.LENGTH_SHORT).show();
-                } catch (IOException | JSONException e) {
-                    Toast.makeText(MainActivity3.this, "Error al enviar los datos", Toast.LENGTH_SHORT).show();
-                    Log.e("Error POST", "Error al realizar la petición POST", e);
                 }
             }
         });
     }
 
-    //Funcion para convertir el nombre del grano a su ID
-    private int obtenerIdGrano(String nombreGrano) {
-        switch (nombreGrano) {
-            case "Trigo":
-                return 1;
-            case "Maíz":
-                return 2;
-            case "Girasol":
-                return 3;
-            case "Soja":
-                return 4;
-            case "Arroz":
-                return 5;
-            case "Cebada":
-                return 6;
-            default:
-                return 0;//o un valor que indique un error
+        //Funcion para convertir el nombre del grano a su ID
+        private int obtenerIdGrano (String nombreGrano){
+            switch (nombreGrano) {
+                case "Trigo":
+                    return 1;
+                case "Maíz":
+                    return 2;
+                case "Girasol":
+                    return 3;
+                case "Soja":
+                    return 4;
+                case "Arroz":
+                    return 5;
+                case "Cebada":
+                    return 6;
+                default:
+                    return 0;//o un valor que indique un error
+            }
         }
-    }
 
-    //Verificar si la Activity fue finalizada correctamente y obtener los datos
-    @Override
-    protected void onActivityResult(int reqquestCode, int resultCode, Intent
-            data) {
-        super.onActivityResult(reqquestCode, resultCode, data);
+        //Verificar si la Activity fue finalizada correctamente y obtener los datos
+        @Override
+        protected void onActivityResult ( int reqquestCode, int resultCode, Intent
+        data){
+            super.onActivityResult(reqquestCode, resultCode, data);
 
-        if (reqquestCode == CODIGO_SOLICITADO_MAPA && resultCode == Activity.RESULT_OK) {
+            if (reqquestCode == CODIGO_SOLICITADO_MAPA && resultCode == Activity.RESULT_OK) {
 
-            double latitud = data.getDoubleExtra("latitud", 0.0);
-            double longitud = data.getDoubleExtra("longitud", 0.0);
+                double latitud = data.getDoubleExtra("latitud", 0.0);
+                double longitud = data.getDoubleExtra("longitud", 0.0);
 
-            latitudTextView.setText(String.valueOf(latitud));
-            longitudTextView.setText(String.valueOf(longitud));
-        } else {
-            latitudTextView.setText("Coordenadas no disponibles");
-            longitudTextView.setText("Coordenadas no disponibles");
+                latitudTextView.setText(String.valueOf(latitud));
+                longitudTextView.setText(String.valueOf(longitud));
+            } else {
+                latitudTextView.setText("Coordenadas no disponibles");
+                longitudTextView.setText("Coordenadas no disponibles");
+            }
         }
-    }
-}
+
+            @Override
+            protected void onDestroy () {
+                super.onDestroy();
+                //Apagamos el ExecutorService
+                executor.shutdown();
+            }
+        }

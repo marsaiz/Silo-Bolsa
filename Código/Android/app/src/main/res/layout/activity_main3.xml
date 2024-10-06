@@ -52,8 +52,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="-35.91597"
-        android:inputType="numberDecimal
-        |numberSigned"
+        android:inputType="numberDecimal|numberSigned"
         android:minHeight="48dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -68,8 +67,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="-64.29577"
-        android:inputType="numberDecimal
-        |numberSigned"
+        android:inputType="numberDecimal|numberSigned"
         android:minHeight="48dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
