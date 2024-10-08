@@ -1,5 +1,6 @@
 package com.example.silobolsamobileapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import android.os.StrictMode;
@@ -35,10 +36,20 @@ public class ConsultasActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 try {
-                    String respuestaGET = NetwokUtils.realizarPeticionGET("http://192.168.1.23:5006/api/silos");
+                    String respuestaGET = NetwokUtils.realizarPeticionGET("http://172.23.5.215:5006/api/silos");
                     Log.d("respuesta", respuestaGET);
                     respuesta.setText("respuesta: " + respuestaGET);
-                }catch (IOException e){
+
+                    //Crear un Intent para iniciar SiloListActivity
+                    Intent intent = new Intent(ConsultasActivity.this, SilosListActivity.class);
+
+                    //Pasar la respuestaGET a SiloListActivity
+                    intent.putExtra("json_silos", respuestaGET);
+
+                    //Iniciar SiloListActivity
+                    startActivity(intent);
+
+                } catch (IOException e) {
                     Log.e("error", "Error al realizar la petición GET", e);
                     respuesta.setText("Error: " + e.getMessage());
                 }

@@ -62,11 +62,3 @@ public class NetwokUtils {
         }
     }
 }
- /*{
-  "idSilo": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-  "latitud": 0,
-  "longitud": 0,
-  "capacidad": 0,
-  "idGrano": 0,
-  "descripcion": "string"
-}*/
