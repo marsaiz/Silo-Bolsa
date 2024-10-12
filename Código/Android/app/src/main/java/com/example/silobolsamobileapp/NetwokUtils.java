@@ -11,9 +11,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class NetwokUtils {
-
-    public static String realizarPeticionGET(String ulrString) throws IOException {
-        URL url = new URL(ulrString);
+    public static String realizarPeticionGET(String urlString) throws IOException {
+        URL url = new URL(urlString);
         HttpURLConnection conexion = (HttpURLConnection) url.openConnection();
         conexion.setRequestMethod("GET");
 
@@ -29,7 +28,7 @@ public class NetwokUtils {
         return response.toString();
     }
 
-    public static String realizarPeticionPOST(String urlString, double latitud, double longitud, String tipoGrano, int capacidad, String descripción) throws IOException, JSONException {
+    public static String realizarPeticionPOST(String urlString, double latitud, double longitud, int tipo_grano, int capacidad, String descripción) throws IOException, JSONException {
         URL url = new URL(urlString);
         HttpURLConnection conexion = (HttpURLConnection) url.openConnection();
         conexion.setRequestMethod("POST");
@@ -42,8 +41,40 @@ public class NetwokUtils {
         json.put("latitud", latitud);
         json.put("longitud", longitud);
         json.put("capacidad", capacidad);
-        json.put("idGrano", tipoGrano);
+        json.put("idGrano", tipo_grano);
         json.put("descripcion", descripción);
+
+        try (OutputStream os = conexion.getOutputStream()) {
+            byte[] input = json.toString().getBytes("utf-8");
+            os.write(input, 0, input.length);
+        }
+
+        try (BufferedReader br = new BufferedReader(
+                new InputStreamReader(conexion.getInputStream(), "utf-8"))) {
+            StringBuilder response = new StringBuilder();
+            String responseLine = null;
+            while ((responseLine = br.readLine()) != null) {
+                response.append(responseLine.trim());
+            }
+            System.out.println(response.toString());
+            return response.toString();
+        }
+    }
+
+    public static String realizarPeticionPUT(String urlString, double latitud, double longitud, int tipo_grano, int capacidad, String descripcion) throws IOException, JSONException {
+        URL url = new URL(urlString);
+        HttpURLConnection conexion = (HttpURLConnection) url.openConnection();
+        conexion.setRequestMethod("PUT");
+        conexion.setRequestProperty("Content-Type", "application/json; utf-8");
+        conexion.setRequestProperty("Accept", "application/json");
+        conexion.setDoOutput(true);
+
+        JSONObject json = new JSONObject();
+        json.put("latitud", latitud);
+        json.put("longitud", longitud);
+        json.put("capacidad", capacidad);
+        json.put("idGrano", tipo_grano);
+        json.put("descripcion", descripcion);
 
         try (OutputStream os = conexion.getOutputStream()) {
             byte[] input = json.toString().getBytes("utf-8");

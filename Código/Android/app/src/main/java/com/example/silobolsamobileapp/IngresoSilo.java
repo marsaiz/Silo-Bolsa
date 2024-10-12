@@ -6,33 +6,32 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-
 import org.json.JSONException;
-
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class MainActivity3 extends AppCompatActivity {
+public class IngresoSilo extends AppCompatActivity {
     int CODIGO_SOLICITADO_MAPA = 1;
     TextView longitudTextView;
     TextView latitudTextView;
     // Declarar los EditText como variables de instancia
     EditText latitudEditText;
     EditText longitudEditText;
-    AutoCompleteTextView tipoGranoEditText;
+    private Spinner tipoGranoSpinner;
     EditText capacidadEditText;
     EditText descripcionEditText;
     private ExecutorService executor;
+    private int selectedGrainTypeId = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,20 +48,32 @@ public class MainActivity3 extends AppCompatActivity {
         irAMapa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity3.this, Mapa.class);
+                Intent intent = new Intent(IngresoSilo.this, Mapa.class);
                 startActivityForResult(intent, CODIGO_SOLICITADO_MAPA);
             }
         });
 
-        String[] granos = new String[]{"Trigo", "Maíz", "Girasol", "Soja", "Arroz", "Cebada"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, granos);
+        GrainType[] tiposGranos = {new GrainType(1, "Trigo"), new GrainType(2, "Maíz"), new GrainType(3, "Girasol"), new GrainType(4, "Soja"), new GrainType(5, "Arroz"), new GrainType(6, "Cebada")};
+        Spinner spinner = findViewById(R.id.TipoGrano);
+        ArrayAdapter<GrainType> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, tiposGranos);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
 
-        AutoCompleteTextView autoCompleteTextView = findViewById(R.id.TipoGrano);
-        autoCompleteTextView.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                GrainType selectedGrainType = (GrainType) parent.getItemAtPosition(position);
+                selectedGrainTypeId = selectedGrainType.tipo_grano;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
 
         latitudEditText = findViewById(R.id.latitud);
         longitudEditText = findViewById(R.id.longitud);
-        tipoGranoEditText = findViewById(R.id.TipoGrano);
+        tipoGranoSpinner = findViewById(R.id.TipoGrano);
         capacidadEditText = findViewById(R.id.capacidad);
         descripcionEditText = findViewById(R.id.descripcion);
 
@@ -72,7 +83,7 @@ public class MainActivity3 extends AppCompatActivity {
         btnIrAtras.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity3.this, MainActivity2.class);
+                Intent intent = new Intent(IngresoSilo.this, MenuActivity.class);
                 startActivity(intent);
                 finish();
             }
@@ -88,13 +99,8 @@ public class MainActivity3 extends AppCompatActivity {
                     //Obtener datos de los EditText
                     Double latitud = Double.parseDouble(latitudEditText.getText().toString());
                     Double longitud = Double.parseDouble(longitudEditText.getText().toString());
-
-                    //Convertir el nombre del grano a su ID
-                    int idGrano = obtenerIdGrano(tipoGranoEditText.getText().toString());
-
-                    //String tipoGrano = tipoGranoEditText.getText().toString();
                     int capacidad = Integer.parseInt(capacidadEditText.getText().toString());
-
+                    int tipo_grano = selectedGrainTypeId;
                     String descripcion = descripcionEditText.getText().toString();
 
                     //Enviar la tarea al ThreadPoolExecutor
@@ -102,7 +108,7 @@ public class MainActivity3 extends AppCompatActivity {
                         @Override
                         public void run() {
                             try {
-                                String respuesta = NetwokUtils.realizarPeticionPOST("http://172.23.5.215:5006/api/silos", latitud, longitud, String.valueOf(idGrano), capacidad, descripcion);
+                                String respuesta = NetwokUtils.realizarPeticionPOST("http://192.168.1.23:5006/api/silos", latitud, longitud, tipo_grano, capacidad, descripcion);
 
                                 //Actualizar la UI en el hilo principal
                                 runOnUiThread(new Runnable() {
@@ -111,7 +117,7 @@ public class MainActivity3 extends AppCompatActivity {
                                         //Mostrar la respuesta en el log
                                         Log.d("Respuesta POST", respuesta);
                                         //mostrar un toast con la respuesta o un mensaje de texto
-                                        Toast.makeText(MainActivity3.this, "Datos enviados correctamente", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(IngresoSilo.this, "Datos enviados correctamente", Toast.LENGTH_SHORT).show();
 
                                     }
                                 });
@@ -120,14 +126,14 @@ public class MainActivity3 extends AppCompatActivity {
                                     @Override
                                     public void run() {
                                         //Mostrar mensaje de error si los datos no son válidos
-                                        Toast.makeText(MainActivity3.this, "Por favor ingrese datos válidos", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(IngresoSilo.this, "Por favor ingrese datos válidos", Toast.LENGTH_SHORT).show();
                                     }
                                 });
                             } catch (IOException | JSONException e) {
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        Toast.makeText(MainActivity3.this, "Error al enviar los datos", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(IngresoSilo.this, "Error al enviar los datos", Toast.LENGTH_SHORT).show();
                                         Log.e("Error POST", "Error al realizar la petición POST", e);
                                     }
                                 });
@@ -137,55 +143,50 @@ public class MainActivity3 extends AppCompatActivity {
                     });
                 } catch (NumberFormatException e) {
                     //Mostrar mensaje de error si los datos no son válidos
-                    Toast.makeText(MainActivity3.this, "Por favor ingrese datos válidos", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(IngresoSilo.this, "Por favor ingrese datos válidos", Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
 
-        //Funcion para convertir el nombre del grano a su ID
-        private int obtenerIdGrano (String nombreGrano){
-            switch (nombreGrano) {
-                case "Trigo":
-                    return 1;
-                case "Maíz":
-                    return 2;
-                case "Girasol":
-                    return 3;
-                case "Soja":
-                    return 4;
-                case "Arroz":
-                    return 5;
-                case "Cebada":
-                    return 6;
-                default:
-                    return 0;//o un valor que indique un error
-            }
+    //Verificar si la Activity fue finalizada correctamente y obtener los datos
+    @Override
+    protected void onActivityResult(int reqquestCode, int resultCode, Intent
+            data) {
+        super.onActivityResult(reqquestCode, resultCode, data);
+
+        if (reqquestCode == CODIGO_SOLICITADO_MAPA && resultCode == Activity.RESULT_OK) {
+
+            double latitud = data.getDoubleExtra("latitud", 0.0);
+            double longitud = data.getDoubleExtra("longitud", 0.0);
+
+            latitudTextView.setText(String.valueOf(latitud));
+            longitudTextView.setText(String.valueOf(longitud));
+        } else {
+            latitudTextView.setText("Coordenadas no disponibles");
+            longitudTextView.setText("Coordenadas no disponibles");
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //Apagamos el ExecutorService
+        executor.shutdown();
+    }
+
+    public class GrainType {
+        public int tipo_grano;
+        public String nombreGrano;
+
+        public GrainType(int tipo_grano, String nombreGrano) {
+            this.tipo_grano = tipo_grano;
+            this.nombreGrano = nombreGrano;
         }
 
-        //Verificar si la Activity fue finalizada correctamente y obtener los datos
         @Override
-        protected void onActivityResult ( int reqquestCode, int resultCode, Intent
-        data){
-            super.onActivityResult(reqquestCode, resultCode, data);
-
-            if (reqquestCode == CODIGO_SOLICITADO_MAPA && resultCode == Activity.RESULT_OK) {
-
-                double latitud = data.getDoubleExtra("latitud", 0.0);
-                double longitud = data.getDoubleExtra("longitud", 0.0);
-
-                latitudTextView.setText(String.valueOf(latitud));
-                longitudTextView.setText(String.valueOf(longitud));
-            } else {
-                latitudTextView.setText("Coordenadas no disponibles");
-                longitudTextView.setText("Coordenadas no disponibles");
-            }
+        public String toString() {
+            return nombreGrano;
         }
-
-            @Override
-            protected void onDestroy () {
-                super.onDestroy();
-                //Apagamos el ExecutorService
-                executor.shutdown();
-            }
-        }
+    }
+}

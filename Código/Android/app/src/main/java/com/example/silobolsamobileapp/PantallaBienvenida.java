@@ -23,7 +23,7 @@ public class PantallaBienvenida extends AppCompatActivity {
         btnIrASegundaPantalla.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(PantallaBienvenida.this, MainActivity2.class);
+                Intent intent = new Intent(PantallaBienvenida.this, MenuActivity.class);
                 startActivity(intent);
             }
         });

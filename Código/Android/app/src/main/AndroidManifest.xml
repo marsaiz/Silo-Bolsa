@@ -29,11 +29,14 @@
             android:name=".Mapa"
             android:exported="false" />
         <activity
-            android:name=".MainActivity3"
+            android:name=".IngresoSilo"
             android:exported="false" />
         <activity
-            android:name=".MainActivity2"
+            android:name=".MenuActivity"
             android:exported="false" />
+        <activity android:name=".LecturasListActivity"
+            android:exported="false" />
+
         <activity
             android:name=".PantallaBienvenida"
             android:exported="true"

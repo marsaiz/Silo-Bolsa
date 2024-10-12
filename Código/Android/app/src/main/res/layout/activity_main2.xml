@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity2">
+    tools:context=".MenuActivity">
 
     <RelativeLayout
         android:id="@+id/pag_principal"
@@ -18,16 +18,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0">
+
         <Button
             android:id="@+id/newSilo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginTop="631dp"
-            android:layout_marginEnd="228dp"
+            android:layout_marginStart="15dp"
             android:layout_marginBottom="48dp"
             android:backgroundTint="#FFEB3B"
             android:text="Ingresar Silo"
@@ -38,14 +36,10 @@
             android:id="@+id/consultas"
             android:layout_width="183dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginStart="228dp"
-            android:layout_marginTop="631dp"
-            android:layout_marginEnd="0dp"
-            android:layout_marginBottom="47dp"
+            android:layout_marginEnd="22dp"
+            android:layout_marginBottom="50dp"
             android:backgroundTint="#8BC34A"
             android:text="Consultas"
             android:textSize="20sp" />

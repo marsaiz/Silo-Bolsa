@@ -1,5 +1,6 @@
 package com.example.silobolsamobileapp;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
@@ -7,40 +8,37 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.gson.ExclusionStrategy;
+import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class SilosListActivity extends AppCompatActivity {
+public class LecturasListActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
-    private SiloAdapter adapter;
-    private List<Silo> listaSilos;
+    private LecturaAdapter adapter;
+    private List<Lectura> listaLecturas;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_silos_list);
+        setContentView(R.layout.activity_lecturas_list);
 
-        recyclerView = findViewById(R.id.silosRecyclerView);
-        listaSilos = new ArrayList<>();
+        recyclerView = findViewById(R.id.lecturasRecyclerView);
+        listaLecturas = new ArrayList<>();
 
-        // 2. Parsear el JSON a objetos Silo
         Gson gson = new Gson();
-        //Obtener el JSON del intent
-        String jsonString = getIntent().getStringExtra("json_silos");
-        //Convertir el JSON a un array de objetos Silo
+        String jsonString = getIntent().getStringExtra("json_lecturas");
+
         try {
-            Silo[] silos = gson.fromJson(jsonString, Silo[].class);
-            listaSilos.addAll(Arrays.asList(silos));
-
-            // 3. Crear el Adapter y asignarlo al RecyclerView
-            adapter = new SiloAdapter(listaSilos);
-
-            // 4. Configurar el RecyclerView
+            Lectura[] lecturas = gson.fromJson(jsonString, Lectura[].class);
+            listaLecturas.addAll(Arrays.asList(lecturas));
+            adapter = new LecturaAdapter(listaLecturas);
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
             recyclerView.setAdapter(adapter);
         } catch (JsonSyntaxException e) {

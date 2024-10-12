@@ -3,17 +3,13 @@ package com.example.silobolsamobileapp;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.events.MapEventsReceiver;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
-
 import android.content.Intent;
 import android.os.Bundle;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.MapEventsOverlay;
 import org.osmdroid.views.overlay.Marker;
-
 
 public class Mapa extends AppCompatActivity {
 
@@ -57,7 +53,7 @@ public class Mapa extends AppCompatActivity {
                 Intent intent = new Intent();
                 intent.putExtra("latitud", latitud);
                 intent.putExtra("longitud", longitud);
-                setResult(MainActivity3.RESULT_OK, intent);
+                setResult(IngresoSilo.RESULT_OK, intent);
                 finish();
                 return true;
             }

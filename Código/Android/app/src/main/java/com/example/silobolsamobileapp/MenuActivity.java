@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.content.pm.ActivityInfo;
 
-public class MainActivity2 extends AppCompatActivity {
+public class MenuActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +23,7 @@ public class MainActivity2 extends AppCompatActivity {
         btnIrPantallaIngresos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity2.this, MainActivity3.class);
+                Intent intent = new Intent(MenuActivity.this, IngresoSilo.class);
                 startActivity(intent);
             }
         });
@@ -32,7 +32,7 @@ public class MainActivity2 extends AppCompatActivity {
         btnIrPantallaConsultas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity2.this, ConsultasActivity.class);
+                Intent intent = new Intent(MenuActivity.this, ConsultasActivity.class);
                 startActivity(intent);
             }
         });

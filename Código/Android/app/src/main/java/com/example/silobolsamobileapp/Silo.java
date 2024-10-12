@@ -14,6 +14,7 @@ public class Silo {
         this.longitud = longitud;
         this.capacidad = capacidad;
         this.tipoGrano = tipoGrano;
+        this.descripcion = descripcion;
     }
 
     public String getIdSilo() {
@@ -64,14 +65,5 @@ public class Silo {
         this.descripcion = descripcion;
     }
 
-    /*public void actualizarUbicacion(double nuevaLatitud, double nuevaLongitud) {
-        this.latitud = nuevaLatitud;
-        this.longitud = nuevaLongitud;
-        try {
-            NetwokUtils.realizarPeticionPUT("http://192.168.1.23:5006/api/silos/" + this.idSilo, nuevaLatitud, nuevaLongitud);
-        } catch (IOException | JSONException e) {
-            // Manejar errores
-        }
-    }*/
 }
 
