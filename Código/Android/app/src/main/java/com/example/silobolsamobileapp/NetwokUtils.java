@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -41,11 +42,11 @@ public class NetwokUtils {
         json.put("latitud", latitud);
         json.put("longitud", longitud);
         json.put("capacidad", capacidad);
-        json.put("idGrano", tipo_grano);
+        json.put("tipoGrano", tipo_grano);
         json.put("descripcion", descripción);
 
         try (OutputStream os = conexion.getOutputStream()) {
-            byte[] input = json.toString().getBytes("utf-8");
+            byte[] input = json.toString().getBytes(StandardCharsets.UTF_8);
             os.write(input, 0, input.length);
         }
 
@@ -73,7 +74,7 @@ public class NetwokUtils {
         json.put("latitud", latitud);
         json.put("longitud", longitud);
         json.put("capacidad", capacidad);
-        json.put("idGrano", tipo_grano);
+        json.put("tipo_grano", tipo_grano);
         json.put("descripcion", descripcion);
 
         try (OutputStream os = conexion.getOutputStream()) {

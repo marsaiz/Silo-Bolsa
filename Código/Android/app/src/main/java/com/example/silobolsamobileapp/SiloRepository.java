@@ -20,16 +20,6 @@ public class SiloRepository {
         Gson gson = new Gson();
         return gson.fromJson(jsonRespuesta, Silo.class);
     }
-
-     /*public void actualizarUbicacion(double nuevaLatitud, double nuevaLongitud) {
-        this.latitud = nuevaLatitud;
-        this.longitud = nuevaLongitud;
-        try {
-            NetwokUtils.realizarPeticionPUT("http://192.168.1.23:5006/api/silos/" + this.idSilo, nuevaLatitud, nuevaLongitud);
-        } catch (IOException | JSONException e) {
-            // Manejar errores
-        }
-    }*/
     public static Lectura GetLecturas() throws IOException, JSONException {
         String urlString = "http://192.168.1.23:5006/api/lecturas";
     String jsonRespuesta = NetwokUtils.realizarPeticionGET(urlString);

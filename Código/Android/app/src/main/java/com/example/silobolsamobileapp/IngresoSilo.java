@@ -31,7 +31,7 @@ public class IngresoSilo extends AppCompatActivity {
     EditText capacidadEditText;
     EditText descripcionEditText;
     private ExecutorService executor;
-    private int selectedGrainTypeId = 0;
+    private int selectedGrainTypeId = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,6 +100,7 @@ public class IngresoSilo extends AppCompatActivity {
                     Double latitud = Double.parseDouble(latitudEditText.getText().toString());
                     Double longitud = Double.parseDouble(longitudEditText.getText().toString());
                     int capacidad = Integer.parseInt(capacidadEditText.getText().toString());
+                    Log.d("IngresoSilo", "SelectedGrainTypeId: " + selectedGrainTypeId);
                     int tipo_grano = selectedGrainTypeId;
                     String descripcion = descripcionEditText.getText().toString();
 
@@ -108,7 +109,7 @@ public class IngresoSilo extends AppCompatActivity {
                         @Override
                         public void run() {
                             try {
-                                String respuesta = NetwokUtils.realizarPeticionPOST("http://192.168.1.23:5006/api/silos", latitud, longitud, tipo_grano, capacidad, descripcion);
+                                String respuesta = NetwokUtils.realizarPeticionPOST("http://192.168.1.21:5006/api/silos", latitud, longitud, tipo_grano, capacidad, descripcion);
 
                                 //Actualizar la UI en el hilo principal
                                 runOnUiThread(new Runnable() {

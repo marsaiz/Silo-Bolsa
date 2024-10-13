@@ -6,6 +6,6 @@ public class SiloDTO
     public double Latitud { get; set; }
     public double Longitud { get; set; }
     public int Capacidad { get; set; }
-    public int IdGrano { get; set; }
+    public int TipoGrano { get; set; }
     public string? Descripcion { get; set; }
 }

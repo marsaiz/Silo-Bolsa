@@ -21,7 +21,7 @@ public class SiloServicio : ISiloServicio
         silo.Latitud = siloDTO.Latitud;
         silo.Longitud = siloDTO.Longitud;
         silo.Capacidad = siloDTO.Capacidad;
-        //silo.GranoSilo = _granoServicio.GetGranoById(siloDTO.IdGrano);
+        silo.GranoSilo = _granoServicio.GetGranoById(siloDTO.TipoGrano);
         silo.Descripcion = siloDTO.Descripcion;
 
         _siloRepositorio.AddSilo(silo);
