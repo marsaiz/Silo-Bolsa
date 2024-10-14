@@ -96,6 +96,16 @@ public class ConsultasActivity extends AppCompatActivity {
                 }
             }
         });
+
+        Button btnIrAtras = findViewById(R.id.volverAtrasMenu);
+        btnIrAtras.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ConsultasActivity.this, MenuActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
     }
 
     private void consultarSiloPorId(String idSilo){

@@ -9,8 +9,10 @@
         android:id="@+id/idSiloTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:inputType="textNoSuggestions"
+        android:minHeight="48dp"
         android:text="ID del Silo: "
-        android:inputType="textNoSuggestions"/>
+        android:layout_marginTop="16dp"/>
 
     <TextView
         android:id="@+id/latitudTextView"
