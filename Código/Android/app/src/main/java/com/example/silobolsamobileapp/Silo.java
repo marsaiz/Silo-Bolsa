@@ -1,6 +1,8 @@
 package com.example.silobolsamobileapp;
 
-public class Silo {
+import java.io.Serializable;
+
+public class Silo implements Serializable {
     public String idSilo;
     public double latitud;
     public double longitud;

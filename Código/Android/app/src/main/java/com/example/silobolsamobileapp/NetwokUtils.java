@@ -93,4 +93,8 @@ public class NetwokUtils {
             return response.toString();
         }
     }
+
+    /*public static String RealizarPeticionDELETE(String urlString, String idSilo){
+
+    }*/
 }

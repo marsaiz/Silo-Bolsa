@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,6 +33,8 @@ public class ConsultasActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_consultas);
 
+        idSilo = findViewById(R.id.idSiloeditText);
+
         //Necesario para permitir conexiones de red en el hilo principal (solo para este ejemplo)
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -43,7 +46,7 @@ public class ConsultasActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 try {
-                    String respuestaGET = NetwokUtils.realizarPeticionGET("http://192.168.1.21:5006/api/silos");
+                    String respuestaGET = NetwokUtils.realizarPeticionGET("http://192.168.1.23:5006/api/silos");
                     Log.d("respuesta", respuestaGET);
                     respuesta.setText("respuesta: " + respuestaGET);
 
@@ -69,36 +72,8 @@ public class ConsultasActivity extends AppCompatActivity {
         botonGetIdSilo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    //Obtener el ID del silo del EditText
-                    idSilo = findViewById(R.id.idSiloeditText);
-                    String idSiloIngresado = idSilo.getText().toString();
-                    //LLamar al método GetSiloById()
-                    Silo silo = SiloRepository.GetSiloById(idSiloIngresado);
-
-                    //Usar el objeto silo obtenido y mostrar en un TextView
-                    // respuestaIdSilo.setText("ID: " + silo.idSilo + "Latitud: " + silo.latitud);
-
-                    //Crear una lista con el silo obtenido
-                    List<Silo> listaSiloIndividual = new ArrayList<>();
-                    listaSiloIndividual.add(silo);
-
-                    //Crear un intent para iniciar la activity que muestra el RecyclerView
-                    Intent intent = new Intent(ConsultasActivity.this, SilosListActivity.class);
-                    //Pasar la lista de silos a la activity que muestra el RecyclerView
-                    Gson gson = new Gson();
-                    String jsonSiloIndividual = gson.toJson(listaSiloIndividual);
-                    intent.putExtra("json_silos", jsonSiloIndividual);
-                    //Iniciar la actividad
-                    startActivity(intent);
-
-                    //Código para pasar el silo obtenido a otra activity si es necesario
-                    //Por ejemplo para una modificación
-
-                } catch (IOException | JSONException e) {
-                    Log.e("error", "Error al consultar silo por ID", e);
-                    respuestaIdSilo.setText("eError: " + e.getMessage());
-                }
+                String idSiloIngresado = idSilo.getText().toString();
+                consultarSiloPorId(idSiloIngresado);
             }
         });
 
@@ -109,7 +84,7 @@ public class ConsultasActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 try {
-                    String respuestaGET = NetwokUtils.realizarPeticionGET("http://192.168.1.21:5006/api/lecturas");
+                    String respuestaGET = NetwokUtils.realizarPeticionGET("http://192.168.1.23:5006/api/lecturas");
                     Log.d("respuestaLecturas", respuestaGET);
                     respuestaLecturas.setText("respuestaLecturas: " + respuestaGET);
                     Intent intent = new Intent(ConsultasActivity.this, LecturasListActivity.class);
@@ -121,5 +96,20 @@ public class ConsultasActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void consultarSiloPorId(String idSilo){
+        try {
+            Silo silo = SiloRepository.GetSiloById(idSilo);
+            Intent intent = new Intent(this, SiloDetailActivity.class);
+            intent.putExtra("silo", silo);
+            startActivity(intent);
+        }catch (IOException | JSONException e){
+            Log.e("ConsultasActivity", "Error al consultar silo por ID", e);
+            respuestaIdSilo.setText("Error: " + e.getMessage());
+
+            //Mostrar un Toast con el mensaje de error
+            Toast.makeText(this, "Error al consultar silo por ID: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
     }
 }

@@ -12,7 +12,7 @@
 #define password "25768755"
 #define serverName "http://192.168.1.21:5006/api/lecturas"
 //#define idSilo "8f30fbfd-2fd2-484e-88ff-b5b825c244d9"
-#define idCaja "32b17ec9-7c58-432d-804f-be35d6419265"
+#define idCaja "cac70d5d-4df3-451f-bba9-59bcea039425"
 
 String getISO8601Time();
 
@@ -78,7 +78,7 @@ void setup() {
 
 void loop() {
   String isoTime = getISO8601Time();
-  Serial.print(F("Fecha y hora actual: "));Serial.println(isoTime);
+  Serial.print(F("Fecha y hora actual: ")); Serial.println(isoTime);
 
   sensors_event_t humidity, temp;
   aht.getEvent(&humidity, &temp);
@@ -112,7 +112,7 @@ void loop() {
   String jsonData;
   serializeJson(doc, jsonData);
 
-  
+
   Serial.println(jsonData);
 
 
@@ -125,7 +125,7 @@ void loop() {
 
       http.begin(client, serverName);
       http.setTimeout(5000);  // Aumenta el tiempo de espera a 5 segundos
-      
+
       http.addHeader("Content-Type", "application/json");
 
       // Enviar el JSON generado
@@ -154,7 +154,7 @@ double getVoltage(int pin)
   // being read at that pin.
 }
 
-String getISO8601Time(){
+String getISO8601Time() {
   timeClient.update();
 
   //Obtener los componentes de la fecha y hora
@@ -169,5 +169,5 @@ String getISO8601Time(){
   //Formato ISO 8001 (sin mili segundos)
   char isoDate[30];
   sprintf(isoDate, "%04d-%02d-%02dT%02d:%02d:%02dZ", year, month, day, hour, minute, second);
-  return String(isoDate); 
+  return String(isoDate);
 }
