@@ -2,6 +2,8 @@ package com.example.silobolsamobileapp;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,17 +34,36 @@ public class LecturasListActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.lecturasRecyclerView);
         listaLecturas = new ArrayList<>();
 
-        Gson gson = new Gson();
+        // 1. Get JSON data from Intent
         String jsonString = getIntent().getStringExtra("json_lecturas");
+        String jsonLecturasPorSilo = getIntent().getStringExtra("json_lecturas_por_silo");
+        // 2. Create Gsoninstance
+        Gson gson = new Gson();
 
+        //3. check which JSON data is available and parse accordingly
         try {
-            Lectura[] lecturas = gson.fromJson(jsonString, Lectura[].class);
-            listaLecturas.addAll(Arrays.asList(lecturas));
+            if (jsonLecturasPorSilo != null) {
+                //a. Parse jsonLecturasPorSilo if available (para un silo especifico)
+                LecturaContainer lecturaContainer = gson.fromJson(jsonLecturasPorSilo, LecturaContainer.class);
+                listaLecturas.addAll(Arrays.asList(lecturaContainer.$values));
+                Toast.makeText(this, "Mostrando Lecturas por Silo", Toast.LENGTH_SHORT).show();
+            } else if (jsonString != null) {
+                //b. Parse jsonLecturas if jsonLecturasPorSilo is not avaiable (para todas las lecturas)
+                LecturaContainer lecturaContainer = gson.fromJson(jsonString, LecturaContainer.class);
+                listaLecturas.addAll(Arrays.asList(lecturaContainer.$values));
+                Toast.makeText(this, "Mostrando Todas las Lecturas", Toast.LENGTH_SHORT).show();
+            } else {
+                //c. Handle case where neiter jsonString nor jsonLecturasPorSilo is available
+                Log.e("LecturasListActivity", "Neither jsonString nor jsonLecturasPorSilo are available");
+                Toast.makeText(this, "No se encontraron lecturas", Toast.LENGTH_SHORT).show();
+            }
+            // . Set up RecyclerView
             adapter = new LecturaAdapter(listaLecturas);
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
             recyclerView.setAdapter(adapter);
         } catch (JsonSyntaxException e) {
             e.printStackTrace();
+            Toast.makeText(this, "Error al analizar el JSON", Toast.LENGTH_SHORT).show();
         }
     }
 }

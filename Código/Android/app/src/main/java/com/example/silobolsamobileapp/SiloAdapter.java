@@ -1,5 +1,6 @@
 package com.example.silobolsamobileapp;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,16 +27,17 @@ public class SiloAdapter extends RecyclerView.Adapter<SiloAdapter.SiloViewHolder
     @Override
     public void onBindViewHolder(@NonNull SiloAdapter.SiloViewHolder holder, int position) {
         Silo silo = listaSilos.get(position);
-        holder.idSiloTextView.setText("ID Silo: " + silo.idSilo);
-        holder.latitudTextView.setText("Latitud: " + silo.latitud);
-        holder.longitudTextView.setText("Longitud: " + silo.longitud);
-        holder.capacidadTextView.setText("Capacidad: " + silo.capacidad);
-        holder.tipoGranoTextView.setText("Tipo de Grano: " + silo.tipoGrano);
-        holder.descripcionTextView.setText("Descripción: " + silo.descripcion);
+        holder.idSiloTextView.setText("Id Silo: " + String.valueOf(silo.idSilo));
+        holder.latitudTextView.setText("Latitud: " + String.valueOf(silo.latitud));
+        holder.longitudTextView.setText("Longitud: " + String.valueOf(silo.longitud));
+        holder.capacidadTextView.setText("Capacidad: " + String.valueOf(silo.capacidad));
+        holder.tipoGranoTextView.setText("Tipo de Grano: " + String.valueOf(silo.tipoGrano));
+        holder.descripcionTextView.setText("Descripción: " + String.valueOf(silo.descripcion));
     }
 
     @Override
     public int getItemCount() {
+        Log.d("SiloAdapter", "Tamaño de la lista: " + listaSilos.size());
         return listaSilos.size(); // Corregido: debe devolver el tamaño de la lista
     }
 

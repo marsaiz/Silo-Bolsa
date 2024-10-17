@@ -9,4 +9,5 @@ public interface ILecturaServicio
     void AddLectura(LecturaDTO lectura);
     //void UpdateLectura(LecturaDTO lectura);
     void DeleteLectura(Guid id_lectura);
+    IEnumerable<Lectura> GetLecturasByIdSilo(Guid id_silo);
 }

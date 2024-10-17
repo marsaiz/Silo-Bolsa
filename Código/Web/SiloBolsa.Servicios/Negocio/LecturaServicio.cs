@@ -42,6 +42,11 @@ public class LecturaServicio : ILecturaServicio
         return _lecturaRepositorio.GetLecturaById(id_lectura);
     }
 
+    public IEnumerable<Lectura> GetLecturasByIdSilo(Guid id_silo)
+    {
+        return _lecturaRepositorio.GetLecturasByIdSilo(id_silo);
+    }
+
     public IEnumerable<Lectura> GetLecturas()
     {
         return _lecturaRepositorio.GetLecturas();

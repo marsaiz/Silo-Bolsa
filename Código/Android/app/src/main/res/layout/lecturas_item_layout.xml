@@ -15,31 +15,26 @@
     <TextView
         android:id="@+id/idCajaTextView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="ID Caja: " />
+        android:layout_height="match_parent"/>
 
     <TextView
         android:id="@+id/fechaHoraLecturaTextView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Fecha y Hora de Lectura: " />
+        android:layout_height="match_parent"/>
 
     <TextView
         android:id="@+id/temperaturaTextView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Temperatura: " />
+        android:layout_height="match_parent"/>
 
     <TextView
         android:id="@+id/humedadTextView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Humedad: " />
+        android:layout_height="match_parent"/>
 
     <TextView
         android:id="@+id/dioxido_carbonoTextView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="CO2: " />
+        android:layout_height="match_parent"/>
 
 </LinearLayout>

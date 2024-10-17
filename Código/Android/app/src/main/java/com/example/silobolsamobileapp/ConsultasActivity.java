@@ -7,9 +7,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextClock;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import com.google.gson.Gson;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -25,6 +26,7 @@ public class ConsultasActivity extends AppCompatActivity {
     private TextView respuesta; //Para la consulta de todos los silos
     private TextView respuestaIdSilo; //Para la consulta por ID silo
     private TextView respuestaLecturas; //Para la consulta de lecturas de una caja
+    private TextView lecturasporSilo; //Para la consulta de lecturas por silotasPorSilo; //Para la consulta de lecturas por silo
     EditText idSilo;
 
     @Override
@@ -39,16 +41,15 @@ public class ConsultasActivity extends AppCompatActivity {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-        respuesta = findViewById(R.id.silosConsultados);
         Button botonGET = findViewById(R.id.siloConsulta);
 
         botonGET.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
-                    String respuestaGET = NetwokUtils.realizarPeticionGET("http://192.168.1.23:5006/api/silos");
+                    //String respuestaGET = NetwokUtils.realizarPeticionGET("http://192.168.1.21:5006/api/silos");
+                    String respuestaGET = NetwokUtils.realizarPeticionGET("http://172.23.5.215:5006/api/silos");
                     Log.d("respuesta", respuestaGET);
-                    respuesta.setText("respuesta: " + respuestaGET);
 
                     //Crear un Intent para iniciar SiloListActivity
                     Intent intent = new Intent(ConsultasActivity.this, SilosListActivity.class);
@@ -66,7 +67,6 @@ public class ConsultasActivity extends AppCompatActivity {
             }
         });
 
-        respuestaIdSilo = findViewById(R.id.siloConsultado);
         Button botonGetIdSilo = findViewById(R.id.siloIdConsulta);
 
         botonGetIdSilo.setOnClickListener(new View.OnClickListener() {
@@ -77,16 +77,15 @@ public class ConsultasActivity extends AppCompatActivity {
             }
         });
 
-        respuestaLecturas = findViewById(R.id.lecturasConsultadas);
         Button botonConsultarLecturas = findViewById(R.id.consultarLecturas);
 
         botonConsultarLecturas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
-                    String respuestaGET = NetwokUtils.realizarPeticionGET("http://192.168.1.23:5006/api/lecturas");
+                    //String respuestaGET = NetwokUtils.realizarPeticionGET("http://192.168.1.21:5006/api/lecturas");
+                    String respuestaGET = NetwokUtils.realizarPeticionGET("http://172.23.5.215:5006/api/lecturas");
                     Log.d("respuestaLecturas", respuestaGET);
-                    respuestaLecturas.setText("respuestaLecturas: " + respuestaGET);
                     Intent intent = new Intent(ConsultasActivity.this, LecturasListActivity.class);
                     intent.putExtra("json_lecturas", respuestaGET);
                     startActivity(intent);
@@ -106,15 +105,25 @@ public class ConsultasActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        lecturasporSilo = findViewById(R.id.lecturasBySiloEditText);
+        Button botonLecturasPorSilo = findViewById(R.id.lecturasBySilo);
+        botonLecturasPorSilo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String idSiloIngresado = idSilo.getText().toString();
+                consultarLecturasPorSilo(idSiloIngresado);
+            }
+        });
     }
 
-    private void consultarSiloPorId(String idSilo){
+    private void consultarSiloPorId(String idSilo) {
         try {
             Silo silo = SiloRepository.GetSiloById(idSilo);
             Intent intent = new Intent(this, SiloDetailActivity.class);
             intent.putExtra("silo", silo);
             startActivity(intent);
-        }catch (IOException | JSONException e){
+        } catch (IOException | JSONException e) {
             Log.e("ConsultasActivity", "Error al consultar silo por ID", e);
             respuestaIdSilo.setText("Error: " + e.getMessage());
 
@@ -122,4 +131,24 @@ public class ConsultasActivity extends AppCompatActivity {
             Toast.makeText(this, "Error al consultar silo por ID: " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
+
+    private void consultarLecturasPorSilo(String idSilo) {
+        try {
+            //Get the LecturaContainer from siloRepositorio
+           SiloRepository siloRepository = new SiloRepository();
+           //Crear an instance
+           LecturaContainer lecturaContainer = siloRepository.GetLecturasBySilo(idSilo);
+           //Convert to JSON
+           String jsonLecturas = gson.toJson(lecturaContainer);
+           //Create an Intent and pass te JSON data
+            Intent intent = new Intent(this, LecturasListActivity.class);
+            intent.putExtra("json_lecturas_por_silo", jsonLecturas);
+            startActivity(intent);
+        } catch (IOException | JSONException e) {
+            Log.e("ConsultasLecturaPorSilo", "Error al consultar lecturas por silo", e);
+            respuestaLecturas.setText("Error: " + e.getMessage());
+            Toast.makeText(this, "Error al consultar lecturas por silo: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+    private Gson gson = new Gson();
 }

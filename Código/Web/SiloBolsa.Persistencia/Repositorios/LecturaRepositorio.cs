@@ -44,18 +44,18 @@ public class LecturaRepositorio : ILecturaRepositorio
             _siloBolsaContexto.SaveChanges();
         }
     }
-    public IEnumerable<Lectura> GetLecturasBySilo(Guid id_silo)
+    public IEnumerable<Lectura> GetLecturasByIdSilo(Guid id_silo)
     {
         return _siloBolsaContexto.Lecturas
         .Include(l => l.Caja)
         .ThenInclude(c => c.Silo)
-        .Where(l => l.Caja.Silo.IdSilo == id_silo)
+        .Where(l => l.Caja != null && l.Caja.Silo != null && l.Caja.Silo.IdSilo == id_silo)
         .ToList();
     }
 
     public void AnalizarCondicionesYGenerarAlertas(Guid id_silo)
     {
-        var lecturas = GetLecturasBySilo(id_silo);
+        var lecturas = GetLecturasByIdSilo(id_silo);
         var silo = _siloBolsaContexto.Silos.Include(s => s.GranoSilo).FirstOrDefault(s => s.IdSilo == id_silo);
 
         if (silo == null)

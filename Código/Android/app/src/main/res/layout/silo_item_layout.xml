@@ -9,38 +9,32 @@
         android:id="@+id/idSiloTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="ID Silo: "
         android:textIsSelectable="true"
         android:layout_marginTop="16dp"/>
 
     <TextView
         android:id="@+id/latitudTextView"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Latitud: " />
+        android:layout_height="wrap_content"/>
 
     <TextView
         android:id="@+id/longitudTextView"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Longitud: " />
+        android:layout_height="wrap_content"/>
 
     <TextView
         android:id="@+id/capacidadTextView"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Capacidad: " />
+        android:layout_height="wrap_content"/>
 
     <TextView
         android:id="@+id/tipoGranoTextView"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Tipo de Grano: " />
+        android:layout_height="wrap_content"/>
 
     <TextView
         android:id="@+id/descripcionTextView"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Descripción: " />
+        android:layout_height="wrap_content"/>
 
 </LinearLayout>

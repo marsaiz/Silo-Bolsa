@@ -1,3 +1,5 @@
+using SiloBolsa.Core.Modelos;
+
 namespace SiloBolsa.Servicios.Interfaces;
 
 public class SiloDTO

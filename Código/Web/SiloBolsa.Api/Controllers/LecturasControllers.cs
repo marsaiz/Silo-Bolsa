@@ -9,10 +9,9 @@ namespace SiloBolsa.Api.Controllers;
 public class LecturasControllers : ControllerBase
 {
     private readonly ILecturaServicio _lecturaServicio;
-    private readonly ILecturaRepositorio _lecturaRepositorio;
-    public LecturasControllers(ILecturaServicio lecuraRepositorio)
+    public LecturasControllers(ILecturaServicio lecuraServicio)
     {
-        _lecturaServicio = lecuraRepositorio;
+        _lecturaServicio = lecuraServicio;
     }
 
     [HttpGet]
@@ -64,10 +63,15 @@ public class LecturasControllers : ControllerBase
         return NoContent();
     }
 
-    [HttpGet("temperaturas/{id_silo}")]
-    public ActionResult<Lectura> GetLecturasBySilo(Guid id_silo)
+    [HttpGet("silo/{id_silo}")]
+    public ActionResult<Lectura> GetLecturasByIdSilo(String id_silo)
     {
-        var temperaturas = _lecturaRepositorio.GetLecturasBySilo(id_silo);
-        return Ok();
+        Guid id_silo_elegido = Guid.Parse(id_silo);
+        var lecturas = _lecturaServicio.GetLecturasByIdSilo(id_silo_elegido);
+        if (lecturas != null && !lecturas.Any())
+        {
+            return NotFound("No se econtraron lecturas para el silo especificado.");
+        }
+        return Ok(lecturas);
     }
 }

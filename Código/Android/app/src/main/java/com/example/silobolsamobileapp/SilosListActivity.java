@@ -1,6 +1,7 @@
 package com.example.silobolsamobileapp;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -34,8 +35,8 @@ public class SilosListActivity extends AppCompatActivity {
         String jsonString = getIntent().getStringExtra("json_silos");
         //Convertir el JSON a un array de objetos Silo
         try {
-            Silo[] silos = gson.fromJson(jsonString, Silo[].class);
-            listaSilos.addAll(Arrays.asList(silos));
+            SiloContainer siloContainer = gson.fromJson(jsonString, SiloContainer.class);
+            listaSilos.addAll(Arrays.asList(siloContainer.$values));
 
             // 3. Crear el Adapter y asignarlo al RecyclerView
             adapter = new SiloAdapter(listaSilos);
@@ -44,6 +45,7 @@ public class SilosListActivity extends AppCompatActivity {
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
             recyclerView.setAdapter(adapter);
         } catch (JsonSyntaxException e) {
+            Log.e("SilosListActivity", "Error al analizar JSON: " + e.getMessage()) ;
             e.printStackTrace();
         }
     }

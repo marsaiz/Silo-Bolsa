@@ -26,12 +26,12 @@ public class LecturaAdapter extends RecyclerView.Adapter<LecturaAdapter.LecturaV
     @Override
     public void onBindViewHolder(@NonNull LecturaViewHolder holder, int position) {
         Lectura lectura = listaLecturas.get(position);
-        holder.idLecturaTextView.setText("ID Lectura: " + lectura.idLectura);
-        holder.idCajaTextView.setText("ID Caja: " + lectura.idCaja);
-        holder.fechaHoraLecturaTextView.setText("Fecha y Hora: " + lectura.fechaHoraLectura);
-        holder.temperaturaTextView.setText("Temp: " + lectura.temp);
-        holder.humedadTextView.setText("Humedad: " + lectura.humedad);
-        holder.dioxido_carbonoTextView.setText("Dioxido de Carbono: " + lectura.dioxidoDeCarbono);
+        holder.idLecturaTextView.setText(String.valueOf("Lectura " + lectura.idLectura));
+        holder.idCajaTextView.setText(String.valueOf("Caja " + lectura.idCaja));
+        holder.fechaHoraLecturaTextView.setText(String.valueOf("Fecha y hora: " + lectura.fechaHoraLectura));
+        holder.temperaturaTextView.setText(String.valueOf("Temperatura: " + lectura.temp));
+        holder.humedadTextView.setText(String.valueOf("Humedad: " + lectura.humedad));
+        holder.dioxido_carbonoTextView.setText(String.valueOf("Dioxido de carbono: " + lectura.dioxidoDeCarbono));
     }
 
     @Override
