@@ -10,4 +10,5 @@ public interface ILecturaServicio
     //void UpdateLectura(LecturaDTO lectura);
     void DeleteLectura(Guid id_lectura);
     IEnumerable<Lectura> GetLecturasByIdSilo(Guid id_silo);
+    public void AnalizarCondicionesYGenerarAlertas(Guid id_silo);
 }

@@ -12,4 +12,5 @@ namespace SiloBolsa.Servicios.Interfaces;
         void AddAlerta(Alerta alerta);
         void UpdateAlerta(Alerta alerta);
         void DeleteAlerta(Guid id_alerta);
+        void SaveChanges(); //Método para guardar cambios
     }

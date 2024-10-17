@@ -10,9 +10,11 @@ namespace SiloBolsa.Api.Controllers;
 public class AlertasControllers : ControllerBase
 {
 private readonly IAlertaServicio _alertaServicio;
-    public AlertasControllers(IAlertaServicio alertaServicio)
+private readonly ISiloServicio _siloServicio;
+    public AlertasControllers(IAlertaServicio alertaServicio, ISiloServicio siloServicio)
     {
         _alertaServicio = alertaServicio;
+        _siloServicio = siloServicio;
     }
 
     [HttpGet]

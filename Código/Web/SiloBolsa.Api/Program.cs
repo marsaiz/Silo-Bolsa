@@ -3,9 +3,18 @@ using SiloBolsa.Servicios.Interfaces;
 using Microsoft.Extensions.Options;
 using Microsoft.EntityFrameworkCore;
 using SiloBolsa.Servicios.Negocio;
+using SiloBolsa.Servicios;
 
-
+//El servicio de logging esta configurado automaticamente por el WebApplicationBuilder
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Logging.ClearProviders(); //Limpiar los providers por defecto si no los quieres
+builder.Logging.AddConsole(); //Agregar logging en la consola
+builder.Logging.AddDebug(); //Agregar logging para el debug(util en desarrollo)
+
+builder.Logging.AddFilter("Microsoft", LogLevel.Warning)
+                .AddFilter("System", LogLevel.Warning)
+                .AddFilter("SiloBolsa", LogLevel.Information);
 
 //Obtener la conexión desde appsetings.json
 var conexionString =
@@ -34,6 +43,9 @@ builder.Services.AddControllers()
 {
     options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
 });
+
+//builder.Services.AddSingleton<LecturaRepositorio>();
+builder.Services.AddHostedService<AnalisisAlertasBackgroundService>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

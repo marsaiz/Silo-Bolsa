@@ -21,7 +21,9 @@ public class SiloRepositorio : ISiloRepositorio
 
     public Silo GetSiloById(Guid id_silo)
     {
-        return _siloBolsaContexto.Silos.Find(id_silo);
+        return _siloBolsaContexto.Silos
+            .Include(s => s.GranoSilo)
+            .FirstOrDefault(s => s.IdSilo == id_silo);
     }
 
     public void AddSilo(Silo silo)
