@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "VYLBm2Qwda5qAY6XcrsieOLL1QwneFzGmE7ZJoOP69E=",
+  "Source": "SiloBolsa.Api",
+  "BasePath": "_content/SiloBolsa.Api",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

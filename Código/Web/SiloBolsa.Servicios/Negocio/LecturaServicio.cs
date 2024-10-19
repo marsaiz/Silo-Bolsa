@@ -19,14 +19,17 @@ public class LecturaServicio : ILecturaServicio
     private ILecturaRepositorio _lecturaRepositorio;
     private ICajaRepositorio _cajaRepositorio;
     private readonly ILogger<AnalisisAlertasBackgroundService> _logger;
+    private IEmailServices _emailServices;
 
-    public LecturaServicio(ISiloRepositorio siloRepositorio, IAlertaRepositorio alertaRepositorio, ILecturaRepositorio lecturaRepositorio, ICajaRepositorio cajaRepositorio, ILogger<AnalisisAlertasBackgroundService> logger)
+
+    public LecturaServicio(ISiloRepositorio siloRepositorio, IAlertaRepositorio alertaRepositorio, ILecturaRepositorio lecturaRepositorio, ICajaRepositorio cajaRepositorio, ILogger<AnalisisAlertasBackgroundService> logger, IEmailServices emailServices)
     {
         _lecturaRepositorio = lecturaRepositorio;
         _cajaRepositorio = cajaRepositorio;
         _alertaRepositorio = alertaRepositorio;
         _siloRepositorio = siloRepositorio;
         _logger = logger ?? throw new ArgumentNullException(nameof(logger)); //Validación
+        _emailServices = emailServices;
     }
     public void AddLectura(LecturaDTO lecturaDTO)
     {
@@ -101,11 +104,27 @@ public class LecturaServicio : ILecturaServicio
                 {
                     IdAlerta = Guid.NewGuid(),
                     FechaHoraAlerta = DateTime.UtcNow,
-                    Mensaje = $"Condiciones extremas en el silo {silo.Descripcion}",
+                    Mensaje = $"Condiciones extremas en el silo {silo.Descripcion}: Temperatura={lectura.Temp}ºC, Humedad={lectura.Humedad}%",
                     IdSilo = silo.IdSilo,
                     Silo = silo
                 };
                 _alertaRepositorio.AddAlerta(alerta);
+                _logger.LogInformation("Alerta creada para el silo {0} : {1}", silo.Descripcion, alerta.Mensaje);
+
+                //Enviar un correo electrónico al usuario con la alerta
+                string subject = $"Alerta en Silo {silo.Descripcion}";
+                string body = $"Se ha detectado una condición extrema en el silo {silo.Descripcion}:\n" +
+                    $"Temperatura: {lectura.Temp}ºC\n" + $"Humedad: {lectura.Humedad}%\n" + $"Fecha y Hora: {DateTime.UtcNow}\n\n" + $"Por favor, tome las medidas necesarias.";
+
+                try
+                {
+                    _emailServices.SendEmail("marcelosaizestudio@gmail.com", subject, body);
+                    _logger.LogInformation($"Correo de alerta enviado a marcelosaizestudio@gmail.com");
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Error al enviar el correo de alerta.");
+                }
             }
         }
         _alertaRepositorio.SaveChanges();

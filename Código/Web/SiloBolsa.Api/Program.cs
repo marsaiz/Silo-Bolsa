@@ -24,6 +24,11 @@ builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<SiloBolsaContexto>(Options =>
     Options.UseNpgsql(conexionString));
 
+// Agregar EmailSettings a partir de appsettings.json
+builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
+
+//Registrar el servicio de Email
+builder.Services.AddScoped<IEmailServices, EmailServices>();
 
 // Add services to the container. cada Scope se crea cuando hay una llamada HTTP
 builder.Services.AddScoped<IAlertaRepositorio, AlertaRepositorio>();
@@ -36,6 +41,7 @@ builder.Services.AddScoped<ICajaServicio, CajaServicio>();
 builder.Services.AddScoped<IGranoServicio, GranoServicio>();
 builder.Services.AddScoped<ILecturaServicio, LecturaServicio>();
 builder.Services.AddScoped<ISiloServicio, SiloServicio>();
+
 
 
 builder.Services.AddControllers()
