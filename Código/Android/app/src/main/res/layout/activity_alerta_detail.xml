@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/idAlertaTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textNoSuggestions"
+        android:minHeight="48dp"
+        android:text="ID de la Alerta: "
+        android:layout_marginTop="16dp"/>
+
+    <TextView
+        android:id="@+id/fechaHoraAlertaTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Fecha y Hora de la Alerta: "/>
+
+    <TextView
+        android:id="@+id/mensajeAlertaTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Mensaje de la Alerta: "/>
+
+</LinearLayout>

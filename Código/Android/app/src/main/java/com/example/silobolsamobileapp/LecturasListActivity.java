@@ -39,7 +39,6 @@ public class LecturasListActivity extends AppCompatActivity {
         String jsonLecturasPorSilo = getIntent().getStringExtra("json_lecturas_por_silo");
         // 2. Create Gsoninstance
         Gson gson = new Gson();
-
         //3. check which JSON data is available and parse accordingly
         try {
             if (jsonLecturasPorSilo != null) {

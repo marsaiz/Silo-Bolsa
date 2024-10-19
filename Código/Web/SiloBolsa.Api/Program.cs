@@ -25,7 +25,7 @@ builder.Services.AddDbContext<SiloBolsaContexto>(Options =>
     Options.UseNpgsql(conexionString));
 
 
-// Add services to the container.
+// Add services to the container. cada Scope se crea cuando hay una llamada HTTP
 builder.Services.AddScoped<IAlertaRepositorio, AlertaRepositorio>();
 builder.Services.AddScoped<IGranoRepositorio, GranoRepositorio>();
 builder.Services.AddScoped<ILecturaRepositorio, LecturaRepositorio>();
@@ -44,7 +44,7 @@ builder.Services.AddControllers()
     options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
 });
 
-//builder.Services.AddSingleton<LecturaRepositorio>();
+//builder.Services.AddSingleton<LecturaRepositorio>(); //no se puede correr un Scoped y un Singleton
 builder.Services.AddHostedService<AnalisisAlertasBackgroundService>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

@@ -32,7 +32,6 @@ public class IngresoSilo extends AppCompatActivity {
     EditText descripcionEditText;
     private ExecutorService executor;
     private int selectedGrainTypeId = 1;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +43,6 @@ public class IngresoSilo extends AppCompatActivity {
         longitudTextView = findViewById(R.id.longitud);
 
         Button irAMapa = findViewById(R.id.buscarEnMapa);
-
         irAMapa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,7 +86,6 @@ public class IngresoSilo extends AppCompatActivity {
                 finish();
             }
         });
-
         executor = Executors.newSingleThreadExecutor();
 
         Button enviarDatosButton = findViewById(R.id.enviarDatosButton);
@@ -139,7 +136,6 @@ public class IngresoSilo extends AppCompatActivity {
                                         Log.e("Error POST", "Error al realizar la petición POST", e);
                                     }
                                 });
-
                             }
                         }
                     });
@@ -150,7 +146,6 @@ public class IngresoSilo extends AppCompatActivity {
             }
         });
     }
-
     //Verificar si la Activity fue finalizada correctamente y obtener los datos
     @Override
     protected void onActivityResult(int reqquestCode, int resultCode, Intent
@@ -169,23 +164,19 @@ public class IngresoSilo extends AppCompatActivity {
             longitudTextView.setText("Coordenadas no disponibles");
         }
     }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
         //Apagamos el ExecutorService
         executor.shutdown();
     }
-
     public class GrainType {
         public int tipo_grano;
         public String nombreGrano;
-
         public GrainType(int tipo_grano, String nombreGrano) {
             this.tipo_grano = tipo_grano;
             this.nombreGrano = nombreGrano;
         }
-
         @Override
         public String toString() {
             return nombreGrano;

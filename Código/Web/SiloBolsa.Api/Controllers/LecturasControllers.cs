@@ -64,7 +64,7 @@ public class LecturasControllers : ControllerBase
     }
 
     [HttpGet("silo/{id_silo}")]
-    public ActionResult<Lectura> GetLecturasByIdSilo(String id_silo)
+    public ActionResult<LecturaDTO> GetLecturasByIdSilo(String id_silo)
     {
         Guid id_silo_elegido = Guid.Parse(id_silo);
         var lecturas = _lecturaServicio.GetLecturasByIdSilo(id_silo_elegido);
@@ -72,6 +72,14 @@ public class LecturasControllers : ControllerBase
         {
             return NotFound("No se econtraron lecturas para el silo especificado.");
         }
-        return Ok(lecturas);
+        var lecturasDatos = lecturas.Select(l => new LecturaDTO
+        {
+            FechaHoraLectura = l.FechaHoraLectura,
+            Temp = l.Temp,
+            Humedad = l.Humedad,
+            DioxidoDeCarbono = l.DioxidoDeCarbono,
+            IdCaja = l.IdCaja
+        }).ToList();
+        return Ok(lecturasDatos);
     }
 }

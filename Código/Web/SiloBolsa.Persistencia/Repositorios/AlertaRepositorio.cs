@@ -42,6 +42,7 @@ public class AlertaRepositorio : IAlertaRepositorio
             _siloBolsaContexto.SaveChanges();
         }
     }
+
     public void SaveChanges()
     {
         _siloBolsaContexto.SaveChanges();

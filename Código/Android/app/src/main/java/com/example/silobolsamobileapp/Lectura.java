@@ -9,7 +9,6 @@ import java.io.Serializable;
 
 public class Lectura implements Serializable {
 
-
     public String idLectura;
 
     public String idCaja;
@@ -23,12 +22,12 @@ public class Lectura implements Serializable {
     public double dioxidoDeCarbono;
 
 
-    public Lectura(String idLectura, String fechaHoraLectura, double temp, double humedad, double getDioxidoDeCarbono, String idCaja) {
+    public Lectura(String idLectura, String fechaHoraLectura, double temp, double humedad, double DioxidoDeCarbono, String idCaja) {
         this.idLectura = idLectura;
         this.fechaHoraLectura = fechaHoraLectura;
         this.temp = temp;
         this.humedad = humedad;
-        this.dioxidoDeCarbono = getDioxidoDeCarbono;
+        this.dioxidoDeCarbono = DioxidoDeCarbono;
         this.idCaja = idCaja;
     }
 

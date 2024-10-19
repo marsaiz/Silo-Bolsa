@@ -6,34 +6,24 @@
     android:padding="16dp">
 
     <TextView
-        android:id="@+id/idLecturaTextView"
+        android:id="@+id/idAlertaTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textIsSelectable="true"
         android:layout_marginTop="16dp"/>
 
-
     <TextView
-        android:id="@+id/fechaHoraLecturaTextView"
+        android:id="@+id/fechaHoraAlertaTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
     <TextView
-        android:id="@+id/temperaturaTextView"
+        android:id="@+id/mensajeAlertaTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
     <TextView
-        android:id="@+id/humedadTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-    <TextView
-        android:id="@+id/dioxido_carbonoTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-    <TextView
-        android:id="@+id/idCajaTextView"
+        android:id="@+id/idSiloTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 

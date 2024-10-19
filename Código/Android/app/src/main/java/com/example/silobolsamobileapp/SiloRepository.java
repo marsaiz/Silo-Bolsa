@@ -39,13 +39,26 @@ public class SiloRepository {
 
     public LecturaContainer GetLecturasBySilo(String idSilo) throws IOException, JSONException {
         try {
-            String urlString = "http://192.168.1.21:5006/api/lecturas/" + idSilo;
+            String urlString = "http://192.168.1.21:5006/api/lecturas/silo/" + idSilo;
             //String urlString = "http://172.23.5.215:5006/api/lecturas/" + idSilo;
             String respuestaGet = NetwokUtils.realizarPeticionGET(urlString);
             Gson gson = new Gson();
             return gson.fromJson(respuestaGet, LecturaContainer.class);
         } catch (Exception e) {
             Log.e("SiloRepository", "Error al obtener las lecturas: " + e.getMessage());
+            throw e;
+        }
+    }
+
+    public AlertaContainer GetAlertasBySilo(String idSilo) throws IOException, JSONException {
+        try {
+            String urlString = "http://192.168.1.23:5006/api/alertas/silo/" + idSilo;
+            //String urlString = "http://172.23.5.215:5006/api/alertas/" + idSilo;
+            String respuestaGet = NetwokUtils.realizarPeticionGET(urlString);
+            Gson gson = new Gson();
+            return gson.fromJson(respuestaGet, AlertaContainer.class);
+        } catch (Exception e) {
+            Log.e("SiloRepository", "Error al obtener las alertas: " + e.getMessage());
             throw e;
         }
     }
