@@ -118,8 +118,8 @@ public class LecturaServicio : ILecturaServicio
 
                 try
                 {
-                    _emailServices.SendEmail("marcelosaizestudio@gmail.com", subject, body);
-                    _logger.LogInformation($"Correo de alerta enviado a marcelosaizestudio@gmail.com");
+                    //_emailServices.SendEmail("marcelosaizestudio@gmail.com", subject, body);
+                    //_logger.LogInformation($"Correo de alerta enviado a marcelosaizestudio@gmail.com");
                 }
                 catch (Exception ex)
                 {

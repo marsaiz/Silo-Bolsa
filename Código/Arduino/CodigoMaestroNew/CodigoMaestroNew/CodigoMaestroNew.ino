@@ -143,7 +143,7 @@ void loop() {
     }
     lastTime = millis();
   }
-  delay(10000);
+  delay(50000);
 }
 
 double getVoltage(int pin)
