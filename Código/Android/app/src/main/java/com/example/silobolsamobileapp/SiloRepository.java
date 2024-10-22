@@ -15,8 +15,8 @@ public class SiloRepository {
     public static Silo GetSiloById(String idSilo) throws IOException, JSONException {
         try {
             //Realizar la petición GET
-            String urlString = "http://192.168.1.21:5006/api/silos/" + idSilo;
-            //String urlString = "http://172.23.5.215:5006/api/silos/" + idSilo;
+            //String urlString = "http://192.168.1.21:5006/api/silos/" + idSilo;
+            String urlString = "http://172.23.5.215:5006/api/silos/" + idSilo;
             String jsonRespuesta = NetwokUtils.realizarPeticionGET(urlString);
 
             //Parsear el JSON a un objeto Silo
@@ -30,8 +30,8 @@ public class SiloRepository {
     }
 
     public static Lectura GetLecturas() throws IOException, JSONException {
-        String urlString = "http://192.168.1.21:5006/api/lecturas";
-        //String urlString = "http://172.23.5.215:5006/api/lecturas/";
+        //String urlString = "http://192.168.1.21:5006/api/lecturas";
+        String urlString = "http://172.23.5.215:5006/api/lecturas";
         String jsonRespuesta = NetwokUtils.realizarPeticionGET(urlString);
         Gson gson = new Gson();
         return gson.fromJson(jsonRespuesta, Lectura.class);
@@ -39,8 +39,8 @@ public class SiloRepository {
 
     public LecturaContainer GetLecturasBySilo(String idSilo) throws IOException, JSONException {
         try {
-            String urlString = "http://192.168.1.21:5006/api/lecturas/silo/" + idSilo;
-            //String urlString = "http://172.23.5.215:5006/api/lecturas/" + idSilo;
+            //String urlString = "http://192.168.1.21:5006/api/lecturas/silo/" + idSilo;
+            String urlString = "http://172.23.5.215:5006/api/lecturas/silo/" + idSilo;
             String respuestaGet = NetwokUtils.realizarPeticionGET(urlString);
             Gson gson = new Gson();
             return gson.fromJson(respuestaGet, LecturaContainer.class);
@@ -53,7 +53,7 @@ public class SiloRepository {
     public AlertaContainer GetAlertasBySilo(String idSilo) throws IOException, JSONException {
         try {
             String urlString = "http://192.168.1.23:5006/api/alertas/silo/" + idSilo;
-            //String urlString = "http://172.23.5.215:5006/api/alertas/" + idSilo;
+            //String urlString = "http://172.23.5.215:5006/api/alertas/silo/" + idSilo;
             String respuestaGet = NetwokUtils.realizarPeticionGET(urlString);
             Gson gson = new Gson();
             return gson.fromJson(respuestaGet, AlertaContainer.class);
