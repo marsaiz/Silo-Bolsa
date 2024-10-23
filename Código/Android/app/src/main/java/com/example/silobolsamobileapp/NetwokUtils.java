@@ -76,6 +76,7 @@ public class NetwokUtils {
         json.put("capacidad", capacidad);
         json.put("tipo_grano", tipo_grano);
         json.put("descripcion", descripcion);
+        json.put("granoSilo", JSONObject.NULL);
 
         try (OutputStream os = conexion.getOutputStream()) {
             byte[] input = json.toString().getBytes("utf-8");

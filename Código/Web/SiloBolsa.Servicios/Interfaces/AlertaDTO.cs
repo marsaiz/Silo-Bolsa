@@ -6,4 +6,5 @@ public class AlertaDTO
     public DateTime FechaHoraAlerta { get; set; }
     public string? Mensaje { get; set; }
     public Guid IdSilo { get; set; }
+    public bool CorreoEnviado { get; set; }
 }

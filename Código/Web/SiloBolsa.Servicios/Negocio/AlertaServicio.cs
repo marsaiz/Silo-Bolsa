@@ -17,6 +17,7 @@ public class AlertaServicio : IAlertaServicio
         alerta.FechaHoraAlerta = alertaDTO.FechaHoraAlerta;
         alerta.Mensaje = alertaDTO.Mensaje;
         alerta.IdSilo = alertaDTO.IdSilo;
+        alerta.CorreoEnviado = false;
 
         _alertaRepositorio.AddAlerta(alerta);
     }

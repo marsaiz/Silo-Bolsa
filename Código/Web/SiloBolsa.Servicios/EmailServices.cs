@@ -10,13 +10,11 @@ namespace SiloBolsa.Servicios;
 
 public class EmailServices : IEmailServices
 {
-
-    //SmtpClientClass
     private readonly EmailSettings _emailSettings;
     private readonly ILogger<EmailServices> _logger;
 
-//En el constructor se usa IOptions<> para usar los valores del archivo de configuracion
-//En este ejemplo para usar la clase EmailSettings
+    //En el constructor se usa IOptions<> para usar los valores del archivo de configuracion
+    //En este ejemplo para usar la clase EmailSettings
     public EmailServices(IOptions<EmailSettings> emailSettings, ILogger<EmailServices> logger)
     {
         _emailSettings = emailSettings.Value;

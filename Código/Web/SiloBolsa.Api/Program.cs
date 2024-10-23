@@ -29,6 +29,7 @@ builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("Emai
 
 //Registrar el servicio de Email
 builder.Services.AddScoped<IEmailServices, EmailServices>();
+builder.Services.AddScoped<IEmailServicesSMTP, EmailServiceSMTP>();
 
 // Add services to the container. cada Scope se crea cuando hay una llamada HTTP
 builder.Services.AddScoped<IAlertaRepositorio, AlertaRepositorio>();

@@ -103,8 +103,8 @@ public class ModificacionSilo extends AppCompatActivity {
                     int capacidad = Integer.parseInt(capacidadEditText.getText().toString());
                     int tipo_grano = selectedGrainTypeId;
 
-                    //String url = "http://192.168.1.23:5006/api/silos/" + idSilo;
-                    String url = "http://172.23.5.215:5006/api/silos/" + idSilo;
+                    String url = "http://192.168.1.23:5006/api/silos/" + idSilo;
+                    //String url = "http://172.23.5.215:5006/api/silos/" + idSilo;
                     executor.execute(new Runnable() {
                         @Override
                         public void run() {

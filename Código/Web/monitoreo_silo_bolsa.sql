@@ -42,7 +42,8 @@ CREATE TABLE public.alerta (
     mensaje character varying(200) NOT NULL,
     id_alerta uuid NOT NULL,
     id_silo uuid,
-    "fecha_ḧora_alerta" timestamp without time zone
+    "fecha_ḧora_alerta" timestamp without time zone,
+    correoenviado boolean DEFAULT false
 );
 
 
@@ -115,11 +116,25 @@ ALTER TABLE public.silo OWNER TO postgres;
 -- Data for Name: alerta; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.alerta (mensaje, id_alerta, id_silo, "fecha_ḧora_alerta") FROM stdin;
-Condiciones extremas en el silo trigo 2025: Temperatura=27,16007ºC, Humedad=50,41676%	6fd7f911-bc14-4ddd-9aa7-341246d9d6e4	f62ed337-f74f-40ad-96e2-429e896e3d98	2024-10-19 21:06:20.496015
-Condiciones extremas en el silo trigo 2025: Temperatura=27,21024ºC, Humedad=50,12856%	760d8323-183a-4398-ae1a-961430cf6580	f62ed337-f74f-40ad-96e2-429e896e3d98	2024-10-19 21:06:20.594086
-Condiciones extremas en el silo trigo 2025: Temperatura=27,23026ºC, Humedad=50,66175%	981217ad-d7ad-4b49-a5db-2006851d3c93	f62ed337-f74f-40ad-96e2-429e896e3d98	2024-10-19 21:06:20.610184
-alertaalerta	7e9309da-9540-4c3e-adef-7fb6624b00af	f62ed337-f74f-40ad-96e2-429e896e3d98	2024-10-22 20:49:48.793
+COPY public.alerta (mensaje, id_alerta, id_silo, "fecha_ḧora_alerta", correoenviado) FROM stdin;
+Condiciones extremas en el silo trigo 2025: Temperatura=27,16007ºC, Humedad=50,41676%	6fd7f911-bc14-4ddd-9aa7-341246d9d6e4	f62ed337-f74f-40ad-96e2-429e896e3d98	2024-10-19 21:06:20.496015	f
+Condiciones extremas en el silo trigo 2025: Temperatura=27,21024ºC, Humedad=50,12856%	760d8323-183a-4398-ae1a-961430cf6580	f62ed337-f74f-40ad-96e2-429e896e3d98	2024-10-19 21:06:20.594086	f
+Condiciones extremas en el silo trigo 2025: Temperatura=27,23026ºC, Humedad=50,66175%	981217ad-d7ad-4b49-a5db-2006851d3c93	f62ed337-f74f-40ad-96e2-429e896e3d98	2024-10-19 21:06:20.610184	f
+alertaalerta	7e9309da-9540-4c3e-adef-7fb6624b00af	f62ed337-f74f-40ad-96e2-429e896e3d98	2024-10-22 20:49:48.793	f
+alerta alertita	d4a6e466-6e04-4ef3-9dfd-1fd0c3d8f0a6	f62ed337-f74f-40ad-96e2-429e896e3d98	2024-10-23 09:23:30.284	f
+Condiciones extremas en el silo trigo 2025: Temperatura=100ºC, Humedad=0%	e4ec8e99-4aa3-46a0-b677-e922145f20ea	f62ed337-f74f-40ad-96e2-429e896e3d98	2024-10-23 09:38:31.561066	f
+Condiciones extremas en el silo trigo 2025: Temperatura=100ºC, Humedad=0%	96006401-53cc-457f-9abb-48962186c256	f62ed337-f74f-40ad-96e2-429e896e3d98	2024-10-23 09:48:32.039414	f
+Condiciones extremas en el silo trigo 2025: Temperatura=100ºC, Humedad=0%	41450d79-7e1b-4917-bc54-03750299c29f	f62ed337-f74f-40ad-96e2-429e896e3d98	2024-10-23 09:49:19.898703	f
+Condiciones extremas en el silo trigo 2025: Temperatura=100ºC, Humedad=0%	e6f31e98-0b3a-442f-86c2-977c3495b6c1	f62ed337-f74f-40ad-96e2-429e896e3d98	2024-10-23 09:59:20.967484	f
+Condiciones extremas en el silo trigo 2025: Temperatura=110ºC, Humedad=0%	a43d1ba1-8cae-4bc0-be2b-0fdb8dc0b476	f62ed337-f74f-40ad-96e2-429e896e3d98	2024-10-23 09:59:21.011471	f
+Condiciones extremas en el silo trigo 2025: Temperatura=100ºC, Humedad=0%	9e2ffd77-5b79-4705-bcbc-a4a6ec389608	f62ed337-f74f-40ad-96e2-429e896e3d98	2024-10-23 10:09:22.174036	f
+Condiciones extremas en el silo trigo 2025: Temperatura=110ºC, Humedad=0%	e08e471d-5a4a-4120-8a05-da9baa94cb9d	f62ed337-f74f-40ad-96e2-429e896e3d98	2024-10-23 10:09:22.272084	f
+Condiciones extremas en el silo trigo 2025: Temperatura=100ºC, Humedad=0%	c0e6c62b-c6b8-47ce-b058-68984d22070f	f62ed337-f74f-40ad-96e2-429e896e3d98	2024-10-23 10:19:22.615187	f
+Condiciones extremas en el silo trigo 2025: Temperatura=110ºC, Humedad=0%	931c4aa1-17a9-4cf9-a295-562831a66401	f62ed337-f74f-40ad-96e2-429e896e3d98	2024-10-23 10:19:22.633891	f
+Condiciones extremas en el silo trigo 2025: Temperatura=100ºC, Humedad=0%	fa571681-6e29-41de-8a69-0569a9613170	f62ed337-f74f-40ad-96e2-429e896e3d98	2024-10-23 10:55:14.252932	f
+Condiciones extremas en el silo trigo 2025: Temperatura=110ºC, Humedad=0%	e1888b96-0ff3-4207-b8c4-4d184b36d9a3	f62ed337-f74f-40ad-96e2-429e896e3d98	2024-10-23 10:55:14.708839	f
+Condiciones extremas en el silo trigo 2025: Temperatura=100ºC, Humedad=0%	36b222cd-2fe3-422f-8a69-cebc7097172f	f62ed337-f74f-40ad-96e2-429e896e3d98	2024-10-23 10:59:56.541712	t
+Condiciones extremas en el silo trigo 2025: Temperatura=110ºC, Humedad=0%	2ac5abe2-c697-446f-b0b9-8595ac4d6847	f62ed337-f74f-40ad-96e2-429e896e3d98	2024-10-23 10:59:56.890174	t
 \.
 
 
@@ -164,6 +179,8 @@ COPY public.lectura (temp, humedad, dioxido_de_carbono, id_caja, id_lectura, fec
 27.46334	49.80049	1524.76	cac70d5d-4df3-451f-bba9-59bcea039425	4c9e5abb-cd01-4301-93f4-5164429e44e6	2024-10-19 18:12:33
 27.49119	49.75786	1180.219	cac70d5d-4df3-451f-bba9-59bcea039425	d986976c-bcb7-4edd-9690-1231f76a9c46	2024-10-19 18:13:24
 27.50683	49.47433	1450.911	cac70d5d-4df3-451f-bba9-59bcea039425	0147d0f8-2532-4727-a613-6ea468953633	2024-10-19 18:14:14
+100	0	1000	cac70d5d-4df3-451f-bba9-59bcea039425	4335ce9a-2552-4293-8a79-341c7c2b6895	2024-10-23 09:27:34.672
+110	0	1110	cac70d5d-4df3-451f-bba9-59bcea039425	4c1ef109-9f7f-4bc0-ab73-38953c210a51	2024-10-23 09:50:13.581
 \.
 
 

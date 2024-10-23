@@ -19,17 +19,17 @@ public class LecturaServicio : ILecturaServicio
     private ILecturaRepositorio _lecturaRepositorio;
     private ICajaRepositorio _cajaRepositorio;
     private readonly ILogger<AnalisisAlertasBackgroundService> _logger;
-    private IEmailServices _emailServices;
+    private IEmailServicesSMTP _emailServiceSMTP;
 
 
-    public LecturaServicio(ISiloRepositorio siloRepositorio, IAlertaRepositorio alertaRepositorio, ILecturaRepositorio lecturaRepositorio, ICajaRepositorio cajaRepositorio, ILogger<AnalisisAlertasBackgroundService> logger, IEmailServices emailServices)
+    public LecturaServicio(ISiloRepositorio siloRepositorio, IAlertaRepositorio alertaRepositorio, ILecturaRepositorio lecturaRepositorio, ICajaRepositorio cajaRepositorio, ILogger<AnalisisAlertasBackgroundService> logger, IEmailServicesSMTP emailServiceSMTP)
     {
         _lecturaRepositorio = lecturaRepositorio;
         _cajaRepositorio = cajaRepositorio;
         _alertaRepositorio = alertaRepositorio;
         _siloRepositorio = siloRepositorio;
         _logger = logger ?? throw new ArgumentNullException(nameof(logger)); //Validación
-        _emailServices = emailServices;
+        _emailServiceSMTP = emailServiceSMTP;
     }
     public void AddLectura(LecturaDTO lecturaDTO)
     {
@@ -106,7 +106,8 @@ public class LecturaServicio : ILecturaServicio
                     FechaHoraAlerta = DateTime.UtcNow,
                     Mensaje = $"Condiciones extremas en el silo {silo.Descripcion}: Temperatura={lectura.Temp}ºC, Humedad={lectura.Humedad}%",
                     IdSilo = silo.IdSilo,
-                    Silo = silo
+                    Silo = silo,
+                    CorreoEnviado = false
                 };
                 _alertaRepositorio.AddAlerta(alerta);
                 _logger.LogInformation("Alerta creada para el silo {0} : {1}", silo.Descripcion, alerta.Mensaje);
@@ -118,7 +119,8 @@ public class LecturaServicio : ILecturaServicio
 
                 try
                 {
-                    _emailServices.SendEmail("marcelosaizestudio@gmail.com", subject, body);
+                    _emailServiceSMTP.SendEmailSMTP("marcelosaizestudio@gmail.com", subject, body);
+                    alerta.CorreoEnviado = true;
                     _logger.LogInformation($"Correo de alerta enviado a marcelosaizestudio@gmail.com");
                 }
                 catch (Exception ex)

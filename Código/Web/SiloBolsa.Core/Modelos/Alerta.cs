@@ -21,6 +21,8 @@ public class Alerta
     [Column("id_silo")]
     //[ForeignKey("IdSilo")]
     public Guid IdSilo { get; set; }
-
     public Silo Silo { get; set; }
+
+    [Column("correoenviado")]
+    public bool CorreoEnviado { get; set; }
 }
