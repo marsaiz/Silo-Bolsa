@@ -10,6 +10,8 @@ namespace SiloBolsa.Servicios;
 
 public class EmailServices : IEmailServices
 {
+
+    //SmtpClientClass
     private readonly EmailSettings _emailSettings;
     private readonly ILogger<EmailServices> _logger;
 

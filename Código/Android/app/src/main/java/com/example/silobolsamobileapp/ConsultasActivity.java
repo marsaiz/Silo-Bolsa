@@ -54,7 +54,7 @@ public class ConsultasActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 try {
-                    //String respuestaGET = NetwokUtils.realizarPeticionGET("http://192.168.1.21:5006/api/silos");
+                    //String respuestaGET = NetwokUtils.realizarPeticionGET("http://192.168.1.23:5006/api/silos");
                     String respuestaGET = NetwokUtils.realizarPeticionGET("http://172.23.5.215:5006/api/silos");
                     Log.d("respuesta", respuestaGET);
                     //Crear un Intent para iniciar SiloListActivity

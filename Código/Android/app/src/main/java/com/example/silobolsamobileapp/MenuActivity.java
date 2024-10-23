@@ -1,5 +1,7 @@
 package com.example.silobolsamobileapp;
 
+import static com.example.silobolsamobileapp.R.layout.activity_main2;
+
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
@@ -15,7 +17,7 @@ public class MenuActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_main2);
+        setContentView(activity_main2);
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
@@ -28,6 +30,15 @@ public class MenuActivity extends AppCompatActivity {
             }
         });
 
+        Button btnIrPantallaModificaciones = findViewById(R.id.modificaciones);
+        btnIrPantallaModificaciones.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MenuActivity.this, ModificacionSilo.class);
+                startActivity(intent);
+            }
+        });
+
         Button btnIrPantallaConsultas = findViewById(R.id.consultas);
         btnIrPantallaConsultas.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -36,6 +47,5 @@ public class MenuActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
     }
 }

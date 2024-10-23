@@ -1,6 +1,5 @@
 package com.example.silobolsamobileapp;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
@@ -13,169 +12,165 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+
 import org.json.JSONException;
+
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class IngresoSilo extends AppCompatActivity {
+public class ModificacionSilo extends AppCompatActivity {
     int CODIGO_SOLICITADO_MAPA = 1;
-    TextView longitudTextView;
     TextView latitudTextView;
-    // Declarar los EditText como variables de instancia
+    TextView longitudTextView;
     EditText latitudEditText;
     EditText longitudEditText;
+    EditText descripcionEditText;
     private Spinner tipoGranoSpinner;
     EditText capacidadEditText;
-    EditText descripcionEditText;
+    EditText getDescripcionEditText;
     private ExecutorService executor;
     private int selectedGrainTypeId = 1;
+    EditText idSiloEditText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_main3);
+        setContentView(R.layout.activity_modificacion_silo);
 
-        //Inicializar los TextView
-        latitudTextView = findViewById(R.id.latitud);
-        longitudTextView = findViewById(R.id.longitud);
+        latitudTextView = findViewById(R.id.newLatitud);
+        longitudTextView = findViewById(R.id.newLongitud);
 
-        Button irAMapa = findViewById(R.id.buscarEnMapa);
+        Button irAMapa = findViewById(R.id.buscarEnMapaModificaciones);
         irAMapa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(IngresoSilo.this, Mapa.class);
+                Intent intent = new Intent(ModificacionSilo.this, Mapa.class);
                 startActivityForResult(intent, CODIGO_SOLICITADO_MAPA);
             }
         });
 
-        GrainType[] tiposGranos = {new GrainType(1, "Trigo"), new GrainType(2, "Maíz"), new GrainType(3, "Girasol"), new GrainType(4, "Soja"), new GrainType(5, "Arroz"), new GrainType(6, "Cebada")};
-        Spinner spinner = findViewById(R.id.TipoGrano);
-        ArrayAdapter<GrainType> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, tiposGranos);
+        GrainTypeModificaciones[] tiposGranos = {new GrainTypeModificaciones(1, "Trigo"), new GrainTypeModificaciones(2, "Maíz"), new GrainTypeModificaciones(3, "Girasol"), new GrainTypeModificaciones(4, "Soja"), new GrainTypeModificaciones(6, "Arroz"), new GrainTypeModificaciones(7, "Cebada")};
+        Spinner spinner = findViewById(R.id.NewTipoGrano);
+        ArrayAdapter<GrainTypeModificaciones> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, tiposGranos);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                GrainType selectedGrainType = (GrainType) parent.getItemAtPosition(position);
+                GrainTypeModificaciones selectedGrainType = (GrainTypeModificaciones) parent.getItemAtPosition(position);
                 selectedGrainTypeId = selectedGrainType.tipo_grano;
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
-
-        latitudEditText = findViewById(R.id.latitud);
-        longitudEditText = findViewById(R.id.longitud);
-        tipoGranoSpinner = findViewById(R.id.TipoGrano);
-        capacidadEditText = findViewById(R.id.capacidad);
-        descripcionEditText = findViewById(R.id.descripcion);
+        idSiloEditText = findViewById(R.id.idSiloModieditText);
+        latitudEditText = findViewById(R.id.newLatitud);
+        longitudEditText = findViewById(R.id.newLongitud);
+        descripcionEditText = findViewById(R.id.newDescripcion);
+        capacidadEditText = findViewById(R.id.newCapacidad);
+        tipoGranoSpinner = findViewById(R.id.NewTipoGrano);
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        Button btnIrAtras = findViewById(R.id.volverAtras);
+        Button btnIrAtras = findViewById(R.id.btnIrAtras);
+
         btnIrAtras.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(IngresoSilo.this, MenuActivity.class);
+                Intent intent = new Intent(ModificacionSilo.this, MenuActivity.class);
                 startActivity(intent);
-                finish();
             }
         });
         executor = Executors.newSingleThreadExecutor();
 
-        Button enviarDatosButton = findViewById(R.id.enviarDatosButton);
-        enviarDatosButton.setOnClickListener(new View.OnClickListener() {
+        Button enviarModitifacionesButton = findViewById(R.id.enviarModificaciones);
+        enviarModitifacionesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
-                    //Obtener datos de los EditText
-                    Double latitud = Double.parseDouble(latitudEditText.getText().toString());
+                    String idSilo = idSiloEditText.getText().toString();
+                    Double latidud = Double.parseDouble(latitudEditText.getText().toString());
                     Double longitud = Double.parseDouble(longitudEditText.getText().toString());
-                    int capacidad = Integer.parseInt(capacidadEditText.getText().toString());
-                    Log.d("IngresoSilo", "SelectedGrainTypeId: " + selectedGrainTypeId);
-                    int tipo_grano = selectedGrainTypeId;
                     String descripcion = descripcionEditText.getText().toString();
+                    int capacidad = Integer.parseInt(capacidadEditText.getText().toString());
+                    int tipo_grano = selectedGrainTypeId;
 
-                    //Enviar la tarea al ThreadPoolExecutor
+                    //String url = "http://192.168.1.23:5006/api/silos/" + idSilo;
+                    String url = "http://172.23.5.215:5006/api/silos/" + idSilo;
                     executor.execute(new Runnable() {
                         @Override
                         public void run() {
                             try {
-                                //String respuesta = NetwokUtils.realizarPeticionPOST("http://192.168.1.21:5006/api/silos", latitud, longitud, tipo_grano, capacidad, descripcion);
-                                String respuesta = NetwokUtils.realizarPeticionPOST("http://172.23.5.215:5006/api/silos", latitud, longitud, tipo_grano, capacidad, descripcion);
-
-                                //Actualizar la UI en el hilo principal
+                                String respuesta = NetwokUtils.realizarPeticionPUT(url, latidud, longitud, tipo_grano, capacidad, descripcion);
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        //Mostrar la respuesta en el log
-                                        Log.d("Respuesta POST", respuesta);
-                                        //mostrar un toast con la respuesta o un mensaje de texto
-                                        Toast.makeText(IngresoSilo.this, "Datos enviados correctamente", Toast.LENGTH_SHORT).show();
-
+                                        Log.d("respuesta PUT", respuesta);
+                                        Toast.makeText(ModificacionSilo.this, "Silo modificado correctamente", Toast.LENGTH_SHORT).show();
                                     }
                                 });
                             } catch (NumberFormatException e) {
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        //Mostrar mensaje de error si los datos no son válidos
-                                        Toast.makeText(IngresoSilo.this, "Por favor ingrese datos válidos", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(ModificacionSilo.this, "Error al modificar el silo", Toast.LENGTH_SHORT).show();
                                     }
                                 });
                             } catch (IOException | JSONException e) {
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        Toast.makeText(IngresoSilo.this, "Error al enviar los datos", Toast.LENGTH_SHORT).show();
-                                        Log.e("Error POST", "Error al realizar la petición POST", e);
+                                        Toast.makeText(ModificacionSilo.this, "Error al enviar los nuevos datos", Toast.LENGTH_SHORT).show();
+                                        Log.e("Error PUT", "Error al realizar la peticion PUT", e);
                                     }
                                 });
                             }
                         }
                     });
                 } catch (NumberFormatException e) {
-                    //Mostrar mensaje de error si los datos no son válidos
-                    Toast.makeText(IngresoSilo.this, "Por favor ingrese datos válidos", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ModificacionSilo.this, "Por favor ingrese valores válidos", Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
-    //Verificar si la Activity fue finalizada correctamente y obtener los datos
+
     @Override
-    protected void onActivityResult(int reqquestCode, int resultCode, Intent
-            data) {
-        super.onActivityResult(reqquestCode, resultCode, data);
-
-        if (reqquestCode == CODIGO_SOLICITADO_MAPA && resultCode == Activity.RESULT_OK) {
-
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == CODIGO_SOLICITADO_MAPA && resultCode == RESULT_OK) {
             double latitud = data.getDoubleExtra("latitud", 0.0);
             double longitud = data.getDoubleExtra("longitud", 0.0);
-
-            latitudTextView.setText(String.valueOf(latitud));
-            longitudTextView.setText(String.valueOf(longitud));
+            latitudEditText.setText(String.valueOf(latitud));
+            longitudEditText.setText(String.valueOf(longitud));
         } else {
-            latitudTextView.setText("Coordenadas no disponibles");
-            longitudTextView.setText("Coordenadas no disponibles");
+            latitudEditText.setText("Coordenadas no seleccionadas");
+            longitudEditText.setText("Coordenadas no seleccionadas");
         }
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        //Apagamos el ExecutorService
         executor.shutdown();
     }
-    public class GrainType {
+
+    public class GrainTypeModificaciones {
         public int tipo_grano;
         public String nombreGrano;
-        public GrainType(int tipo_grano, String nombreGrano) {
+
+        public GrainTypeModificaciones(int tipo_grano, String nombreGrano) {
             this.tipo_grano = tipo_grano;
             this.nombreGrano = nombreGrano;
         }
+
         @Override
         public String toString() {
             return nombreGrano;
