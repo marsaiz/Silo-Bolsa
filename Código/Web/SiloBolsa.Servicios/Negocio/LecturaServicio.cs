@@ -85,7 +85,7 @@ public class LecturaServicio : ILecturaServicio
         _logger.LogInformation($"Lecturas: {lecturas.Count()} lecturas encontradas.");
 
         var grano = silo.GranoSilo;//Obtener el grano a travez del silo
-        
+
         if (grano == null || string.IsNullOrWhiteSpace(grano.Descripcion))
         {
             _logger.LogError($"No se ha encontrado información sobre el grano en el silo: {silo.Descripcion}");
@@ -96,8 +96,12 @@ public class LecturaServicio : ILecturaServicio
 
         foreach (var lectura in lecturas)
         {
-            if (lectura.Temp > grano.TempMax || lectura.Temp < grano.TempMin ||
-                lectura.Humedad > grano.HumedadMax || lectura.Humedad < grano.HumedadMin)
+            var alertaExistente = _alertaRepositorio.GetAlertaActivaPorSilo(id_silo);
+
+            bool condicionesExtremas = lectura.Temp > grano.TempMax || lectura.Temp < grano.TempMin || lectura.Humedad
+            > grano.HumedadMax || lectura.Humedad < grano.HumedadMin;
+
+            if (condicionesExtremas && alertaExistente == null)
             {
                 //crear una nueva alerta si las condiciones son extremas
                 var alerta = new Alerta
@@ -115,7 +119,8 @@ public class LecturaServicio : ILecturaServicio
                 //Enviar un correo electrónico al usuario con la alerta
                 string subject = $"Alerta en Silo {silo.Descripcion}";
                 string body = $"Se ha detectado una condición extrema en el silo {silo.Descripcion}:\n" +
-                    $"Temperatura: {lectura.Temp}ºC\n" + $"Humedad: {lectura.Humedad}%\n" + $"Fecha y Hora: {DateTime.UtcNow}\n\n" + $"Por favor, tome las medidas necesarias.";
+                    $"Temperatura: {lectura.Temp}ºC\n" + $"Humedad: {lectura.Humedad}%\n" +
+                    $"Fecha y Hora: {DateTime.UtcNow}\n\n" + $"Por favor, tome las medidas necesarias.";
 
                 try
                 {
@@ -128,6 +133,13 @@ public class LecturaServicio : ILecturaServicio
                     _logger.LogError(ex, "Error al enviar el correo de alerta.");
                 }
             }
+            else if (!condicionesExtremas && alertaExistente != null)
+            {
+                alertaExistente.CorreoEnviado = false;
+                _alertaRepositorio.UpdateAlerta(alertaExistente);
+                _logger.LogInformation($"Condcionles normales en el silo {silo.Descripcion}. Alerta resuelta.");
+            }
+
         }
         _alertaRepositorio.SaveChanges();
     }

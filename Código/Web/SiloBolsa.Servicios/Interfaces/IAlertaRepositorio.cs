@@ -9,6 +9,7 @@ namespace SiloBolsa.Servicios.Interfaces;
     {
         IEnumerable<Alerta> GetAlertas();
         Alerta GetAlertaById(Guid id_alerta);
+        Alerta GetAlertaActivaPorSilo(Guid id_silo);
         void AddAlerta(Alerta alerta);
         void UpdateAlerta(Alerta alerta);
         void DeleteAlerta(Guid id_alerta);

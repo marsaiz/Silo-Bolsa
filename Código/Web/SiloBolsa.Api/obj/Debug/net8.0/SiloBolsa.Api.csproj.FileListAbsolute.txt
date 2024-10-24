@@ -1,5 +1,6 @@
 /home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.Api/bin/Debug/net8.0/appsettings.Development.json
 /home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.Api/bin/Debug/net8.0/appsettings.json
+/home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.Api/bin/Debug/net8.0/SiloBolsa.Api.staticwebassets.runtime.json
 /home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.Api/bin/Debug/net8.0/SiloBolsa.Api
 /home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.Api/bin/Debug/net8.0/SiloBolsa.Api.deps.json
 /home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.Api/bin/Debug/net8.0/SiloBolsa.Api.runtimeconfig.json

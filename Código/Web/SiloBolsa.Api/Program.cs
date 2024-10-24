@@ -19,6 +19,7 @@ builder.Logging.AddFilter("Microsoft", LogLevel.Warning)
 //Obtener la conexión desde appsetings.json
 var conexionString =
 builder.Configuration.GetConnectionString("DefaultConnection");
+//"DefaultConnection": "Server=localhost;Database=monitoreo_silo_bolsa;User Id=postgres;Password=itesql"
 
 //Registrar SiloBolsaContexto con Postresql
 builder.Services.AddDbContext<SiloBolsaContexto>(Options =>
@@ -61,6 +62,13 @@ builder.Services.AddCors(p => p.AddPolicy("corsapp",
     builder => { builder.WithOrigins("*").AllowAnyMethod().AllowAnyHeader(); }));
 
 var app = builder.Build();
+
+//Habilitar archivos estáticos (servir index.html, CSS, etc.)
+app.UseStaticFiles();
+
+//Ruta por defecto que devolvera el archivo index.html
+app.UseDefaultFiles();
+app.UseStaticFiles();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
