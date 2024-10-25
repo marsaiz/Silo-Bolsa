@@ -119,9 +119,8 @@ public class LecturaServicio : ILecturaServicio
                 //Enviar un correo electrónico al usuario con la alerta
                 string subject = $"Alerta en Silo {silo.Descripcion}";
                 string body = $"Se ha detectado una condición extrema en el silo {silo.Descripcion}:\n" +
-                    $"Temperatura: {lectura.Temp}ºC\n" + $"Humedad: {lectura.Humedad}%\n" +
+                    $"Temperatura: {lectura.Temp}ºC\n" + $"Humedad: {lectura.Humedad}%\n" + $"CO2: {lectura.DioxidoDeCarbono}\n"+
                     $"Fecha y Hora: {DateTime.UtcNow}\n\n" + $"Por favor, tome las medidas necesarias.";
-
                 try
                 {
                     _emailServiceSMTP.SendEmailSMTP("marcelosaizestudio@gmail.com", subject, body);

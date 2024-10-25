@@ -105,8 +105,8 @@ public class IngresoSilo extends AppCompatActivity {
                         @Override
                         public void run() {
                             try {
-                                String respuesta = NetwokUtils.realizarPeticionPOST("http://192.168.1.23:5006/api/silos", latitud, longitud, tipo_grano, capacidad, descripcion);
-                                //String respuesta = NetwokUtils.realizarPeticionPOST("http://172.23.5.215:5006/api/silos", latitud, longitud, tipo_grano, capacidad, descripcion);
+                                //String respuesta = NetwokUtils.realizarPeticionPOST("http://192.168.1.23:5006/api/silos", latitud, longitud, tipo_grano, capacidad, descripcion);
+                                String respuesta = NetwokUtils.realizarPeticionPOST("http://172.23.5.215:5006/api/silos", latitud, longitud, tipo_grano, capacidad, descripcion);
 
                                 //Actualizar la UI en el hilo principal
                                 runOnUiThread(new Runnable() {

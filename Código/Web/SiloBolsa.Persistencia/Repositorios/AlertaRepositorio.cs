@@ -22,20 +22,20 @@ public class AlertaRepositorio : IAlertaRepositorio
         return _siloBolsaContexto.Alertas.Find(id_alerta);
     }
 
-public Alerta? GetAlertaActivaPorSilo(Guid id_silo)
-{
-    return _siloBolsaContexto.Alertas.FirstOrDefault(a => a.IdSilo == id_silo && a.CorreoEnviado == true);
-}
+    public Alerta? GetAlertaActivaPorSilo(Guid id_silo)
+    {
+        return _siloBolsaContexto.Alertas.FirstOrDefault(a => a.IdSilo == id_silo && a.CorreoEnviado == true);
+    }
     public void AddAlerta(Alerta alerta)
     {
         _siloBolsaContexto.Alertas.Add(alerta);
         _siloBolsaContexto.SaveChanges();
     }
 
-    public void UpdateAlerta (Alerta alerta)
+    public void UpdateAlerta(Alerta alerta)
     {
         alerta.FechaHoraAlerta = DateTime.SpecifyKind(alerta.FechaHoraAlerta, DateTimeKind.Utc);
-        
+
         _siloBolsaContexto.Alertas.Update(alerta);
         _siloBolsaContexto.SaveChanges();
     }

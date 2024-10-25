@@ -22,7 +22,7 @@ public class AlertaListActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private AlertaAdapter adapter;
-    private List<Alerta> listaAlertas;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,20 +30,29 @@ public class AlertaListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_alertas_list);
 
         recyclerView = findViewById(R.id.alertasRecyclerView);
-        listaAlertas = new ArrayList<>();
+        List<Alerta> alertasToDisplay; // Retener todas las alertas
 
-        Gson gson = new Gson();
-        String json = getIntent().getStringExtra("json_alertas");
-        try {
-            AlertaContainer alertaContainer = gson.fromJson(json, AlertaContainer.class);
-            listaAlertas.addAll(Arrays.asList(alertaContainer.$values));
-            adapter = new AlertaAdapter(listaAlertas);
-            recyclerView.setLayoutManager(new LinearLayoutManager(this));
-            recyclerView.setAdapter(adapter);
+        //Verifica si hay alertas filtradas
+        if (getIntent().hasExtra("alertas_filtradas")) {
+            alertasToDisplay = (List<Alerta>) getIntent().getSerializableExtra("alertas_filtradas");
+        } else {
+            //Muestra todas las alertas
+            Gson gson = new Gson();
+            String json = getIntent().getStringExtra("json_alertas");
+            try {
+                AlertaContainer alertaContainer = gson.fromJson(json, AlertaContainer.class);
+                alertasToDisplay = Arrays.asList(alertaContainer.$values);
 
-        } catch (JsonSyntaxException e) {
-            Log.e("AlertaListActivity", "Erro ao deserializar JSON:" + e.getMessage());
-            e.printStackTrace();
+
+            } catch (JsonSyntaxException e) {
+                Log.e("AlertaListActivity", "Error al deserializar JSON:" + e.getMessage());
+                e.printStackTrace();
+                alertasToDisplay = new ArrayList<>(); // Handle error gracefully
+            }
         }
+
+        adapter = new AlertaAdapter(alertasToDisplay);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(adapter);
     }
 }

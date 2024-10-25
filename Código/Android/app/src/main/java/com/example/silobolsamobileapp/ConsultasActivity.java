@@ -22,7 +22,9 @@ import com.google.gson.Gson;
 import org.json.JSONException;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class ConsultasActivity extends AppCompatActivity {
@@ -54,8 +56,8 @@ public class ConsultasActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 try {
-                    String respuestaGET = NetwokUtils.realizarPeticionGET("http://192.168.1.23:5006/api/silos");
-                    //String respuestaGET = NetwokUtils.realizarPeticionGET("http://172.23.5.215:5006/api/silos");
+                    //String respuestaGET = NetwokUtils.realizarPeticionGET("http://192.168.1.23:5006/api/silos");
+                    String respuestaGET = NetwokUtils.realizarPeticionGET("http://172.23.5.215:5006/api/silos");
                     Log.d("respuesta", respuestaGET);
                     //Crear un Intent para iniciar SiloListActivity
                     Intent intent = new Intent(ConsultasActivity.this, SilosListActivity.class);
@@ -84,8 +86,8 @@ public class ConsultasActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 try {
-                    String respuestaGET = NetwokUtils.realizarPeticionGET("http://192.168.1.23:5006/api/lecturas");
-                    //String respuestaGET = NetwokUtils.realizarPeticionGET("http://172.23.5.215:5006/api/lecturas");
+                    //String respuestaGET = NetwokUtils.realizarPeticionGET("http://192.168.1.23:5006/api/lecturas");
+                    String respuestaGET = NetwokUtils.realizarPeticionGET("http://172.23.5.215:5006/api/lecturas");
                     Log.d("respuestaLecturas", respuestaGET);
                     Intent intent = new Intent(ConsultasActivity.this, LecturasListActivity.class);
                     intent.putExtra("json_lecturas", respuestaGET);
@@ -112,8 +114,8 @@ public class ConsultasActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 try {
-                    String respuestaGET = NetwokUtils.realizarPeticionGET("http://192.168.1.23:5006/api/alertas");
-                    //String respuestaGET = NetwokUtils.realizarPeticionGET("http://172.23.5.215:5006/api/alertas");
+                    //String respuestaGET = NetwokUtils.realizarPeticionGET("http://192.168.1.23:5006/api/alertas");
+                    String respuestaGET = NetwokUtils.realizarPeticionGET("http://172.23.5.215:5006/api/alertas");
                     Log.d("respuestaAlertas", respuestaGET);
                     Intent intent = new Intent(ConsultasActivity.this, AlertaListActivity.class);
                     intent.putExtra("json_alertas", respuestaGET);
@@ -191,14 +193,27 @@ public class ConsultasActivity extends AppCompatActivity {
 
     private void consultarAlertasPorSilo(String idSilo) {
         try {
-            SiloRepository siloRepository = new SiloRepository();
-            AlertaContainer alertaContainer = siloRepository.GetAlertasBySilo(idSilo);
-            String jsonAlertas = gson.toJson(alertaContainer);
+            //String respuestaGET = NetwokUtils.realizarPeticionGET("http://192.168.1.23:5006/api/alertas/");
+            String respuestaGET = NetwokUtils.realizarPeticionGET("http://172.23.5.215:5006/api/alertas/");
+            Log.d("respuestaAlertas", respuestaGET);
+
+            Gson sgon = new Gson();
+            AlertaContainer alertasContainer = sgon.fromJson(respuestaGET, AlertaContainer.class);
+            List<Alerta> allAlertas = Arrays.asList(alertasContainer.$values);
+
+            //Filtrar alertas
+            List<Alerta> alertasFiltradas = new ArrayList<>();
+            for (Alerta alerta : allAlertas) {
+                if (alerta.idSilo.equals(idSilo)) {
+                    alertasFiltradas.add(alerta);
+                }
+            }
             Intent intent = new Intent(this, AlertaListActivity.class);
-            intent.putExtra("Json_alertas_por_silo", jsonAlertas);
+            intent.putExtra("alertas_filtradas", (Serializable) alertasFiltradas);
             startActivity(intent);
-        } catch (IOException | JSONException e) {
-            Log.e("ConsultaAlertasPorSilo", "error al consultar lecturas por silo", e);
+
+        } catch (IOException e) {
+            Log.e("error", "error al realizar la petición GET", e);
             respuestaAlertas.setText("Error: " + e.getMessage());
             Toast.makeText(this, "Error al consultar alertar por silo: " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
