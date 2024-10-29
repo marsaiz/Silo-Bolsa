@@ -95,7 +95,24 @@ public class NetwokUtils {
         }
     }
 
-    /*public static String RealizarPeticionDELETE(String urlString, String idSilo){
+    public static String RealizarPeticionDELETE(String urlString) throws IOException {
+        URL url = new URL(urlString);
+        HttpURLConnection conexion = (HttpURLConnection) url.openConnection();
+        conexion.setRequestMethod("DELETE");
 
-    }*/
+        int responseCode = conexion.getResponseCode();
+        if (responseCode == HttpURLConnection.HTTP_OK || responseCode == HttpURLConnection.HTTP_NO_CONTENT) {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(conexion.getInputStream()));
+            StringBuilder response = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                response.append(line);
+            }
+            reader.close();
+            conexion.disconnect();
+            return response.toString();
+        } else {
+            throw new IOException("Error en la solicitud DELETE: " + responseCode);
+        }
+    }
 }

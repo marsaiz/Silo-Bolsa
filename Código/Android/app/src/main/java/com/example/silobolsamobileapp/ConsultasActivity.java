@@ -57,7 +57,8 @@ public class ConsultasActivity extends AppCompatActivity {
             public void onClick(View v) {
                 try {
                     //String respuestaGET = NetwokUtils.realizarPeticionGET("http://192.168.1.23:5006/api/silos");
-                    String respuestaGET = NetwokUtils.realizarPeticionGET("http://172.23.5.215:5006/api/silos");
+                    //String respuestaGET = NetwokUtils.realizarPeticionGET("http://172.23.5.215:5006/api/silos");
+                    String respuestaGET = NetwokUtils.realizarPeticionGET("http://77.81.230.76:5096/api/silos");
                     Log.d("respuesta", respuestaGET);
                     //Crear un Intent para iniciar SiloListActivity
                     Intent intent = new Intent(ConsultasActivity.this, SilosListActivity.class);
@@ -87,7 +88,8 @@ public class ConsultasActivity extends AppCompatActivity {
             public void onClick(View v) {
                 try {
                     //String respuestaGET = NetwokUtils.realizarPeticionGET("http://192.168.1.23:5006/api/lecturas");
-                    String respuestaGET = NetwokUtils.realizarPeticionGET("http://172.23.5.215:5006/api/lecturas");
+                    ///String respuestaGET = NetwokUtils.realizarPeticionGET("http://172.23.5.215:5006/api/lecturas");
+                    String respuestaGET = NetwokUtils.realizarPeticionGET("http://77.81.230.76:5096/api/lecturas");
                     Log.d("respuestaLecturas", respuestaGET);
                     Intent intent = new Intent(ConsultasActivity.this, LecturasListActivity.class);
                     intent.putExtra("json_lecturas", respuestaGET);
@@ -115,7 +117,9 @@ public class ConsultasActivity extends AppCompatActivity {
             public void onClick(View v) {
                 try {
                     //String respuestaGET = NetwokUtils.realizarPeticionGET("http://192.168.1.23:5006/api/alertas");
-                    String respuestaGET = NetwokUtils.realizarPeticionGET("http://172.23.5.215:5006/api/alertas");
+                    //String respuestaGET = NetwokUtils.realizarPeticionGET("http://172.23.5.215:5006/api/alertas");
+                    String respuestaGET = NetwokUtils.realizarPeticionGET("http://77.81.230.76:5096/api/alertas");
+
                     Log.d("respuestaAlertas", respuestaGET);
                     Intent intent = new Intent(ConsultasActivity.this, AlertaListActivity.class);
                     intent.putExtra("json_alertas", respuestaGET);
@@ -194,7 +198,8 @@ public class ConsultasActivity extends AppCompatActivity {
     private void consultarAlertasPorSilo(String idSilo) {
         try {
             //String respuestaGET = NetwokUtils.realizarPeticionGET("http://192.168.1.23:5006/api/alertas/");
-            String respuestaGET = NetwokUtils.realizarPeticionGET("http://172.23.5.215:5006/api/alertas/");
+            //String respuestaGET = NetwokUtils.realizarPeticionGET("http://172.23.5.215:5006/api/alertas/");
+            String respuestaGET = NetwokUtils.realizarPeticionGET("http://77.81.230.76:5096/api/alertas");
             Log.d("respuestaAlertas", respuestaGET);
 
             Gson sgon = new Gson();

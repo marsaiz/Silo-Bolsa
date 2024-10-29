@@ -10,11 +10,12 @@
 
 #define ssid "SAIZ"
 #define password "25768755"
-#define serverName "http://192.168.1.21:5006/api/lecturas"
-//#define idSilo "8f30fbfd-2fd2-484e-88ff-b5b825c244d9"
+//#define serverName "http://192.168.1.21:5006/api/lecturas"
+#define serverName "http://77.81.230.76:5096/api/lecturas"
 #define idCaja "cac70d5d-4df3-451f-bba9-59bcea039425"
 
 String getISO8601Time();
+void enviarLectura();
 
 WiFiUDP ntpUDP;
 NTPClient timeClient(ntpUDP, "pool.ntp.org", -10800, 60000);//Ajuste para UTC-3 Argentina y 60000 se actualiza cada 60`
@@ -22,10 +23,8 @@ NTPClient timeClient(ntpUDP, "pool.ntp.org", -10800, 60000);//Ajuste para UTC-3 
 // the following variables are unsigned longs because the time, measured in
 // milliseconds, will quickly become a bigger number than can be stored in an int.
 unsigned long lastTime = 0;
-// Timer set to 10 minutes (600000)
-//unsigned long timerDelay = 600000;
-// Set timer to 5 seconds (5000)
-unsigned long timerDelay = 50000;
+// Timer set to 30 minutes (1800000)
+unsigned long timerDelay = 1800000;
 
 #define PIN_MQ135 A0
 
@@ -73,51 +72,55 @@ void setup() {
 
   timeClient.begin();
 
-  Serial.println("Timer set to 10 seconds (timerDelay variable), it will take 10 seconds before publishing the first reading.");
+  enviarLectura();
 }
 
 void loop() {
-  String isoTime = getISO8601Time();
-  Serial.print(F("Fecha y hora actual: ")); Serial.println(isoTime);
-
-  sensors_event_t humidity, temp;
-  aht.getEvent(&humidity, &temp);
-
-  voltage = getVoltage(PIN_MQ135);
-  resistencia = 1000.0 * ((5.0 - voltage) / voltage);
-  dioxidoDeCarbono = a * ( 1.0 / pow( (resistencia / Ro), b));
-  dioxidoDeCarbono1 = a1 * ( 1.0 / pow( (resistencia / Ro1), b1));
-
-  Serial.print(voltage, 5);
-  Serial.print(";");
-  Serial.print(resistencia, 5);
-  Serial.print(";");
-  Serial.print(dioxidoDeCarbono, 5);
-  Serial.print(";");
-  Serial.print(dioxidoDeCarbono1, 5);
-  Serial.print(";");
-  Serial.print(humidity.relative_humidity, 5);
-  Serial.print(";");
-  Serial.println(temp.temperature, 5);
-
-  //Crear un objeto JSON
-  JsonDocument doc;
-  doc["fechaHoraLectura"] = isoTime;
-  doc["temp"] = temp.temperature;  // Asignar la temperatura
-  doc["humedad"] = humidity.relative_humidity;  // Asignar la humedad
-  doc["dioxidoDeCarbono"] = dioxidoDeCarbono;  // Asignar el valor de CO2
-  doc["idCaja"] = idCaja;
-
-  //Serializar el JSON a una cadena
-  String jsonData;
-  serializeJson(doc, jsonData);
-
-
-  Serial.println(jsonData);
-
-
-  //Enviar una solicitud HTTP POST cada 5 segundos
+  //Enviar una solicitud HTTP POST cada 30 minutos
   if ((millis() - lastTime) > timerDelay) {
+    enviarLectura();
+  }
+}
+
+void enviarLectura(){
+  
+    String isoTime = getISO8601Time();
+    Serial.print(F("Fecha y hora actual: ")); Serial.println(isoTime);
+
+    sensors_event_t humidity, temp;
+    aht.getEvent(&humidity, &temp);
+
+    voltage = getVoltage(PIN_MQ135);
+    resistencia = 1000.0 * ((5.0 - voltage) / voltage);
+    dioxidoDeCarbono = a * ( 1.0 / pow( (resistencia / Ro), b));
+    dioxidoDeCarbono1 = a1 * ( 1.0 / pow( (resistencia / Ro1), b1));
+
+    Serial.print(voltage, 5);
+    Serial.print(";");
+    Serial.print(resistencia, 5);
+    Serial.print(";");
+    Serial.print(dioxidoDeCarbono, 5);
+    Serial.print(";");
+    Serial.print(dioxidoDeCarbono1, 5);
+    Serial.print(";");
+    Serial.print(humidity.relative_humidity, 5);
+    Serial.print(";");
+    Serial.println(temp.temperature, 5);
+
+    //Crear un objeto JSON
+    JsonDocument doc;
+    doc["fechaHoraLectura"] = isoTime;
+    doc["temp"] = temp.temperature;  // Asignar la temperatura
+    doc["humedad"] = humidity.relative_humidity;  // Asignar la humedad
+    doc["dioxidoDeCarbono"] = dioxidoDeCarbono;  // Asignar el valor de CO2
+    doc["idCaja"] = idCaja;
+
+    //Serializar el JSON a una cadena
+    String jsonData;
+    serializeJson(doc, jsonData);
+
+    Serial.println(jsonData);
+    
     //Verificar el estado de la conexión WiFi
     if (WiFi.status() == WL_CONNECTED) {
       WiFiClient client;
@@ -142,10 +145,8 @@ void loop() {
       Serial.println("WiFi Disconnected");
     }
     lastTime = millis();
-  }
-  delay(50000);
+  
 }
-
 double getVoltage(int pin)
 {
   return ((analogRead(pin) / 1023.0) * 3.3);
