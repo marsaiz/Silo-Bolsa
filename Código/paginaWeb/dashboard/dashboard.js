@@ -120,3 +120,56 @@ function consultar(tipo) {
         })
         .catch(error => console.error('Error al obtener los datos de la API:', error));
 }
+
+function cargarGranos() {
+    const tablaGranos = document.getElementById("tablaGranos");
+
+    //Verificar que la tabla este visible
+    if (tablaGranos.style.display == "none"){
+        //Muestra la tabla granos
+        tablaGranos.style.display = "block";
+
+    // Llama a la API para obtener datos de granos
+    fetch('http://77.81.230.76:5096/api/granos')
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+
+            const items = Array.isArray(data.$values) ? data.$values : [];
+            
+            // Mapea los datos a un formato adecuado para Tabulator
+            const tableData = items.map((entry, index) => ({
+                id: entry.id,
+                descripcion: entry.descripcion,
+                humedadMax: entry.humedadMax,
+                humedadMin: entry.humedadMin,
+                tempMax: entry.tempMax,
+                tempMin: entry.tempMin,
+                nivelDioxidoMax: entry.nivelDioxidoMax,
+                nivelDioxidoMin: entry.nivelDioxidoMin,
+            }));
+
+            new Tabulator('#tablaGranos', {
+                data: tableData,
+                layout: "fitColumns",
+                columns: [
+                    { title: "ID Grano", field: "id" },
+                    { title: "Descripción", field: "descripcion" },
+                    { title: "Humedad Máxima", field: "humedadMax", align: "center" },
+                    { title: "Humedad Mínima", field: "humedadMin", align: "center" },
+                    { title: "Temperatura Máxima (°C)", field: "tempMax", align: "center" },
+                    { title: "Temperatura Mínima (°C)", field: "tempMin", align: "center" },
+                    { title: "CO2 Máximo (ppm)", field: "nivelDioxidoMax", align: "center" },
+                    { title: "CO2 Mínimo (ppm)", field: "nivelDioxidoMin", align: "center" },
+                ],
+            });
+        })
+        .catch(error => console.error('Error al obtener los datos de granos:', error));
+    } else {
+        //Oculta la tabla si esta visible
+        tablaGranos.style.display = "none";
+    }
+}
+
+// Llama a la función al cargar la página o al hacer clic en el menú
+//cargarGranos();
