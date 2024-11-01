@@ -86,11 +86,34 @@ function consultar(tipo) {
             console.log(`${label}:`, values);
 
             if (labels.length > 0 && values.length > 0) {
+
                 // Actualizar el gráfico con los datos de la API
                 myChart.data.labels = labels;
                 myChart.data.datasets[0].label = label; // Establecer el label correcto
                 myChart.data.datasets[0].data = values;
                 myChart.update();
+
+                //LLenar los datos para la tabla
+                const tableData = items.map((entry, index) => ({
+                    id: index +1,
+                    fechaHora: new Date(entry.fechaHoraLectura).toLocaleString(),
+                    temperatura: entry.temp,
+                    humedad: entry.humedad,
+                    co2: entry.dioxidoDeCarbono,
+                }));
+
+                //Crear o actualizar la tabla con tabulator
+                new Tabulator("#tablaLecturas", {
+                    data: tableData,
+                    layout: "fitColumns",
+                    columns: [
+                        //{ title: "ID", field: "id", width: 50},
+                        { title: "Fecha y Hora", field: "fechaHora", sorter: "datetime", aling: "enter"},
+                        { title: "Temperatura (Cº)", field: "temperatura", aling: "center"},
+                        { title: "Humedad", field: "humedad", aling: "center"},
+                        { title: "CO2 (ppm)", field: "co2", aling: "center"},
+                    ],
+                });
             } else {
                 console.warn("No se pudieron cargar datos válidos para el gráfico.");
             }
