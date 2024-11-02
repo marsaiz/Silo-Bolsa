@@ -50,7 +50,7 @@ function consultar(tipo) {
     }
 
     // Mostrar mensaje al usuario
-    alert(`Consultando reportes de ${tipo}...`);
+    //alert(`Consultando reportes de ${tipo}...`);
 
     // Llama a la API para obtener datos
     fetch(apiUrl)
