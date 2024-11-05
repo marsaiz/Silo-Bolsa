@@ -171,5 +171,81 @@ function cargarGranos() {
     }
 }
 
+function cargarSilos() {
+    const tablaSilos = document.getElementById("tablaSilos");
+
+    if (tablaSilos.style.display == "none") {
+        tablaSilos.style.display = "block";
+
+        fetch('http://77.81.230.76:5096/api/silos')
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+                const items = Array.isArray(data.$values) ? data.$values : [];
+
+                const tableData = items.map((entry, index) => ({
+                    id: entry.id,
+                    latitud: entry.latitud,
+                    longitud: entry.longitud,
+                    capacidad: entry.capacidad,
+                    tipoGrano: entry.tipoGrano,
+                    descripcion: entry.descripcion,
+                }));
+            new Tabulator('#tablaSilos', {
+                data: tableData,
+                layout: "fitColumns",
+                columns: [
+                    { title: "ID Silo", field: "id" },
+                    { title: "Latitud", field: "latitud" },
+                    { title: "Longitud", field: "longitud" },
+                    { title: "Capacidad", field: "capacidad" },
+                    { title: "Tipo Grano", field: "tipoGrano" },
+                    { title: "Descripción", field: "descripcion" },
+                ],
+            });
+        })
+        .catch(error => console.error('Error al obtener los datos de silos'));
+   } else {
+    tablaSilos.style.display = 'none';
+   } 
+}
+
 // Llama a la función al cargar la página o al hacer clic en el menú
 //cargarGranos();
+
+function cargarAlertas() {
+    const tablaAlertas = document.getElementById("tablaAlertas");
+
+    if (tablaAlertas.style.display == "none") {
+        tablaAlertas.style.display = "block";
+
+        fetch('http://77.81.230.76:5096/api/alertas')
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+                const items = Array.isArray(data.$values) ? data.$values : [];
+
+                const tableData = items.map((entry, index) => ({
+                    id: entry.idAlerta,
+                    fechaHoraAlerta: entry.fechaHoraAlerta,
+                    mensaje: entry.mensaje,
+                    idSilo: entry.idSilo,
+                    correoEnviado: entry.correoEnviado,
+                }));
+            new Tabulator('#tablaAlertas', {
+                data: tableData,
+                layout: "fitColumns",
+                columns: [
+                    { title: "ID Alerta", field: "idAlerta" },
+                    { title: "Fecha y Hora de la Alerta", field: "fechaHoraAlerta" },
+                    { title: "Mensaje", field: "mensaje" },
+                    { title: "Id Silo", field: "idSilo" },
+                    { title: "Correo Enviado", field: "correoEnviado" },
+                ],
+            });
+        })
+        .catch(error => console.error('Error al obtener los datos de silos'));
+   } else {
+    tablaAlertas.style.display = 'none';
+   } 
+}

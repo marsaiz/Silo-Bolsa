@@ -67,28 +67,18 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="#" onclick="cargarSilos()">
               <span data-feather="plus-circle"></span>
               Silos
             </a>
+            <div id="tablaSilos"></div>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
-              <span data-feather="file"></span>
-              Caja
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              <span data-feather="bar-chart-2"></span>
-              Lecturas
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="#" onclick="cargarAlertas()">
               <span data-feather="bar-chart-2"></span>
               Alertas
             </a>
+            <div id="tablaAlertas"></div>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#" onclick="cargarGranos()">
@@ -147,6 +137,8 @@
       <h2>Datos Lecturas</h2>
       <div id="tablaLecturas"></div>
       <div id="tablaGranos" style="display: none;"></div>
+      <div id="tablaSilos" style="display: none;"></div>
+      <div id="tablaAlertas" style="display: none;"></div>
     </main> 
   </div>
 </div>
