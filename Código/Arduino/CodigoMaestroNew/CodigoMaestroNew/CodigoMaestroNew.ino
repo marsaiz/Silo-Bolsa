@@ -7,6 +7,7 @@
 #include <ArduinoJson.h>
 #include <NTPClient.h>
 #include <WiFiUdp.h>
+#include <RunningMedian.h>
 
 #define ssid "SAIZ"
 #define password "25768755"
@@ -35,7 +36,9 @@ const int gasSensor = 0;
 float voltage = 0.00;
 float resistencia = 0.00;
 float dioxidoDeCarbono = 0.00;
-float dioxidoDeCarbono1 = 0.00;
+//float dioxidoDeCarbono1 = 0.00;
+RunningMedian medianFilterCO2(5); // Ventana de 5 muestras
+
 
 //For CO2, if we measure points graph and do power regression we can obtain the function
 //ppm = 116.6020682 (Rs/Ro)^-2.769034857
@@ -46,9 +49,9 @@ double a1 = 56.0820;
 //el exponente es negativo pero para calcular usando Pow hago el reciproco
 //de la potencia positiva,
 double b = 2.769034857;
-double b1 = 5.9603;
+//double b1 = 5.9603;
 double Ro = 29619.36495;
-double Ro1 = 34037.18774;
+//double Ro1 = 34037.18774;
 
 void setup() {
   Serial.begin(115200);
@@ -93,15 +96,18 @@ void enviarLectura(){
     voltage = getVoltage(PIN_MQ135);
     resistencia = 1000.0 * ((5.0 - voltage) / voltage);
     dioxidoDeCarbono = a * ( 1.0 / pow( (resistencia / Ro), b));
-    dioxidoDeCarbono1 = a1 * ( 1.0 / pow( (resistencia / Ro1), b1));
+    //dioxidoDeCarbono1 = a1 * ( 1.0 / pow( (resistencia / Ro1), b1));
 
+    // Aplicar el filtro de mediana en la lectura de CO₂
+    medianFilterCO2.add(dioxidoDeCarbono);  // Leer valor filtrado
+
+    float co2Filtrado = medianFilterCO2.getMedian();
+    
     Serial.print(voltage, 5);
     Serial.print(";");
     Serial.print(resistencia, 5);
     Serial.print(";");
-    Serial.print(dioxidoDeCarbono, 5);
-    Serial.print(";");
-    Serial.print(dioxidoDeCarbono1, 5);
+    Serial.print(co2Filtrado, 5);
     Serial.print(";");
     Serial.print(humidity.relative_humidity, 5);
     Serial.print(";");
@@ -112,7 +118,7 @@ void enviarLectura(){
     doc["fechaHoraLectura"] = isoTime;
     doc["temp"] = temp.temperature;  // Asignar la temperatura
     doc["humedad"] = humidity.relative_humidity;  // Asignar la humedad
-    doc["dioxidoDeCarbono"] = dioxidoDeCarbono;  // Asignar el valor de CO2
+    doc["dioxidoDeCarbono"] = co2Filtrado;  // Asignar el valor de CO2
     doc["idCaja"] = idCaja;
 
     //Serializar el JSON a una cadena
