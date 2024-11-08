@@ -107,8 +107,13 @@ function consultar(tipo) {
                     data: tableData,
                     layout: "fitColumns",
                     columns: [
-                        //{ title: "ID", field: "id", width: 50},
-                        { title: "Fecha y Hora", field: "fechaHora", sorter: "datetime", aling: "enter"},
+                        { title: "ID", field: "id", width: 50},
+                        { title: "Fecha y Hora", field: "fechaHora", sorter: "datetime", aling: "enter",
+                            sorterParams: {
+                                format: "DD/MM/YYYY HH:mm:ss", //Ajusta el formato según la entrada de fecha
+                                alignEmptyValues: "bottom"
+                            }
+                        },
                         { title: "Temperatura (Cº)", field: "temperatura", aling: "center"},
                         { title: "Humedad", field: "humedad", aling: "center"},
                         { title: "CO2 (ppm)", field: "co2", aling: "center"},
