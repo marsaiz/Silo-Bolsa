@@ -144,7 +144,7 @@ function cargarGranos() {
             
             // Mapea los datos a un formato adecuado para Tabulator
             const tableData = items.map((entry, index) => ({
-                id: entry.id,
+                id: index +1,
                 descripcion: entry.descripcion,
                 humedadMax: entry.humedadMax,
                 humedadMin: entry.humedadMin,
@@ -188,14 +188,29 @@ function cargarSilos() {
                 console.log(data)
                 const items = Array.isArray(data.$values) ? data.$values : [];
 
+                const obtenerDescripcionGrano  = (tipoGrano) => {
+                    
+                };
+
                 const tableData = items.map((entry, index) => ({
-                    id: entry.id,
+                    id: entry.idSilo,
                     latitud: entry.latitud,
                     longitud: entry.longitud,
                     capacidad: entry.capacidad,
-                    tipoGrano: entry.tipoGrano,
+                    tipoGrano: (() => {
+                        switch(entry.tipoGrano) {
+                            case 1: return "Trigo";
+                            case 2: return "Maíz";
+                            case 3: return "Girasol";
+                            case 4: return "Soja";
+                            case 5: return "Arroz";
+                            case 6: return "Cebada";
+                            default: return "Desconocido";                            
+                        }
+                    })(),
                     descripcion: entry.descripcion,
                 }));
+
             new Tabulator('#tablaSilos', {
                 data: tableData,
                 layout: "fitColumns",
