@@ -64,7 +64,12 @@ builder.Services.AddCors(p => p.AddPolicy("corsapp",
 var app = builder.Build();
 
 //Habilitar archivos estáticos (servir index.html, CSS, etc.)
-app.UseStaticFiles();
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(
+        System.IO.Path.Combine(System.IO.Directory.GetCurrentDirectory(), "paginaWeb")),
+    RequestPath = ""
+});
 
 //Ruta por defecto que devolvera el archivo index.html
 app.UseDefaultFiles();
