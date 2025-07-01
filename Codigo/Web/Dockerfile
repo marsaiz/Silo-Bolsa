@@ -15,7 +15,6 @@ COPY ["SiloBolsa.Core/SiloBolsa.Core.csproj", "SiloBolsa.Dominio/"]
 COPY ["SiloBolsa.Servicios/SiloBolsa.Servicios.csproj", "SiloBolsa.Servicios/"]
 
 
-
 RUN dotnet restore "SiloBolsa.Api/SiloBolsa.Api.csproj"
 
 # Copiar el resto del código fuente y construir el proyecto
@@ -27,10 +26,8 @@ FROM build AS publish
 WORKDIR "/src/SiloBolsa.Api"
 RUN dotnet publish "SiloBolsa.Api.csproj" -c Release -o /app/publish
 
-COPY SiloBolsa.Api/paginaWeb /app/publish/paginaWeb
-
-
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+COPY SiloBolsa.Api/paginaWeb /app/publish/paginaWeb
 ENTRYPOINT ["dotnet", "SiloBolsa.Api.dll"]
