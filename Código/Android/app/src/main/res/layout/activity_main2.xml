@@ -56,6 +56,7 @@
             android:layout_marginBottom="220dp"
             android:backgroundTint="#8AD400CD"
             android:text="Modificaciones"
+            android:visibility="visible"
             android:textSize="34sp"
             app:layout_constraintStart_toStartOf="parent" />
     </RelativeLayout>

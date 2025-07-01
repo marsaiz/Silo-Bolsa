@@ -15,7 +15,7 @@ public class LecturasControllers : ControllerBase
     }
 
     [HttpGet]
-    public ActionResult<IEnumerable<Lectura>> GetLecturas()
+    public ActionResult<IEnumerable<Lectura>> GetLecturas()//ActionResult respuestas http 200, 400, ETC.
     {
         var lecturas = _lecturaServicio.GetLecturas();
         return Ok(lecturas);
@@ -66,7 +66,7 @@ public class LecturasControllers : ControllerBase
     [HttpGet("silo/{id_silo}")]
     public ActionResult<LecturaDTO> GetLecturasByIdSilo(String id_silo)
     {
-        Guid id_silo_elegido = Guid.Parse(id_silo);
+        Guid id_silo_elegido = Guid.Parse(id_silo);//Se convierte en GUID por que la busqueda del celular se hace en string
         var lecturas = _lecturaServicio.GetLecturasByIdSilo(id_silo_elegido);
         if (lecturas != null && !lecturas.Any())
         {
