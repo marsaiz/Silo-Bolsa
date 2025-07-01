@@ -11,7 +11,7 @@ WORKDIR /src
 COPY ["SiloBolsa.Api/SiloBolsa.Api.csproj", "SiloBolsa.Api/"]
 # Si tienes otros proyectos (por ejemplo, Persistencia, Servicios, etc.), copia sus .csproj aquí también
 COPY ["SiloBolsa.Persistencia/SiloBolsa.Persistencia.csproj", "SiloBolsa.Persistencia/"]
-COPY ["SiloBolsa.Dominio/SiloBolsa.Dominio.csproj", "SiloBolsa.Dominio/"]
+COPY ["SiloBolsa.Core/SiloBolsa.Core.csproj", "SiloBolsa.Dominio/"]
 COPY ["SiloBolsa.Servicios/SiloBolsa.Servicios.csproj", "SiloBolsa.Servicios/"]
 
 
