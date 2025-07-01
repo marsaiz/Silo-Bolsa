@@ -79,6 +79,8 @@ if (app.Environment.IsDevelopment())
 app.UseCors("corsapp");
 app.UseHttpsRedirection();
 app.UseAuthorization();
+app.UseStaticFiles(); // Asegúrate de que esta línea esté presente para servir archivos estáticos
+
 
 app.MapControllers();
 
@@ -103,7 +105,7 @@ app.MapGet("/weatherforecast", () =>
 .WithName("GetWeatherForecast")
 .WithOpenApi();
 
-app.Run();
+app.Run("http://0.0.0.0:80");
 
 record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
 {
