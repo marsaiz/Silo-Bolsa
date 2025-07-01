@@ -135,7 +135,7 @@ function cargarGranos() {
         tablaGranos.style.display = "block";
 
     // Llama a la API para obtener datos de granos
-    fetch('http://77.81.230.76:5096/api/granos')
+    fetch('https://remarkable-healing-production.up.railway.app/api/granos')
         .then(response => response.json())
         .then(data => {
             console.log(data);
@@ -182,7 +182,7 @@ function cargarSilos() {
     if (tablaSilos.style.display == "none") {
         tablaSilos.style.display = "block";
 
-        fetch('http://77.81.230.76:5096/api/silos')
+        fetch('https://remarkable-healing-production.up.railway.app/api/silos')
             .then(response => response.json())
             .then(data => {
                 console.log(data)
@@ -239,7 +239,7 @@ function cargarAlertas() {
     if (tablaAlertas.style.display == "none") {
         tablaAlertas.style.display = "block";
 
-        fetch('http://77.81.230.76:5096/api/alertas')
+        fetch('https://remarkable-healing-production.up.railway.app/api/alertas')
             .then(response => response.json())
             .then(data => {
                 console.log(data)
