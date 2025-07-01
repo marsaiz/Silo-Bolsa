@@ -31,7 +31,7 @@ const myChart = new Chart(ctx, {
 // Definición de la función consultar
 function consultar(tipo) {
     // Llama a la API para obtener datos según el tipo
-    let apiUrl = 'http://77.81.230.76:5096/api/lecturas';
+    let apiUrl = 'https://remarkable-healing-production.up.railway.app/api/lecturas';
     let label = '';
     
     switch (tipo) {
