@@ -7,33 +7,32 @@ feather.replace({ 'aria-hidden': 'true' });
 
 const ctx = document.getElementById('myChart').getContext('2d');
 const myChart = new Chart(ctx, {
-  type: 'line', // Cambia el tipo si es necesario
-  data: {
-    labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-    datasets: [{
-      label: '# of Votes',
-      data: [12, 19, 3, 5, 2, 3],
-      backgroundColor: 'rgba(255, 99, 132, 0.2)',
-      borderColor: 'rgba(255, 99, 132, 1)',
-      borderWidth: 1
-    }]
-  },
-  options: {
-    scales: {
-      y: {
-        beginAtZero: true
-      }
+    type: 'line', // Cambia el tipo si es necesario
+    data: {
+        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+        datasets: [{
+            label: '# of Votes',
+            data: [12, 19, 3, 5, 2, 3],
+            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+            borderColor: 'rgba(255, 99, 132, 1)',
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
     }
-  }
 });
 
 
 // Definición de la función consultar
 function consultar(tipo) {
-    // Llama a la API para obtener datos según el tipo
     let apiUrl = 'https://remarkable-healing-production.up.railway.app/api/lecturas';
     let label = '';
-    
+
     switch (tipo) {
         case 'temperatura':
             label = 'Temperatura (ºC)';
@@ -46,33 +45,36 @@ function consultar(tipo) {
             break;
         default:
             console.warn('Tipo de reporte desconocido:', tipo);
-            return; // Salir si el tipo no es válido
+            return;
     }
 
-    // Mostrar mensaje al usuario
-    //alert(`Consultando reportes de ${tipo}...`);
-
-    // Llama a la API para obtener datos
     fetch(apiUrl)
         .then(response => response.json())
         .then(data => {
-            console.log(data);
+            const now = new Date();
+            const twoWeeksAgo = new Date(now.getTime() - 14 * 24 * 60 * 60 * 1000);
 
-            const items = Array.isArray(data.$values) ? data.$values : [];
+            // Filtrar solo las últimas dos semanas
+            const items = (Array.isArray(data.$values) ? data.$values : []).filter(entry => {
+                const fecha = new Date(entry.fechaHoraLectura);
+                return fecha >= twoWeeksAgo && fecha <= now;
+            });
 
-            // Procesar los datos de la API
-            const labels = items.map(entry => new Date(entry.fechaHoraLectura).toLocaleString()); // Obtener fechas
-            const values = items.map(entry => {
+            // Tomar solo las últimas 10 lecturas (ajusta a 2016 si quieres dos semanas completas)
+            const itemsFiltrados = items.slice(-10);
+
+            const labels = itemsFiltrados.map(entry => new Date(entry.fechaHoraLectura).toLocaleString());
+            const values = itemsFiltrados.map(entry => {
                 let value;
                 switch (tipo) {
                     case 'temperatura':
-                        value = parseFloat(entry.temp); // Obtener temperaturas
+                        value = parseFloat(entry.temp);
                         break;
                     case 'humedad':
-                        value = parseFloat(entry.humedad); // Obtener humedad
+                        value = parseFloat(entry.humedad);
                         break;
                     case 'co2':
-                        value = parseFloat(entry.dioxidoDeCarbono); // Obtener niveles de CO2
+                        value = parseFloat(entry.dioxidoDeCarbono);
                         break;
                 }
                 if (isNaN(value)) {
@@ -86,40 +88,52 @@ function consultar(tipo) {
             console.log(`${label}:`, values);
 
             if (labels.length > 0 && values.length > 0) {
-
                 // Actualizar el gráfico con los datos de la API
                 myChart.data.labels = labels;
-                myChart.data.datasets[0].label = label; // Establecer el label correcto
+                myChart.data.datasets[0].label = label;
                 myChart.data.datasets[0].data = values;
                 myChart.update();
 
-                //LLenar los datos para la tabla
-                const tableData = items.map((entry, index) => ({
-                    id: index +1,
+                // Llenar los datos para la tabla
+                const tableData = itemsFiltrados.map((entry, index) => ({
+                    id: index + 1,
                     fechaHora: new Date(entry.fechaHoraLectura).toLocaleString(),
                     temperatura: entry.temp,
                     humedad: entry.humedad,
                     co2: entry.dioxidoDeCarbono,
                 }));
 
-                //Crear o actualizar la tabla con tabulator
                 new Tabulator("#tablaLecturas", {
                     data: tableData,
                     layout: "fitColumns",
                     columns: [
-                        { title: "ID", field: "id", width: 50},
-                        { title: "Fecha y Hora", field: "fechaHora", sorter: "datetime", aling: "enter",
+                        { title: "ID", field: "id", width: 50 },
+                        {
+                            title: "Fecha y Hora", field: "fechaHora", sorter: "datetime", align: "center",
                             sorterParams: {
-                                format: "DD/MM/YYYY HH:mm:ss", //Ajusta el formato según la entrada de fecha
+                                format: "DD/MM/YYYY HH:mm:ss",
                                 alignEmptyValues: "bottom"
                             }
                         },
-                        { title: "Temperatura (Cº)", field: "temperatura", aling: "center"},
-                        { title: "Humedad", field: "humedad", aling: "center"},
-                        { title: "CO2 (ppm)", field: "co2", aling: "center"},
+                        { title: "Temperatura (Cº)", field: "temperatura", align: "center" },
+                        { title: "Humedad", field: "humedad", align: "center" },
+                        { title: "CO2 (ppm)", field: "co2", align: "center" },
                     ],
                 });
+                // Limpia mensaje de error si lo tienes en el HTML
+                if (document.getElementById("mensajeSinDatos")) {
+                    document.getElementById("mensajeSinDatos").innerText = "";
+                }
             } else {
+                // Limpia el gráfico y la tabla si no hay datos
+                myChart.data.labels = [];
+                myChart.data.datasets[0].data = [];
+                myChart.update();
+                new Tabulator("#tablaLecturas", { data: [] });
+                // Muestra mensaje visual si quieres
+                if (document.getElementById("mensajeSinDatos")) {
+                    document.getElementById("mensajeSinDatos").innerText = "No hay datos para mostrar en las últimas dos semanas.";
+                }
                 console.warn("No se pudieron cargar datos válidos para el gráfico.");
             }
         })
@@ -130,46 +144,46 @@ function cargarGranos() {
     const tablaGranos = document.getElementById("tablaGranos");
 
     //Verificar que la tabla este visible
-    if (tablaGranos.style.display == "none"){
+    if (tablaGranos.style.display == "none") {
         //Muestra la tabla granos
         tablaGranos.style.display = "block";
 
-    // Llama a la API para obtener datos de granos
-    fetch('https://remarkable-healing-production.up.railway.app/api/granos')
-        .then(response => response.json())
-        .then(data => {
-            console.log(data);
+        // Llama a la API para obtener datos de granos
+        fetch('https://remarkable-healing-production.up.railway.app/api/granos')
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
 
-            const items = Array.isArray(data.$values) ? data.$values : [];
-            
-            // Mapea los datos a un formato adecuado para Tabulator
-            const tableData = items.map((entry, index) => ({
-                id: index +1,
-                descripcion: entry.descripcion,
-                humedadMax: entry.humedadMax,
-                humedadMin: entry.humedadMin,
-                tempMax: entry.tempMax,
-                tempMin: entry.tempMin,
-                nivelDioxidoMax: entry.nivelDioxidoMax,
-                nivelDioxidoMin: entry.nivelDioxidoMin,
-            }));
+                const items = Array.isArray(data.$values) ? data.$values : [];
 
-            new Tabulator('#tablaGranos', {
-                data: tableData,
-                layout: "fitColumns",
-                columns: [
-                    { title: "ID Grano", field: "id" },
-                    { title: "Descripción", field: "descripcion" },
-                    { title: "Humedad Máxima", field: "humedadMax", align: "center" },
-                    { title: "Humedad Mínima", field: "humedadMin", align: "center" },
-                    { title: "Temperatura Máxima (°C)", field: "tempMax", align: "center" },
-                    { title: "Temperatura Mínima (°C)", field: "tempMin", align: "center" },
-                    { title: "CO2 Máximo (ppm)", field: "nivelDioxidoMax", align: "center" },
-                    { title: "CO2 Mínimo (ppm)", field: "nivelDioxidoMin", align: "center" },
-                ],
-            });
-        })
-        .catch(error => console.error('Error al obtener los datos de granos:', error));
+                // Mapea los datos a un formato adecuado para Tabulator
+                const tableData = items.map((entry, index) => ({
+                    id: index + 1,
+                    descripcion: entry.descripcion,
+                    humedadMax: entry.humedadMax,
+                    humedadMin: entry.humedadMin,
+                    tempMax: entry.tempMax,
+                    tempMin: entry.tempMin,
+                    nivelDioxidoMax: entry.nivelDioxidoMax,
+                    nivelDioxidoMin: entry.nivelDioxidoMin,
+                }));
+
+                new Tabulator('#tablaGranos', {
+                    data: tableData,
+                    layout: "fitColumns",
+                    columns: [
+                        { title: "ID Grano", field: "id" },
+                        { title: "Descripción", field: "descripcion" },
+                        { title: "Humedad Máxima", field: "humedadMax", align: "center" },
+                        { title: "Humedad Mínima", field: "humedadMin", align: "center" },
+                        { title: "Temperatura Máxima (°C)", field: "tempMax", align: "center" },
+                        { title: "Temperatura Mínima (°C)", field: "tempMin", align: "center" },
+                        { title: "CO2 Máximo (ppm)", field: "nivelDioxidoMax", align: "center" },
+                        { title: "CO2 Mínimo (ppm)", field: "nivelDioxidoMin", align: "center" },
+                    ],
+                });
+            })
+            .catch(error => console.error('Error al obtener los datos de granos:', error));
     } else {
         //Oculta la tabla si esta visible
         tablaGranos.style.display = "none";
@@ -188,8 +202,8 @@ function cargarSilos() {
                 console.log(data)
                 const items = Array.isArray(data.$values) ? data.$values : [];
 
-                const obtenerDescripcionGrano  = (tipoGrano) => {
-                    
+                const obtenerDescripcionGrano = (tipoGrano) => {
+
                 };
 
                 const tableData = items.map((entry, index) => ({
@@ -198,36 +212,36 @@ function cargarSilos() {
                     longitud: entry.longitud,
                     capacidad: entry.capacidad,
                     tipoGrano: (() => {
-                        switch(entry.tipoGrano) {
+                        switch (entry.tipoGrano) {
                             case 1: return "Trigo";
                             case 2: return "Maíz";
                             case 3: return "Girasol";
                             case 4: return "Soja";
                             case 5: return "Arroz";
                             case 6: return "Cebada";
-                            default: return "Desconocido";                            
+                            default: return "Desconocido";
                         }
                     })(),
                     descripcion: entry.descripcion,
                 }));
 
-            new Tabulator('#tablaSilos', {
-                data: tableData,
-                layout: "fitColumns",
-                columns: [
-                    { title: "ID Silo", field: "id" },
-                    { title: "Latitud", field: "latitud" },
-                    { title: "Longitud", field: "longitud" },
-                    { title: "Capacidad", field: "capacidad" },
-                    { title: "Tipo Grano", field: "tipoGrano" },
-                    { title: "Descripción", field: "descripcion" },
-                ],
-            });
-        })
-        .catch(error => console.error('Error al obtener los datos de silos'));
-   } else {
-    tablaSilos.style.display = 'none';
-   } 
+                new Tabulator('#tablaSilos', {
+                    data: tableData,
+                    layout: "fitColumns",
+                    columns: [
+                        { title: "ID Silo", field: "id" },
+                        { title: "Latitud", field: "latitud" },
+                        { title: "Longitud", field: "longitud" },
+                        { title: "Capacidad", field: "capacidad" },
+                        { title: "Tipo Grano", field: "tipoGrano" },
+                        { title: "Descripción", field: "descripcion" },
+                    ],
+                });
+            })
+            .catch(error => console.error('Error al obtener los datos de silos'));
+    } else {
+        tablaSilos.style.display = 'none';
+    }
 }
 
 // Llama a la función al cargar la página o al hacer clic en el menú
@@ -252,20 +266,20 @@ function cargarAlertas() {
                     idSilo: entry.idSilo,
                     correoEnviado: entry.correoEnviado,
                 }));
-            new Tabulator('#tablaAlertas', {
-                data: tableData,
-                layout: "fitColumns",
-                columns: [
-                    { title: "ID Alerta", field: "idAlerta" },
-                    { title: "Fecha y Hora de la Alerta", field: "fechaHoraAlerta" },
-                    { title: "Mensaje", field: "mensaje" },
-                    { title: "Id Silo", field: "idSilo" },
-                    { title: "Correo Enviado", field: "correoEnviado" },
-                ],
-            });
-        })
-        .catch(error => console.error('Error al obtener los datos de silos'));
-   } else {
-    tablaAlertas.style.display = 'none';
-   } 
+                new Tabulator('#tablaAlertas', {
+                    data: tableData,
+                    layout: "fitColumns",
+                    columns: [
+                        { title: "ID Alerta", field: "idAlerta" },
+                        { title: "Fecha y Hora de la Alerta", field: "fechaHoraAlerta" },
+                        { title: "Mensaje", field: "mensaje" },
+                        { title: "Id Silo", field: "idSilo" },
+                        { title: "Correo Enviado", field: "correoEnviado" },
+                    ],
+                });
+            })
+            .catch(error => console.error('Error al obtener los datos de silos'));
+    } else {
+        tablaAlertas.style.display = 'none';
+    }
 }

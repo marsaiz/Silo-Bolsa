@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "zlXbD/KwGY5+F9EsWnMfc3IRg9JxwMswMsVecFm2u1rIixxbYJsHpk1gR9X11TrER+lYykp84iuJ3+OYTGAxCw==",
+  "dgSpecHash": "BD91HR6RBiRQ1GZyyiT+ujSD2B8+VXi+/1e04VjhbJ11A7W9VPs3pWKSnfJLAaLLAMAUsPfJIySYwsCMzOrAiw==",
   "success": true,
-  "projectFilePath": "/home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.Api/SiloBolsa.Api.csproj",
+  "projectFilePath": "/home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Codigo/Web/SiloBolsa.Api/SiloBolsa.Api.csproj",
   "expectedPackageFiles": [
     "/home/marcelo/.nuget/packages/bouncycastle.cryptography/2.4.0/bouncycastle.cryptography.2.4.0.nupkg.sha512",
     "/home/marcelo/.nuget/packages/mailkit/4.8.0/mailkit.4.8.0.nupkg.sha512",

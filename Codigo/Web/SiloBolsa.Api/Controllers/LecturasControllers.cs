@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using SiloBolsa.Servicios.Interfaces;
 using SiloBolsa.Core.Modelos;
+using Microsoft.Extensions.Logging;
 
 namespace SiloBolsa.Api.Controllers;
 
@@ -9,9 +10,11 @@ namespace SiloBolsa.Api.Controllers;
 public class LecturasControllers : ControllerBase
 {
     private readonly ILecturaServicio _lecturaServicio;
-    public LecturasControllers(ILecturaServicio lecuraServicio)
+    private readonly ILogger<LecturasControllers> _logger;
+    public LecturasControllers(ILecturaServicio lecuraServicio, ILogger<LecturasControllers> logger)
     {
         _lecturaServicio = lecuraServicio;
+        _logger = logger;
     }
 
     [HttpGet]
@@ -35,14 +38,29 @@ public class LecturasControllers : ControllerBase
     [HttpPost]
     public IActionResult AddLectura([FromBody] LecturaDTO lectura)
     {
-        if (lectura == null)
+        try
         {
-            return BadRequest("El objeto Lectura no puede ser nulo");
-        }
+            if (lectura == null)
+            {
+                return BadRequest("El objeto Lectura no puede ser nulo");
+            }
 
-        _lecturaServicio.AddLectura(lectura); //El servicio genera el IdLectura
-        return Ok("Lectura agregada correctamente");
-        //return CreatedAtAction(nameof(GetLecturas), new {id_lectura = lectura.IdLectura }, lectura);
+            // Validar que los campos requeridos no estén vacíos
+            if (!ModelState.IsValid)
+            {
+                _logger.LogWarning("Modelo de lectura inválido: {@ModelState}", ModelState);
+                return BadRequest(ModelState);
+            }
+
+            _lecturaServicio.AddLectura(lectura); //El servicio genera el IdLectura
+            return Ok("Lectura agregada correctamente");
+            //return CreatedAtAction(nameof(GetLecturas), new {id_lectura = lectura.IdLectura }, lectura);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error al agregar la lectura");
+            return StatusCode(500, "Error interno del servidor al agregar la lectura");
+        }
     }
 
     /* [HttpPut("{id_lectura}")]

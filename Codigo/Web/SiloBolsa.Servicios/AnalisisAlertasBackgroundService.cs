@@ -25,7 +25,7 @@ public class AnalisisAlertasBackgroundService : BackgroundService
         ///_siloServicio = siloServicio;
         _scopeFactory = scopeFactory;
         _logger = logger;
-        _intervalo = TimeSpan.FromMinutes(10); // Aquí se define el intervalo de ejecución (ejemplo cada 10 minutos)
+        _intervalo = TimeSpan.FromMinutes(30); // Aquí se define el intervalo de ejecución (ejemplo cada 10 minutos)
     }
 
     //El método ExecuteAsync ejecuta el código en segundo plano

@@ -721,11 +721,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.Core/SiloBolsa.Core.csproj",
+      "projectUniqueName": "/home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Codigo/Web/SiloBolsa.Core/SiloBolsa.Core.csproj",
       "projectName": "SiloBolsa.Core",
-      "projectPath": "/home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.Core/SiloBolsa.Core.csproj",
+      "projectPath": "/home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Codigo/Web/SiloBolsa.Core/SiloBolsa.Core.csproj",
       "packagesPath": "/home/marcelo/.nuget/packages/",
-      "outputPath": "/home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.Core/obj/",
+      "outputPath": "/home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Codigo/Web/SiloBolsa.Core/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/home/marcelo/.nuget/NuGet/NuGet.Config"

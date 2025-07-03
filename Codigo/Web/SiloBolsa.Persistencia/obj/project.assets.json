@@ -2147,11 +2147,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.Persistencia/SiloBolsa.Persistencia.csproj",
+      "projectUniqueName": "/home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Codigo/Web/SiloBolsa.Persistencia/SiloBolsa.Persistencia.csproj",
       "projectName": "SiloBolsa.Persistencia",
-      "projectPath": "/home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.Persistencia/SiloBolsa.Persistencia.csproj",
+      "projectPath": "/home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Codigo/Web/SiloBolsa.Persistencia/SiloBolsa.Persistencia.csproj",
       "packagesPath": "/home/marcelo/.nuget/packages/",
-      "outputPath": "/home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.Persistencia/obj/",
+      "outputPath": "/home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Codigo/Web/SiloBolsa.Persistencia/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/home/marcelo/.nuget/NuGet/NuGet.Config"
@@ -2166,8 +2166,8 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "/home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.Servicios/SiloBolsa.Servicios.csproj": {
-              "projectPath": "/home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.Servicios/SiloBolsa.Servicios.csproj"
+            "/home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Codigo/Web/SiloBolsa.Servicios/SiloBolsa.Servicios.csproj": {
+              "projectPath": "/home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Codigo/Web/SiloBolsa.Servicios/SiloBolsa.Servicios.csproj"
             }
           }
         }

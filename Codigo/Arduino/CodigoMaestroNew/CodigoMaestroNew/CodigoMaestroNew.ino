@@ -12,7 +12,8 @@
 #define ssid "SAIZ"
 #define password "25768755"
 //#define serverName "http://192.168.1.21:5006/api/lecturas"
-#define serverName "http://77.81.230.76:5096/api/lecturas"
+//#define serverName "http://77.81.230.76:5096/api/lecturas"
+#define serverName "https://remarkable-healing-production.up.railway.app/api/lecturas";
 #define idCaja "cac70d5d-4df3-451f-bba9-59bcea039425"
 
 String getISO8601Time();
@@ -90,7 +91,7 @@ void enviarLectura(){
     String isoTime = getISO8601Time();
     Serial.print(F("Fecha y hora actual: ")); Serial.println(isoTime);
 
-    sensors_event_t humidity, temp;
+    /* sensors_event_t humidity, temp;
     aht.getEvent(&humidity, &temp);
 
     voltage = getVoltage(PIN_MQ135);
@@ -119,13 +120,32 @@ void enviarLectura(){
     doc["temp"] = temp.temperature;  // Asignar la temperatura
     doc["humedad"] = humidity.relative_humidity;  // Asignar la humedad
     doc["dioxidoDeCarbono"] = co2Filtrado;  // Asignar el valor de CO2
-    doc["idCaja"] = idCaja;
+    doc["idCaja"] = idCaja; */
+
+    // Generar valores aleatorios para pruebas
+    float tempAleatoria = random(150, 350) / 10.0; // Temperatura entre 15.0 y 35.0 ºC
+    floar humedadAleatoria = random(300, 800) / 10.0; // Humedad entre 30.0 y 80.0 %
+    float co2Aleatorio = random(400, 2000); // CO2 entre 400 y 2000 ppm
+    
+    Serial.print("Temp: "); Serial.print(tempAleatoria);
+    Serial.print("; Humedad: "); Serial.print(humedadAleatoria);
+    Serial.print("; CO2: "); Serial.print(co2Aleatorio);
+
+    // Crear un objeto JSON
+    JsonDocument doc;
+    doc["fechaHoraLectura"] = isoTime;
+    doc["temp"] = tempAleatoria;  // Asignar la temperatura aleatoria
+    doc["humedad"] = humedadAleatoria;  // Asignar la humedad ale
+    doc["dioxidoDeCarbono"] = co2Aleatorio;  // Asignar el valor de CO2 aleatorio
+    doc["idCaja"] = idCaja;  // Asignar el ID de la caja
+
 
     //Serializar el JSON a una cadena
     String jsonData;
     serializeJson(doc, jsonData);
 
     Serial.println(jsonData);
+    
     
     //Verificar el estado de la conexión WiFi
     if (WiFi.status() == WL_CONNECTED) {

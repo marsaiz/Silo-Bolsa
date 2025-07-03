@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "AcEaJM4my32o3tVJxx4y2+UDqEHkYK1eOdbFIf5/vwym7PWDamLk/UMbdXZiJGVZtxKdkAwLuG6hf8hBh1wAfg==",
+  "dgSpecHash": "o/xf3zdCZq0NEX2iJWlHFtSQnKamtz62XMd5vAHk5r5ApZk6u3Zyo4scLZRc5i5/zwClcmchJ1nEt3Faj02qiQ==",
   "success": true,
-  "projectFilePath": "/home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.Persistencia/SiloBolsa.Persistencia.csproj",
+  "projectFilePath": "/home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Codigo/Web/SiloBolsa.Persistencia/SiloBolsa.Persistencia.csproj",
   "expectedPackageFiles": [
     "/home/marcelo/.nuget/packages/bouncycastle.cryptography/2.4.0/bouncycastle.cryptography.2.4.0.nupkg.sha512",
     "/home/marcelo/.nuget/packages/mailkit/4.8.0/mailkit.4.8.0.nupkg.sha512",
