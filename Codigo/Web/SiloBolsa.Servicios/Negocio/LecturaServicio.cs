@@ -33,6 +33,8 @@ public class LecturaServicio : ILecturaServicio
     }
     public void AddLectura(LecturaDTO lecturaDTO)
     {
+        _logger.LogInformation("Agregando nueva lectura: {0}", lecturaDTO);
+
         Lectura lectura = new Lectura();
         lectura.IdLectura = Guid.NewGuid();
         lectura.FechaHoraLectura = lecturaDTO.FechaHoraLectura;
@@ -42,6 +44,8 @@ public class LecturaServicio : ILecturaServicio
         lectura.IdCaja = lecturaDTO.IdCaja;
 
         _lecturaRepositorio.AddLectura(lectura);
+
+        _logger.LogInformation("Lectura agregada con éxito: {0}", lectura.IdLectura);
     }
 
     public void DeleteLectura(Guid id_lectura)
