@@ -61,7 +61,7 @@ function consultar(tipo) {
             });
 
             // Tomar solo las últimas 10 lecturas (ajusta a 2016 si quieres dos semanas completas)
-            const itemsFiltrados = items.slice(-10);
+            const itemsFiltrados = items.slice(-4032);
 
             const labels = itemsFiltrados.map(entry => new Date(entry.fechaHoraLectura).toLocaleString());
             const values = itemsFiltrados.map(entry => {
