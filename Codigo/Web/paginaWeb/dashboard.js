@@ -52,16 +52,17 @@ function consultar(tipo) {
         .then(response => response.json())
         .then(data => {
             const now = new Date();
-            const twoWeeksAgo = new Date(now.getTime() - 14 * 24 * 60 * 60 * 1000);
+            // const twoWeeksAgo = new Date(now.getTime() - 14 * 24 * 60 * 60 * 1000);
+            const oneWeeksAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
 
             // Filtrar solo las últimas dos semanas
             const items = (Array.isArray(data.$values) ? data.$values : []).filter(entry => {
                 const fecha = new Date(entry.fechaHoraLectura);
-                return fecha >= twoWeeksAgo && fecha <= now;
+                return fecha >= oneWeeksAgo && fecha <= now;
             });
 
             // Tomar solo las últimas 10 lecturas (ajusta a 2016 si quieres dos semanas completas)
-            const itemsFiltrados = items.slice(-4032);
+            const itemsFiltrados = items.slice(-2016);
 
             const labels = itemsFiltrados.map(entry => new Date(entry.fechaHoraLectura).toLocaleString());
             const values = itemsFiltrados.map(entry => {
