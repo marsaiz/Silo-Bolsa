@@ -52,17 +52,21 @@ function consultar(tipo) {
         .then(response => response.json())
         .then(data => {
             const now = new Date();
-            // const twoWeeksAgo = new Date(now.getTime() - 14 * 24 * 60 * 60 * 1000);
-            const oneWeeksAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+            // const twoWeeksAgo = new Date(now.getTime() - 14 * 24 * 60 * 60 * 1000); //Cada dos semanas
+            // const oneWeeksAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000); //Cada una semana
+            
+            //Crea una nueva fecha que respresenta el punto esacto de hace 2 días. Es el límite inferior
+            const twoDaysAgo = new Date(now.getTime() - 2 * 24 * 60 * 60 * 1000); // Calcula la fecha en milisegundos.
+            
 
-            // Filtrar solo las últimas dos semanas
+            // Filtrar solo las lecturas de los últimos dos días (Lecturas cada 15 minutos).
             const items = (Array.isArray(data.$values) ? data.$values : []).filter(entry => {
                 const fecha = new Date(entry.fechaHoraLectura);
-                return fecha >= oneWeeksAgo && fecha <= now;
+                return fecha >= twoDaysAgo && fecha <= now;
             });
 
-            // Tomar solo las últimas 10 lecturas (ajusta a 2016 si quieres dos semanas completas)
-            const itemsFiltrados = items.slice(-2016);
+            // Tomar solo las últimas 192 lecturas para los 2 días completos (cada 15 minutos)
+            const itemsFiltrados = items.slice(-192);
 
             const labels = itemsFiltrados.map(entry => new Date(entry.fechaHoraLectura).toLocaleString());
             const values = itemsFiltrados.map(entry => {
@@ -133,7 +137,7 @@ function consultar(tipo) {
                 new Tabulator("#tablaLecturas", { data: [] });
                 // Muestra mensaje visual si quieres
                 if (document.getElementById("mensajeSinDatos")) {
-                    document.getElementById("mensajeSinDatos").innerText = "No hay datos para mostrar en las últimas dos semanas.";
+                    document.getElementById("mensajeSinDatos").innerText = "No hay datos para mostrar en los últimos dos días.";
                 }
                 console.warn("No se pudieron cargar datos válidos para el gráfico.");
             }
