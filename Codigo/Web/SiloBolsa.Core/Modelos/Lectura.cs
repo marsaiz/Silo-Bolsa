@@ -22,10 +22,12 @@ namespace SiloBolsa.Core.Modelos
         [Column("dioxido_de_carbono")]
         public double DioxidoDeCarbono { get; set; }
 
+        // Clave foránea a la tabla caja
         [ForeignKey("Caja")]
         [Column("id_caja")]
         public Guid IdCaja { get; set; }
 
+        // Propiedad de navegación
         public Caja Caja { get; set; }
     }
 }

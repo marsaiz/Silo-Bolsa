@@ -16,10 +16,20 @@ builder.Logging.AddFilter("Microsoft", LogLevel.Warning)
                 .AddFilter("System", LogLevel.Warning)
                 .AddFilter("SiloBolsa", LogLevel.Information);
 
-//Obtener la conexión desde appsetings.json
-var conexionString =
-builder.Configuration.GetConnectionString("DefaultConnection");
-//"DefaultConnection": "Server=localhost;Database=monitoreo_silo_bolsa;User Id=postgres;Password=itesql"
+//Obtener la conexión desde variables de entorno o appsetings.json
+// Railway inyecta las variables de entorno automáticamente
+var conexionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+// Si Railway provee DATABASE_URL (formato postgresql://), convertirla
+var databaseUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
+if (!string.IsNullOrEmpty(databaseUrl))
+{
+    // Railway usa formato: postgresql://user:password@host:port/database
+    var uri = new Uri(databaseUrl);
+    conexionString = $"Host={uri.Host};Port={uri.Port};Database={uri.AbsolutePath.Trim('/')};User Id={uri.UserInfo.Split(':')[0]};Password={uri.UserInfo.Split(':')[1]};SSL Mode=Require;Trust Server Certificate=true";
+}
+
+Console.WriteLine($"🔌 Conectando a base de datos: {conexionString?.Split(';')[0]}");
 
 //Registrar SiloBolsaContexto con Postresql
 builder.Services.AddDbContext<SiloBolsaContexto>(Options =>
@@ -62,6 +72,30 @@ builder.Services.AddCors(p => p.AddPolicy("corsapp",
     builder => { builder.WithOrigins("*").AllowAnyMethod().AllowAnyHeader(); }));
 
 var app = builder.Build();
+
+// 🔧 Aplicar migraciones automáticamente al iniciar
+// Esto aplica todas las migraciones pendientes a la base de datos
+try
+{
+    using (var scope = app.Services.CreateScope())
+    {
+        var dbContext = scope.ServiceProvider.GetRequiredService<SiloBolsaContexto>();
+        var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+        
+        logger.LogInformation("🔍 Verificando migraciones pendientes...");
+        
+        // Aplicar migraciones automáticamente
+        dbContext.Database.Migrate();
+        
+        logger.LogInformation("✅ Migraciones aplicadas exitosamente!");
+    }
+}
+catch (Exception ex)
+{
+    var logger = app.Services.GetRequiredService<ILogger<Program>>();
+    logger.LogError(ex, "❌ Error al aplicar migraciones: {Message}", ex.Message);
+    throw;
+}
 
 //Habilitar archivos estáticos (servir index.html, CSS, etc.)
 app.UseStaticFiles(new StaticFileOptions

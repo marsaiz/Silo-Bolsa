@@ -1,0 +1,25 @@
+# .NET
+bin/
+obj/
+*.user
+*.suo
+*.cache
+*.log
+.vs/
+
+# Variables de entorno sensibles
+.env
+appsettings.Production.json
+appsettings.*.json
+!appsettings.json
+!appsettings.Development.json
+
+# Excluir credenciales de base de datos
+**/appsettings.json
+
+# Archivos de Railway
+.railway/
+
+# Logs
+logs/
+*.log

@@ -8,14 +8,15 @@
 #include <NTPClient.h>
 #include <WiFiUdp.h>
 #include <RunningMedian.h>
+#include <WiFiManager.h> // https://github.com/tzapu/WiFiManager
 
-#define ssid "SAIZ"
-#define password "25768755"
-//#define ssid "Invitados"
-//#define password "holacitia"
+// Pin para resetear la configuración WiFi (opcional)
+// Conecta un botón entre este pin y GND
+#define RESET_WIFI_PIN D3  // Puedes cambiar esto al pin que prefieras
 
-//#define ssid "laboratorio"
-//#define password "laboratorio"
+// Ya no necesitas estas líneas:
+// #define ssid "SAIZ"
+// #define password "25768755"
 
 //#define serverName "http://192.168.1.21:5006/api/lecturas"
 //#define serverName "http://77.81.230.76:5096/api/lecturas"
@@ -61,6 +62,9 @@ double Ro= 33710.79934;
 void setup() {
   Serial.begin(115200);
 
+  // Configurar pin para resetear WiFi (opcional)
+  pinMode(RESET_WIFI_PIN, INPUT_PULLUP);
+
 //  if (! aht.begin()) {
 //    Serial.println("Could not find AHT10? Check wiring");
 //    while (1) delay(10);
@@ -68,14 +72,38 @@ void setup() {
 //  Serial.println("AHT10 found");
 //  Serial.println("Voltage, Resistencia, CO2 PPM, RH, Temp");
 
-  WiFi.begin(ssid, password);
-  Serial.println("Connecting");
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(500);
-    Serial.print(".");
+  // Crear instancia de WiFiManager
+  WiFiManager wifiManager;
+
+  // Descomentar esta línea para resetear las credenciales guardadas (útil para testing)
+  // wifiManager.resetSettings();
+
+  // Verificar si el botón de reset está presionado al iniciar
+  if (digitalRead(RESET_WIFI_PIN) == LOW) {
+    Serial.println("Botón de reset presionado. Borrando credenciales WiFi...");
+    wifiManager.resetSettings();
+    delay(1000);
   }
+
+  // Configuración del portal cautivo
+  // Si no puede conectarse, crea un AP llamado "SiloBolsa-Config"
+  // Puedes cambiarlo por el nombre que prefieras
+  Serial.println("Conectando a WiFi...");
+  
+  // Esto intentará conectarse a la red WiFi guardada
+  // Si falla, creará un AP con el nombre "SiloBolsa-Config"
+  // Opcionalmente puedes agregar una contraseña: autoConnect("SiloBolsa-Config", "password123")
+  if (!wifiManager.autoConnect("SiloBolsa-Config")) {
+    Serial.println("Fallo al conectar y timeout alcanzado");
+    // Reiniciar y volver a intentar
+    delay(3000);
+    ESP.restart();
+    delay(5000);
+  }
+
+  // Si llegamos aquí, estamos conectados!
   Serial.println("");
-  Serial.print("Connected to WiFi network with IP Address: ");
+  Serial.print("Conectado a WiFi! IP Address: ");
   Serial.println(WiFi.localIP());
 
   timeClient.begin();

@@ -1,23 +1,23 @@
 {
   "Files": [
     {
-      "Id": "/home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Código/Web/SiloBolsa.Api/wwwroot/Index.html",
-      "PackagePath": "staticwebassets/Index.html"
+      "Id": "C:\\Users\\marsa\\Desktop\\programacion\\ITES\\SiloBolsa\\repositorio\\Silo-Bolsa\\Codigo\\Web\\SiloBolsa.Api\\wwwroot\\Index.html",
+      "PackagePath": "staticwebassets\\Index.html"
     },
     {
-      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.SiloBolsa.Api.Microsoft.AspNetCore.StaticWebAssets.props",
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.SiloBolsa.Api.Microsoft.AspNetCore.StaticWebAssets.props",
       "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
     },
     {
-      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.build.SiloBolsa.Api.props",
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.SiloBolsa.Api.props",
       "PackagePath": "build\\SiloBolsa.Api.props"
     },
     {
-      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.buildMultiTargeting.SiloBolsa.Api.props",
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.SiloBolsa.Api.props",
       "PackagePath": "buildMultiTargeting\\SiloBolsa.Api.props"
     },
     {
-      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.buildTransitive.SiloBolsa.Api.props",
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.SiloBolsa.Api.props",
       "PackagePath": "buildTransitive\\SiloBolsa.Api.props"
     }
   ],

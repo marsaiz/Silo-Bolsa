@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Codigo/Web/SiloBolsa.Servicios/SiloBolsa.Servicios.csproj": {}
+    "C:\\Users\\marsa\\Desktop\\programacion\\ITES\\SiloBolsa\\repositorio\\Silo-Bolsa\\Codigo\\Web\\SiloBolsa.Servicios\\SiloBolsa.Servicios.csproj": {}
   },
   "projects": {
-    "/home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Codigo/Web/SiloBolsa.Core/SiloBolsa.Core.csproj": {
+    "C:\\Users\\marsa\\Desktop\\programacion\\ITES\\SiloBolsa\\repositorio\\Silo-Bolsa\\Codigo\\Web\\SiloBolsa.Core\\SiloBolsa.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Codigo/Web/SiloBolsa.Core/SiloBolsa.Core.csproj",
+        "projectUniqueName": "C:\\Users\\marsa\\Desktop\\programacion\\ITES\\SiloBolsa\\repositorio\\Silo-Bolsa\\Codigo\\Web\\SiloBolsa.Core\\SiloBolsa.Core.csproj",
         "projectName": "SiloBolsa.Core",
-        "projectPath": "/home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Codigo/Web/SiloBolsa.Core/SiloBolsa.Core.csproj",
-        "packagesPath": "/home/marcelo/.nuget/packages/",
-        "outputPath": "/home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Codigo/Web/SiloBolsa.Core/obj/",
+        "projectPath": "C:\\Users\\marsa\\Desktop\\programacion\\ITES\\SiloBolsa\\repositorio\\Silo-Bolsa\\Codigo\\Web\\SiloBolsa.Core\\SiloBolsa.Core.csproj",
+        "packagesPath": "C:\\Users\\marsa\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\marsa\\Desktop\\programacion\\ITES\\SiloBolsa\\repositorio\\Silo-Bolsa\\Codigo\\Web\\SiloBolsa.Core\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/marcelo/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\marsa\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -32,6 +32,11 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -63,21 +68,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/8.0.117/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.303/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "/home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Codigo/Web/SiloBolsa.Servicios/SiloBolsa.Servicios.csproj": {
+    "C:\\Users\\marsa\\Desktop\\programacion\\ITES\\SiloBolsa\\repositorio\\Silo-Bolsa\\Codigo\\Web\\SiloBolsa.Servicios\\SiloBolsa.Servicios.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Codigo/Web/SiloBolsa.Servicios/SiloBolsa.Servicios.csproj",
+        "projectUniqueName": "C:\\Users\\marsa\\Desktop\\programacion\\ITES\\SiloBolsa\\repositorio\\Silo-Bolsa\\Codigo\\Web\\SiloBolsa.Servicios\\SiloBolsa.Servicios.csproj",
         "projectName": "SiloBolsa.Servicios",
-        "projectPath": "/home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Codigo/Web/SiloBolsa.Servicios/SiloBolsa.Servicios.csproj",
-        "packagesPath": "/home/marcelo/.nuget/packages/",
-        "outputPath": "/home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Codigo/Web/SiloBolsa.Servicios/obj/",
+        "projectPath": "C:\\Users\\marsa\\Desktop\\programacion\\ITES\\SiloBolsa\\repositorio\\Silo-Bolsa\\Codigo\\Web\\SiloBolsa.Servicios\\SiloBolsa.Servicios.csproj",
+        "packagesPath": "C:\\Users\\marsa\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\marsa\\Desktop\\programacion\\ITES\\SiloBolsa\\repositorio\\Silo-Bolsa\\Codigo\\Web\\SiloBolsa.Servicios\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/marcelo/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\marsa\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -89,8 +94,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "/home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Codigo/Web/SiloBolsa.Core/SiloBolsa.Core.csproj": {
-                "projectPath": "/home/marcelo/Programación/Proyecto_Silo_Bolsa/Silo-Bolsa/Codigo/Web/SiloBolsa.Core/SiloBolsa.Core.csproj"
+              "C:\\Users\\marsa\\Desktop\\programacion\\ITES\\SiloBolsa\\repositorio\\Silo-Bolsa\\Codigo\\Web\\SiloBolsa.Core\\SiloBolsa.Core.csproj": {
+                "projectPath": "C:\\Users\\marsa\\Desktop\\programacion\\ITES\\SiloBolsa\\repositorio\\Silo-Bolsa\\Codigo\\Web\\SiloBolsa.Core\\SiloBolsa.Core.csproj"
               }
             }
           }
@@ -99,6 +104,11 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -130,7 +140,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/8.0.117/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.303/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
