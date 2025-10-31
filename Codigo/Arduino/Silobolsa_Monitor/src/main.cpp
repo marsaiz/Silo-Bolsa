@@ -1,6 +1,6 @@
 // COMPILAR CON WEMOS D1 MINI PRO (ESP8266)
 
-#include <Adafruit_AHT10.h>
+#include <Adafruit_AHTX0.h>
 #include <Wire.h>
 #include <ESP8266WiFi.h>
 #include <ESP8266HTTPClient.h>
@@ -35,7 +35,7 @@ unsigned long timerDelay = 30000;
 
 #define PIN_MQ135 A0 // Pin analógico para el sensor MQ-135
 
-Adafruit_AHT10 aht; // Objeto para el sensor AHT10
+Adafruit_AHTX0 aht; // Objeto para el sensor AHT10
 
 // Objeto para el sensor MQ-135, usando el pin analógico A0.
 MQ135 mq135_sensor(PIN_MQ135);
