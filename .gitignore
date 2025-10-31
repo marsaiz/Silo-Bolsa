@@ -145,6 +145,19 @@ __vm/
 .vscode/launch.json
 
 # ====================
+# PlatformIO (Arduino con PlatformIO)
+# ====================
+# Directorios de build y dependencias
+.pio/
+.pioenvs/
+.piolibdeps/
+
+# Metadatos y caches
+.clangd/
+.gcc-flags.json
+.sconsign.dblite
+
+# ====================
 # Node.js (si aplica en el futuro)
 # ====================
 node_modules/
