@@ -31,7 +31,7 @@ NTPClient timeClient(ntpUDP, "pool.ntp.org", -10800, 60000);
 // Temporizadores
 unsigned long lastTime = 0;
 // Intervalo de envío: 5 minutos (300000 ms)
-unsigned long timerDelay = 30000; 
+unsigned long timerDelay = 900000; 
 
 #define PIN_MQ135 A0 // Pin analógico para el sensor MQ-135
 
@@ -200,17 +200,17 @@ double getVoltage(int pin)
 String getISO8601Time() {
   timeClient.update();
 
-  // Obtener los componentes de la fecha y hora
+  //Obtener los componentes de la fecha y hora
   unsigned long epochTime = timeClient.getEpochTime();
-  
-  // Usamos el formato "YYYY-MM-DDTHH:MM:SSZ"
-  char isoDate[25]; 
-  
-  // Usamos strftime para un formateo más seguro si la plataforma lo soporta:
-  struct tm *ptm = gmtime ((time_t *)&epochTime);
-  
-  // Formato ISO 8601 UTC (Z)
-  strftime (isoDate, 25, "%Y-%m-%dT%H:%M:%SZ", ptm);
-  
+  int year = 1970 + (epochTime / 31556926); //Calcula el años desde 1970
+  int month = (epochTime % 31556926) / 2629743 + 1; //Obtener el mes
+  int day = (epochTime % 2629743) / 86400 + 1; //Obtener el día
+  int hour = timeClient.getHours();
+  int minute = timeClient.getMinutes();
+  int second = timeClient.getSeconds();
+
+  //Formato ISO 8001 (sin mili segundos)
+  char isoDate[30];
+  sprintf(isoDate, "%04d-%02d-%02dT%02d:%02d:%02dZ", year, month, day, hour, minute, second);
   return String(isoDate);
-}
+  }

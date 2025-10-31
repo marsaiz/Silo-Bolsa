@@ -66,10 +66,10 @@ function consultar(tipo) {
             });
 
             // Tomar solo las últimas 192 lecturas para los 2 días completos (cada 15 minutos)
-            const itemsFiltrados = items.slice(-192);
+            //const itemsFiltrados = items.slice(-192);
 
-            const labels = itemsFiltrados.map(entry => new Date(entry.fechaHoraLectura).toLocaleString());
-            const values = itemsFiltrados.map(entry => {
+            const labels = items.map(entry => new Date(entry.fechaHoraLectura).toLocaleString());
+            const values = items.map(entry => {
                 let value;
                 switch (tipo) {
                     case 'temperatura':
