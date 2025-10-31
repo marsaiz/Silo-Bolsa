@@ -12,7 +12,7 @@
 
 // Pin para resetear la configuración WiFi (opcional)
 // Conecta un botón entre este pin y GND
-#define RESET_WIFI_PIN D3  // Puedes cambiar esto al pin que prefieras
+#define RESET_WIFI_PIN D4  // Puedes cambiar esto al pin que prefieras
 
 // Ya no necesitas estas líneas:
 // #define ssid "SAIZ"
@@ -22,7 +22,7 @@
 //#define serverName "http://77.81.230.76:5096/api/lecturas"
 #define serverName "https://remarkable-healing-production.up.railway.app/api/lecturas"
 
-#define idCaja "cac70d5d-4df3-451f-bba9-59bcea039425"
+#define idCaja "066cd7cc-0cc7-4800-af0b-290a86639117"
 
 String getISO8601Time();
 void enviarLectura();
@@ -41,9 +41,9 @@ unsigned long timerDelay = 300000;
 Adafruit_AHT10 aht;
 
 
-const int gasSensor = 0;
+//const int gasSensor = 0;
 float voltage = 0.00;
-float resistencia = 0.00;
+//float resistencia = 0.00;
 float dioxidoDeCarbono = 0.00;
 //float dioxidoDeCarbono1 = 0.00;
 RunningMedian medianFilterCO2(5); // Ventana de 5 muestras
@@ -52,12 +52,12 @@ RunningMedian medianFilterCO2(5); // Ventana de 5 muestras
 //For CO2, if we measure points graph and do power regression we can obtain the function
 //ppm = 116.6020682 (Rs/Ro)^-2.769034857
 
-double a = 116.6020682;
+//double a = 116.6020682;
 
 //el exponente es negativo pero para calcular usando Pow hago el reciproco
 //de la potencia positiva,
-double b = 2.769034857;
-double Ro= 33710.79934; 
+//double b = 2.769034857;
+//double Ro= 33710.79934; 
 
 void setup() {
   Serial.begin(115200);
@@ -65,12 +65,12 @@ void setup() {
   // Configurar pin para resetear WiFi (opcional)
   pinMode(RESET_WIFI_PIN, INPUT_PULLUP);
 
-//  if (! aht.begin()) {
-//    Serial.println("Could not find AHT10? Check wiring");
-//    while (1) delay(10);
-//  }
-//  Serial.println("AHT10 found");
-//  Serial.println("Voltage, Resistencia, CO2 PPM, RH, Temp");
+  if (! aht.begin()) {
+    Serial.println("Could not find AHT10? Check wiring");
+    while (1) delay(10);
+  }
+  Serial.println("AHT10 found");
+  Serial.println("Voltage, Resistencia, CO2 PPM, RH, Temp");
 
   // Crear instancia de WiFiManager
   WiFiManager wifiManager;
@@ -123,10 +123,10 @@ void enviarLectura(){
     String isoTime = getISO8601Time();
     Serial.print(F("Fecha y hora actual: ")); Serial.println(isoTime);
 
-//    sensors_event_t humidity, temp;
-//    aht.getEvent(&humidity, &temp);
+    sensors_event_t humidity, temp;
+    aht.getEvent(&humidity, &temp);
 //
-//    voltage = getVoltage(PIN_MQ135);
+    voltage = getVoltage(PIN_MQ135);
 //    resistencia = 1000.0 * ((5.0 - voltage) / voltage);
 //    dioxidoDeCarbono = a * ( 1.0 / pow( (resistencia / Ro), b)); //Obtengo valor en ppm
 //    dioxidoDeCarbono /= 10000; //Convierto a %
@@ -148,29 +148,29 @@ void enviarLectura(){
 //    Serial.println(temp.temperature, 5);
 //
 //    //Crear un objeto JSON
-//    JsonDocument doc;
-//    doc["fechaHoraLectura"] = isoTime;
-//    doc["temp"] = temp.temperature;  // Asignar la temperatura
-//    doc["humedad"] = humidity.relative_humidity;  // Asignar la humedad
-//    doc["dioxidoDeCarbono"] = dioxidoDeCarbono;// Asignar el valor de CO2 en %
-//    doc["idCaja"] = idCaja;
-
-// Generar valores aleatorios para pruebas
-    float tempAleatoria = random(150, 350) / 10.0; // Temperatura entre 15.0 y 35.0 ºC
-    float humedadAleatoria = random(300, 800) / 10.0; // Humedad entre 30.0 y 80.0 %
-    float co2Aleatorio = random(400, 2000); // CO2 entre 400 y 2000 ppm
-    
-    Serial.print("Temp: "); Serial.print(tempAleatoria);
-    Serial.print("; Humedad: "); Serial.print(humedadAleatoria);
-    Serial.print("; CO2: "); Serial.print(co2Aleatorio);
-
-    // Crear un objeto JSON
     JsonDocument doc;
     doc["fechaHoraLectura"] = isoTime;
-    doc["temp"] = tempAleatoria;  // Asignar la temperatura aleatoria
-    doc["humedad"] = humedadAleatoria;  // Asignar la humedad ale
-    doc["dioxidoDeCarbono"] = co2Aleatorio;  // Asignar el valor de CO2 aleatorio
-    doc["idCaja"] = idCaja;  // Asignar el ID de la caja
+    doc["temp"] = temp.temperature;  // Asignar la temperatura
+    doc["humedad"] = humidity.relative_humidity;  // Asignar la humedad
+    doc["dioxidoDeCarbono"] = dioxidoDeCarbono;// Asignar el valor de CO2 en %
+    doc["idCaja"] = idCaja;
+
+// Generar valores aleatorios para pruebas
+//    float tempAleatoria = random(150, 350) / 10.0; // Temperatura entre 15.0 y 35.0 ºC
+//    float humedadAleatoria = random(300, 800) / 10.0; // Humedad entre 30.0 y 80.0 %
+//    float co2Aleatorio = random(400, 2000); // CO2 entre 400 y 2000 ppm
+    
+//    Serial.print("Temp: "); Serial.print(tempAleatoria);
+//    Serial.print("; Humedad: "); Serial.print(humedadAleatoria);
+//    Serial.print("; CO2: "); Serial.print(co2Aleatorio);
+
+    // Crear un objeto JSON
+//    JsonDocument doc;
+//    doc["fechaHoraLectura"] = isoTime;
+//    doc["temp"] = tempAleatoria;  // Asignar la temperatura aleatoria
+//    doc["humedad"] = humedadAleatoria;  // Asignar la humedad ale
+//    doc["dioxidoDeCarbono"] = co2Aleatorio;  // Asignar el valor de CO2 aleatorio
+//    doc["idCaja"] = idCaja;  // Asignar el ID de la caja
 
     //Serializar el JSON a una cadena
     String jsonData;
