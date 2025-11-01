@@ -1,0 +1,20 @@
+# Este archivo previene que Railway use Nixpacks# Deshabilitar Nixpacks - usar Dockerfile en su lugar# Deshabilitamos Nixpacks para forzar el uso del Dockerfile personalizado
+
+# Railway DEBE usar el Dockerfile en Codigo/Dockerfile
+
+[phases][phases.setup]
+
+# NO hay providers de Nixpacks
+
+nixPkgs = []
+
+[start]
+
+[phases.install]
+cmds = []
+
+[phases.build]
+cmds = []
+
+[start]
+cmd = ""
