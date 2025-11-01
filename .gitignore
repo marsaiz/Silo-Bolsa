@@ -158,6 +158,52 @@ __vm/
 .sconsign.dblite
 
 # ====================
+# Flutter / Dart
+# ====================
+# Build outputs
+**/build/
+**/android/app/debug
+**/android/app/profile
+**/android/app/release
+
+# Flutter/Dart tool files
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub/
+**/doc/api/
+**/ios/Flutter/.last_build_id
+/coverage/
+
+# Flutter ephemeral directories
+**/linux/flutter/ephemeral/
+**/windows/flutter/ephemeral/
+**/macos/Flutter/ephemeral/
+
+# IDE específico de Flutter
+*.iml
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/gradle.xml
+.idea/assetWizardSettings.xml
+.idea/dictionaries
+.idea/libraries
+.idea/shelf
+.idea/modules.xml
+.idea/.name
+.idea/runConfigurations/
+
+# Metadata y configs de Flutter
+.metadata
+.flutter-plugins-dependencies
+
+# Obfuscation y symbolication
+app.*.symbols
+app.*.map.json
+
+# ====================
 # Node.js (si aplica en el futuro)
 # ====================
 node_modules/
