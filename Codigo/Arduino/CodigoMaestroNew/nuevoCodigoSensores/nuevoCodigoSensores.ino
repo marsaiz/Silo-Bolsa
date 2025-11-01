@@ -10,7 +10,6 @@
 #include <RunningMedian.h>
 #include <WiFiManager.h> // https://github.com/tzapu/WiFiManager
 #include <MQ135.h>       // >>> NUEVA LIBRERÍA AÑADIDA para corrección de CO2 <<<
-#include <time.h>        // Para gmtime() y conversión de epoch time
 
 // Pin para resetear la configuración WiFi (opcional)
 #define RESET_WIFI_PIN D3  // Conecta un botón entre este pin y GND
@@ -204,15 +203,55 @@ String getISO8601Time() {
   // Obtener epoch time (segundos desde 1970-01-01 00:00:00 UTC)
   unsigned long epochTime = timeClient.getEpochTime();
   
-  // Convertir epoch time a componentes de fecha/hora usando time.h
-  struct tm *ptm = gmtime((time_t *)&epochTime);
+  // Calcular componentes de fecha usando aritmética precisa
+  // Días desde epoch
+  unsigned long days = epochTime / 86400;
+  unsigned long secondsInDay = epochTime % 86400;
   
-  int year = ptm->tm_year + 1900;   // tm_year es años desde 1900
-  int month = ptm->tm_mon + 1;      // tm_mon va de 0-11
-  int day = ptm->tm_mday;           // tm_mday va de 1-31
-  int hour = ptm->tm_hour;          // tm_hour va de 0-23
-  int minute = ptm->tm_min;         // tm_min va de 0-59
-  int second = ptm->tm_sec;         // tm_sec va de 0-59
+  // Calcular hora, minuto, segundo
+  int hour = secondsInDay / 3600;
+  int minute = (secondsInDay % 3600) / 60;
+  int second = secondsInDay % 60;
+  
+  // Calcular año, mes, día
+  int year = 1970;
+  unsigned long daysInYear;
+  
+  // Avanzar año por año
+  while (true) {
+    // Verificar si es año bisiesto
+    bool isLeapYear = (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
+    daysInYear = isLeapYear ? 366 : 365;
+    
+    if (days >= daysInYear) {
+      days -= daysInYear;
+      year++;
+    } else {
+      break;
+    }
+  }
+  
+  // Días en cada mes
+  int daysInMonth[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+  
+  // Ajustar febrero si es bisiesto
+  bool isLeapYear = (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
+  if (isLeapYear) {
+    daysInMonth[1] = 29;
+  }
+  
+  // Calcular mes y día
+  int month = 1;
+  for (int i = 0; i < 12; i++) {
+    if (days >= daysInMonth[i]) {
+      days -= daysInMonth[i];
+      month++;
+    } else {
+      break;
+    }
+  }
+  
+  int day = days + 1; // Los días empiezan en 1, no en 0
 
   // Formato ISO 8601 (sin milisegundos)
   char isoDate[30];
