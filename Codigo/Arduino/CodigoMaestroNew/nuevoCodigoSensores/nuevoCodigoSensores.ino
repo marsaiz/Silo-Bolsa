@@ -10,6 +10,7 @@
 #include <RunningMedian.h>
 #include <WiFiManager.h> // https://github.com/tzapu/WiFiManager
 #include <MQ135.h>       // >>> NUEVA LIBRERÍA AÑADIDA para corrección de CO2 <<<
+#include <time.h>        // Para gmtime() y conversión de epoch time
 
 // Pin para resetear la configuración WiFi (opcional)
 #define RESET_WIFI_PIN D3  // Conecta un botón entre este pin y GND
@@ -200,17 +201,21 @@ double getVoltage(int pin)
 String getISO8601Time() {
   timeClient.update();
 
-  //Obtener los componentes de la fecha y hora
+  // Obtener epoch time (segundos desde 1970-01-01 00:00:00 UTC)
   unsigned long epochTime = timeClient.getEpochTime();
-  int year = 1970 + (epochTime / 31556926); //Calcula el años desde 1970
-  int month = (epochTime % 31556926) / 2629743 + 1; //Obtener el mes
-  int day = (epochTime % 2629743) / 86400 + 1; //Obtener el día
-  int hour = timeClient.getHours();
-  int minute = timeClient.getMinutes();
-  int second = timeClient.getSeconds();
+  
+  // Convertir epoch time a componentes de fecha/hora usando time.h
+  struct tm *ptm = gmtime((time_t *)&epochTime);
+  
+  int year = ptm->tm_year + 1900;   // tm_year es años desde 1900
+  int month = ptm->tm_mon + 1;      // tm_mon va de 0-11
+  int day = ptm->tm_mday;           // tm_mday va de 1-31
+  int hour = ptm->tm_hour;          // tm_hour va de 0-23
+  int minute = ptm->tm_min;         // tm_min va de 0-59
+  int second = ptm->tm_sec;         // tm_sec va de 0-59
 
-  //Formato ISO 8001 (sin mili segundos)
+  // Formato ISO 8601 (sin milisegundos)
   char isoDate[30];
   sprintf(isoDate, "%04d-%02d-%02dT%02d:%02d:%02dZ", year, month, day, hour, minute, second);
   return String(isoDate);
-  }
+}
