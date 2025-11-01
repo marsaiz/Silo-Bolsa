@@ -2,12 +2,14 @@
   "$schema": "https://railway.app/railway.schema.json",
   "build": {
     "builder": "DOCKERFILE",
-    "dockerfilePath": "Codigo/Web/Dockerfile",
+    "dockerfilePath": "Codigo/Dockerfile",
     "watchPatterns": [
       "Codigo/Web/**/*.cs",
       "Codigo/Web/**/*.csproj",
       "Codigo/Web/**/appsettings*.json",
-      "Codigo/Web/Dockerfile"
+      "Codigo/Flutter/**/*.dart",
+      "Codigo/Flutter/**/pubspec.yaml",
+      "Codigo/Dockerfile"
     ]
   },
   "deploy": {

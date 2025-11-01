@@ -19,28 +19,28 @@ RUN flutter doctor -v
 RUN flutter config --enable-web
 
 # Copiar archivos de proyecto y restaurar dependencias
-COPY ["SiloBolsa.Api/SiloBolsa.Api.csproj", "SiloBolsa.Api/"]
-COPY ["SiloBolsa.Persistencia/SiloBolsa.Persistencia.csproj", "SiloBolsa.Persistencia/"]
-COPY ["SiloBolsa.Core/SiloBolsa.Core.csproj", "SiloBolsa.Core/"]
-COPY ["SiloBolsa.Servicios/SiloBolsa.Servicios.csproj", "SiloBolsa.Servicios/"]
+COPY ["Web/SiloBolsa.Api/SiloBolsa.Api.csproj", "Web/SiloBolsa.Api/"]
+COPY ["Web/SiloBolsa.Persistencia/SiloBolsa.Persistencia.csproj", "Web/SiloBolsa.Persistencia/"]
+COPY ["Web/SiloBolsa.Core/SiloBolsa.Core.csproj", "Web/SiloBolsa.Core/"]
+COPY ["Web/SiloBolsa.Servicios/SiloBolsa.Servicios.csproj", "Web/SiloBolsa.Servicios/"]
 
-RUN dotnet restore "SiloBolsa.Api/SiloBolsa.Api.csproj"
+RUN dotnet restore "Web/SiloBolsa.Api/SiloBolsa.Api.csproj"
 
 # Copiar el resto del código fuente
 COPY . .
 
 # Compilar Flutter Web
-WORKDIR "/src/../Flutter/silo_bolsa_flutter"
+WORKDIR "/src/Flutter/silo_bolsa_flutter"
 RUN flutter pub get
 RUN flutter build web --release
 
 # Volver al directorio de la API y construir
-WORKDIR "/src/SiloBolsa.Api"
+WORKDIR "/src/Web/SiloBolsa.Api"
 RUN dotnet build "SiloBolsa.Api.csproj" -c Release -o /app/build
 
 # Publicar la aplicación
 FROM build AS publish
-WORKDIR "/src/SiloBolsa.Api"
+WORKDIR "/src/Web/SiloBolsa.Api"
 RUN dotnet publish "SiloBolsa.Api.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 # Imagen final
@@ -51,10 +51,10 @@ WORKDIR /app
 COPY --from=publish /app/publish .
 
 # Copiar archivos estáticos (paginaWeb)
-COPY paginaWeb ./paginaWeb
+COPY --from=build /src/Web/paginaWeb ./paginaWeb
 
 # Copiar Flutter Web compilado desde el stage de build
-COPY --from=build /src/../Flutter/silo_bolsa_flutter/build/web ./wwwroot/flutter
+COPY --from=build /src/Flutter/silo_bolsa_flutter/build/web ./wwwroot/flutter
 
 # La aplicación aplicará las migraciones automáticamente al iniciar (ver Program.cs)
 ENTRYPOINT ["dotnet", "SiloBolsa.Api.dll"]

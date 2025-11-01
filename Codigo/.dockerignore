@@ -1,0 +1,42 @@
+# .NET
+**/bin/
+**/obj/
+**/release/
+
+# Flutter
+**/build/
+**/.dart_tool/
+**/.pub-cache/
+**/.pub/
+**/.flutter-plugins
+**/.flutter-plugins-dependencies
+**/.packages
+**/doc/api/
+
+# IDE
+**/.idea/
+**/.vscode/
+**/.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# OS
+**/.DS_Store
+**/Thumbs.db
+
+# Git
+**/.git/
+**/.gitignore
+**/.gitattributes
+
+# Documentación (no necesaria para el build)
+**/*.md
+!**/README.md
+
+# Android (no se necesita en Railway)
+Android/
+
+# Arduino (no se necesita en Railway)
+Arduino/
