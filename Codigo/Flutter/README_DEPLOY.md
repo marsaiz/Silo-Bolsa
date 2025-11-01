@@ -24,6 +24,11 @@ Este script:
 
 ## 🚢 Despliegue en Railway
 
+### Configuración:
+- **railway.toml**: Fuerza a Railway a usar el Dockerfile (en lugar de Nixpacks)
+- **railway.json**: Configura watchPatterns y políticas de reinicio
+- **Codigo/Dockerfile**: Ubicado en `Codigo/` para acceso a Web y Flutter
+
 El Dockerfile está configurado para:
 1. **Instalar Flutter SDK** durante el build
 2. **Compilar automáticamente** Flutter Web (`flutter build web --release`)
@@ -33,7 +38,9 @@ El Dockerfile está configurado para:
 - Archivos `.dart` en `Codigo/Flutter/`
 - Archivos `.cs` en `Codigo/Web/`
 - `pubspec.yaml` (dependencias de Flutter)
-- `Dockerfile`
+- `Codigo/Dockerfile`
+
+**Importante**: Railway debe usar el Dockerfile (no Nixpacks) porque necesitamos .NET 8.0 y Flutter SDK.
 
 ## 🌐 URLs de Acceso
 
