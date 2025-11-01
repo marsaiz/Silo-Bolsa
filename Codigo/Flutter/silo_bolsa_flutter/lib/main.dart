@@ -4,6 +4,7 @@ import 'line_chart_widget.dart';
 import 'api_service.dart';
 import 'lectura_model.dart';
 import 'package:fl_chart/fl_chart.dart'; // Necesario para FlSpot
+import 'package:intl/intl.dart'; // Necesario para formatear la fecha
 
 void main() {
   runApp(const MyApp());
@@ -56,11 +57,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     // Aplicar un margen de 10%
     double withMargin = overallMax * 1.1;
 
-    // **MODIFICACIÓN CLAVE:** Redondear al múltiplo de 10 superior más cercano
-    // Si withMargin es 104, ceil() hace que sea 104. 
-    // Lo redondeamos al siguiente múltiplo de 10 (ej. 110)
-    
-    // Si el valor es 104, (104 / 10).ceil() = 11.0. Luego 11 * 10 = 110.0
+    // Redondear al múltiplo de 10 superior más cercano
     double roundedMax = (withMargin / 10).ceil() * 10;
     
     // Asegurarse de que el mínimo para Y sea al menos 50 o 100 si los datos son bajos
@@ -95,12 +92,78 @@ class _DashboardScreenState extends State<DashboardScreen> {
     }).toList();
   }
 
+  // 3. NUEVA FUNCIÓN: Construye la tabla de lecturas
+  Widget _buildLecturasTable(List<Lectura> lecturas) {
+    // Tomar solo las últimas 10 lecturas
+    final latestLecturas = lecturas.length > 10 
+        ? lecturas.sublist(lecturas.length - 10).reversed.toList()
+        : lecturas.reversed.toList();
+    
+    // Formateador de fecha
+    final dateFormat = DateFormat('dd/MM HH:mm');
+
+    // Estilo de celda para los encabezados
+    const headerStyle = TextStyle(fontWeight: FontWeight.bold, fontSize: 14);
+    // Estilo de celda para los datos
+    const dataStyle = TextStyle(fontSize: 13);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SizedBox(height: 20),
+        const Text(
+          'Valores Exactos de las Últimas Lecturas',
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(height: 10),
+        
+        // El widget DataTable
+        DataTable(
+          columnSpacing: 16,
+          dataRowMinHeight: 30,
+          dataRowMaxHeight: 40,
+          headingRowColor: MaterialStateProperty.resolveWith((states) => Colors.grey.shade200),
+          columns: const [
+            DataColumn(label: Text('Hora', style: headerStyle)),
+            DataColumn(label: Text('Temp (°C)', style: headerStyle), numeric: true),
+            DataColumn(label: Text('Hum (%)', style: headerStyle), numeric: true),
+            DataColumn(label: Text('CO2 (PPM)', style: headerStyle), numeric: true),
+          ],
+          rows: latestLecturas.map((lectura) {
+            return DataRow(
+              cells: [
+                // Celda de Hora
+                DataCell(
+                  Text(dateFormat.format(lectura.fechaHoraLectura.toLocal()), style: dataStyle),
+                ),
+                // Celda de Temperatura
+                DataCell(
+                  Text(lectura.temp.toStringAsFixed(1), style: dataStyle),
+                ),
+                // Celda de Humedad
+                DataCell(
+                  Text(lectura.humedad.toStringAsFixed(1), style: dataStyle),
+                ),
+                // Celda de CO2
+                DataCell(
+                  Text(lectura.dioxidoDeCarbono.toStringAsFixed(1), style: dataStyle),
+                ),
+              ],
+            );
+          }).toList(),
+        ),
+        const SizedBox(height: 20), // Espacio al final de la tabla
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
-        title: const Text('Dashboard de Sensores'),
+        title: const Text('Dashboard de Sensores', style: TextStyle(color: Colors.white)),
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
@@ -108,12 +171,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             const Text(
-              'Datos Recientes (API)',
+              'Gráfico Histórico de Lecturas',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 20),
 
-            // **Uso de FutureBuilder para cargar el gráfico**
+            // **Uso de FutureBuilder para cargar el gráfico y la tabla**
             FutureBuilder<List<Lectura>>(
               future: _futureLecturas,
               builder: (context, snapshot) {
@@ -149,33 +212,41 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   final double requiredWidth = (lecturas.length * 50.0) + 32.0;
                   final double chartWidth = requiredWidth > screenWidth ? requiredWidth : screenWidth - 32;
 
-                  return Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.1),
-                          spreadRadius: 2,
-                          blurRadius: 5,
-                          offset: const Offset(0, 3),
+                  return Column(
+                    children: [
+                      // --- GRÁFICO ---
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.1),
+                              spreadRadius: 2,
+                              blurRadius: 5,
+                              offset: const Offset(0, 3),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: SizedBox(
-                        width: chartWidth, // Aplicar el ancho dinámico/forzado
-                        child: SensorLineChart(
-                          tempSpots: tempSpots,
-                          humedadSpots: humedadSpots,
-                          co2Spots: co2Spots,
-                          maxX: maxX,
-                          maxY: maxY, // Pasar el valor máximo dinámico
-                          timestamps: timestamps, // Pasar las marcas de tiempo
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: SizedBox(
+                            width: chartWidth, // Aplicar el ancho dinámico/forzado
+                            child: SensorLineChart(
+                              tempSpots: tempSpots,
+                              humedadSpots: humedadSpots,
+                              co2Spots: co2Spots,
+                              maxX: maxX,
+                              maxY: maxY, // Pasar el valor máximo dinámico
+                              timestamps: timestamps, // Pasar las marcas de tiempo
+                            ),
+                          ),
                         ),
                       ),
-                    ),
+                      
+                      // --- TABLA DE LECTURAS (NUEVO) ---
+                      _buildLecturasTable(lecturas),
+                    ],
                   );
                 }
               },
@@ -189,7 +260,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 
-  // 3. FUNCIÓN: Leyenda
+  // 4. FUNCIÓN: Leyenda
   Widget _buildLegend() {
     return const Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -202,7 +273,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 }
 
-// 4. CLASE: Ítem de Leyenda (no necesita cambios)
+// 5. CLASE: Ítem de Leyenda (no necesita cambios)
 class _LegendItem extends StatelessWidget {
   final Color color;
   final String label;
