@@ -300,3 +300,8 @@ Temporary Items
 wwwroot/
 publish/
 PublishProfiles/
+
+# Permitir subir Flutter Web precompilado en la API
+!Codigo/Web/SiloBolsa.Api/wwwroot/
+!Codigo/Web/SiloBolsa.Api/wwwroot/flutter/
+!Codigo/Web/SiloBolsa.Api/wwwroot/flutter/**
