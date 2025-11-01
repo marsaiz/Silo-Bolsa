@@ -7,8 +7,7 @@
       "Codigo/Web/**/*.cs",
       "Codigo/Web/**/*.csproj",
       "Codigo/Web/**/appsettings*.json",
-      "Codigo/Flutter/**/*.dart",
-      "Codigo/Flutter/**/pubspec.yaml",
+      "Codigo/Web/SiloBolsa.Api/wwwroot/**",
       "Codigo/Dockerfile"
     ]
   },
