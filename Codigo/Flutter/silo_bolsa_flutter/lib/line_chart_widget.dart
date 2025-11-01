@@ -116,11 +116,8 @@ class SensorLineChart extends StatelessWidget {
     if (index >= 0 && index < timestamps.length && index % meta.sideTitles.interval!.toInt() == 0) {
       final dateTime = timestamps[index];
       
-      // Convertir a hora local antes de formatear
-      final localTime = dateTime.toLocal();
-      
-      // Formatear la hora (HH:mm)
-      final formattedTime = DateFormat('HH:mm').format(localTime);
+      // Formatear la hora (HH:mm) sin conversión - la fecha ya viene correcta de la API
+      final formattedTime = DateFormat('HH:mm').format(dateTime);
 
       // Si es el primer o último punto, mostrar también la fecha
       if (index == 0 || index == maxX.toInt()) {

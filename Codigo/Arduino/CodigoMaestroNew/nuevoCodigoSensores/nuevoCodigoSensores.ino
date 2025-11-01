@@ -24,9 +24,10 @@ String getISO8601Time();
 void enviarLectura();
 
 WiFiUDP ntpUDP;
-// Ajuste para UTC-3 (Argentina). 
-// 60000 ms = 1 minuto de intervalo de actualización (suficiente para un time-client)
-NTPClient timeClient(ntpUDP, "pool.ntp.org", -10800, 60000); 
+// Configurar NTP en UTC puro (offset 0)
+// El servidor y la UI manejarán la conversión a zona horaria local
+// 60000 ms = 1 minuto de intervalo de actualización
+NTPClient timeClient(ntpUDP, "pool.ntp.org", 0, 60000); 
 
 // Temporizadores
 unsigned long lastTime = 0;
