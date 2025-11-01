@@ -112,21 +112,24 @@ class SensorLineChart extends StatelessWidget {
     // Convertir el índice (value) a entero
     final index = value.toInt();
 
-    // Solo mostramos etiquetas en los intervalos definidos por meta.sideTitles.interval
-    if (index >= 0 && index < timestamps.length && index % meta.sideTitles.interval!.toInt() == 0) {
-      final dateTime = timestamps[index];
-      
-      // Formatear la hora (HH:mm) sin conversión - la fecha ya viene correcta de la API
-      final formattedTime = DateFormat('HH:mm').format(dateTime);
+   // Solo mostramos etiquetas en los intervalos definidos por meta.sideTitles.interval
+   if (index >= 0 && index < timestamps.length && index % meta.sideTitles.interval!.toInt() == 0) {
+    final dateTime = timestamps[index];
 
-      // Si es el primer o último punto, mostrar también la fecha
-      if (index == 0 || index == maxX.toInt()) {
-         final formattedDate = DateFormat('dd/MM\nHH:mm').format(dateTime);
-         text = Text(formattedDate, style: style, textAlign: TextAlign.center);
-      } else {
-         text = Text(formattedTime, style: style, textAlign: TextAlign.center);
-      }
+    // Hack: ajustar visualización restando 3 horas (ART) para evitar la conversión del navegador
+    final adjusted = dateTime.subtract(const Duration(hours: 3));
+      
+    // Formatear la hora (HH:mm) usando el tiempo ajustado
+    final formattedTime = DateFormat('HH:mm').format(adjusted);
+
+    // Si es el primer o último punto, mostrar también la fecha
+    if (index == 0 || index == maxX.toInt()) {
+      final formattedDate = DateFormat('dd/MM\nHH:mm').format(adjusted);
+      text = Text(formattedDate, style: style, textAlign: TextAlign.center);
+    } else {
+      text = Text(formattedTime, style: style, textAlign: TextAlign.center);
     }
+   }
 
     return SideTitleWidget(
         child: text,
