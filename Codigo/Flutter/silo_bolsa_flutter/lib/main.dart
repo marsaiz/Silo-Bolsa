@@ -66,10 +66,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   // 2. FUNCIÓN: Convierte la lista de Lectura a datos FlSpot
   List<FlSpot> _getSpotsForType(List<Lectura> lecturas, String type) {
-    // La clave es ordenar los datos por tiempo para que el eje X tenga sentido
-    lecturas.sort((a, b) => a.fechaHoraLectura.compareTo(b.fechaHoraLectura));
+    // Trabajar con una copia ordenada para no mutar la lista original
+    final sorted = [...lecturas]
+      ..sort((a, b) => a.fechaHoraLectura.compareTo(b.fechaHoraLectura));
 
-    return lecturas.asMap().entries.map((entry) {
+    return sorted.asMap().entries.map((entry) {
       final index = entry.key; // El índice será nuestra posición en el Eje X
       final lectura = entry.value;
       double value;
@@ -94,10 +95,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   // 3. NUEVA FUNCIÓN: Construye la tabla de lecturas
   Widget _buildLecturasTable(List<Lectura> lecturas) {
-    // Tomar solo las últimas 10 lecturas
-    final latestLecturas = lecturas.length > 10 
-        ? lecturas.sublist(lecturas.length - 10).reversed.toList()
-        : lecturas.reversed.toList();
+    // Trabajar con copia ordenada ascendente por fecha
+    final ordered = [...lecturas]
+      ..sort((a, b) => a.fechaHoraLectura.compareTo(b.fechaHoraLectura));
+    // Tomar solo las últimas 10 y mostrarlas de más reciente a más antigua
+    final latestLecturas = ordered.length > 10 
+        ? ordered.sublist(ordered.length - 10).reversed.toList()
+        : ordered.reversed.toList();
     
     // Formateador de fecha
     final dateFormat = DateFormat('dd/MM HH:mm');
@@ -193,13 +197,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   );
                 } else {
                   // **¡Datos listos! Mapear y mostrar el gráfico.**
-                  final lecturas = snapshot.data!;
+                  // Trabajar con una copia ordenada por fecha ascendente
+                  final lecturasRaw = snapshot.data!;
+                  final lecturas = [...lecturasRaw]
+                    ..sort((a, b) => a.fechaHoraLectura.compareTo(b.fechaHoraLectura));
                   final double maxX = lecturas.length.toDouble() - 1;
                   final double maxY = _calculateMaxY(lecturas); // Calcular maxY dinámico
 
-                  // Nuevo: Extraer las marcas de tiempo de las lecturas ordenadas
+                  // Marcas de tiempo para las etiquetas del eje X (convertidas a local para mostrar)
                   final List<DateTime> timestamps = lecturas
-                      .map((l) => l.fechaHoraLectura)
+                      .map((l) => l.fechaHoraLectura.toLocal())
                       .toList();
 
                   final tempSpots = _getSpotsForType(lecturas, 'temp');

@@ -17,11 +17,12 @@ class Lectura {
   factory Lectura.fromJson(Map<String, dynamic> json) {
     return Lectura(
       // La clave 'fechaHoraLectura' se convierte a objeto DateTime
-      fechaHoraLectura: DateTime.parse(json['fechaHoraLectura']), 
+      // Normalizamos a UTC por si el backend envía 'Z' (ISO 8601 UTC)
+      fechaHoraLectura: DateTime.parse(json['fechaHoraLectura']).toUtc(), 
       // Las claves de los sensores se leen como double
-      temp: json['temp'] as double,
-      humedad: json['humedad'] as double,
-      dioxidoDeCarbono: json['dioxidoDeCarbono'] as double,
+      temp: (json['temp'] as num).toDouble(),
+      humedad: (json['humedad'] as num).toDouble(),
+      dioxidoDeCarbono: (json['dioxidoDeCarbono'] as num).toDouble(),
     );
   }
 }
