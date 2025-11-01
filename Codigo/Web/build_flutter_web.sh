@@ -5,14 +5,14 @@
 
 set -e  # Salir si hay errores
 
-echo "🚀 Compilando Flutter Web..."
+echo "🚀 Compilando Flutter Web con base-href /flutter/..."
 cd ../Flutter/silo_bolsa_flutter
-flutter build web --release
+flutter build web --release --base-href /flutter/
 
 echo "📦 Copiando archivos a wwwroot/flutter..."
 cd ../../Web
-mkdir -p SiloBolsa.Api/wwwroot/flutter
-cp -r ../Flutter/silo_bolsa_flutter/build/web/* SiloBolsa.Api/wwwroot/flutter/
+rm -rf SiloBolsa.Api/wwwroot/flutter
+cp -r ../Flutter/silo_bolsa_flutter/build/web SiloBolsa.Api/wwwroot/flutter
 
 echo "✅ Flutter Web compilado y copiado exitosamente!"
 echo "📍 Accesible en: http://localhost:8080/flutter/index.html"
