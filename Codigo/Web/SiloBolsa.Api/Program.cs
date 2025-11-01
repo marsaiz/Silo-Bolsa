@@ -109,6 +109,34 @@ app.UseStaticFiles(new StaticFileOptions
 app.UseDefaultFiles();
 app.UseStaticFiles();
 
+// Servir explicitamente Flutter Web en /flutter desde wwwroot/flutter
+var flutterWebRoot = System.IO.Path.Combine(System.IO.Directory.GetCurrentDirectory(), "wwwroot", "flutter");
+if (System.IO.Directory.Exists(flutterWebRoot))
+{
+    var defaultFlutter = new DefaultFilesOptions
+    {
+        FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(flutterWebRoot),
+        RequestPath = "/flutter"
+    };
+    // Asegurar que busque index.html por defecto
+    defaultFlutter.DefaultFileNames.Clear();
+    defaultFlutter.DefaultFileNames.Add("index.html");
+    app.UseDefaultFiles(defaultFlutter);
+
+    var contentTypes = new Microsoft.AspNetCore.StaticFiles.FileExtensionContentTypeProvider();
+    if (!contentTypes.Mappings.ContainsKey(".wasm"))
+    {
+        contentTypes.Mappings.Add(".wasm", "application/wasm");
+    }
+
+    app.UseStaticFiles(new StaticFileOptions
+    {
+        FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(flutterWebRoot),
+        RequestPath = "/flutter",
+        ContentTypeProvider = contentTypes
+    });
+}
+
 // Configure the HTTP request pipeline.
 /* if (app.Environment.IsDevelopment())
 {
