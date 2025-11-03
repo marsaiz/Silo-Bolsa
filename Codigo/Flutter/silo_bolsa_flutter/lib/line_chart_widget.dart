@@ -23,8 +23,8 @@ class SensorLineChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
-      // Reducir la altura del gráfico para que quepa mejor en pantalla
-      aspectRatio: 1.8,
+      // Gráfico más bajo para que quepa sin scroll vertical
+      aspectRatio: 2.5,
       child: Padding(
         padding: const EdgeInsets.only(
           right: 18,
@@ -50,8 +50,8 @@ class SensorLineChart extends StatelessWidget {
           sideTitles: SideTitles(
             showTitles: true,
             reservedSize: 40, // Más espacio para la rotación
-            // Intervalo: muestra una etiqueta cada 1/5 del total de puntos (ej. cada 5 puntos)
-            interval: (maxX / 5).ceilToDouble(), 
+            // Mostrar más etiquetas: cada 3 puntos en lugar de cada 5
+            interval: (maxX / 20).ceilToDouble().clamp(1.0, double.infinity), 
             getTitlesWidget: bottomTitleWidgets,
           ),
         ),
@@ -82,16 +82,79 @@ class SensorLineChart extends StatelessWidget {
           isCurved: true, 
           color: Colors.red,
           barWidth: 3,
-          dotData: const FlDotData(show: false),
+          dotData: FlDotData(
+            show: true,
+            checkToShowDot: (spot, barData) {
+              // Mostrar punto solo en primero, último, máximo y mínimo
+              return _shouldShowDot(spot, tempSpots);
+            },
+            getDotPainter: (spot, percent, barData, index) {
+              return FlDotCirclePainter(
+                radius: 5,
+                color: Colors.red,
+                strokeWidth: 2,
+                strokeColor: Colors.white,
+              );
+            },
+          ),
+          // Mostrar etiquetas con valores en puntos clave
+          showingIndicators: _getIndicatorsIndexes(tempSpots),
         ),
         LineChartBarData(
           spots: humedadSpots,
           isCurved: true,
           color: Colors.blue,
           barWidth: 3,
-          dotData: const FlDotData(show: false),
+          dotData: FlDotData(
+            show: true,
+            checkToShowDot: (spot, barData) {
+              return _shouldShowDot(spot, humedadSpots);
+            },
+            getDotPainter: (spot, percent, barData, index) {
+              return FlDotCirclePainter(
+                radius: 5,
+                color: Colors.blue,
+                strokeWidth: 2,
+                strokeColor: Colors.white,
+              );
+            },
+          ),
+          showingIndicators: _getIndicatorsIndexes(humedadSpots),
         ),
       ],
+      
+      // Configurar tooltips con valores
+      lineTouchData: LineTouchData(
+        enabled: true,
+        touchTooltipData: LineTouchTooltipData(
+          getTooltipColor: (touchedSpot) => Colors.blueGrey.withOpacity(0.8),
+          getTooltipItems: (touchedSpots) {
+            return touchedSpots.map((spot) {
+              final isTempLine = spot.barIndex == 0;
+              final label = isTempLine ? 'Temp' : 'Hum';
+              final unit = isTempLine ? '°C' : '%';
+              
+              return LineTooltipItem(
+                '$label: ${spot.y.toStringAsFixed(1)}$unit',
+                const TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 12,
+                ),
+                children: [
+                  TextSpan(
+                    text: '\n${DateFormat('HH:mm').format(timestamps[spot.x.toInt()])}',
+                    style: const TextStyle(
+                      color: Colors.white70,
+                      fontSize: 10,
+                    ),
+                  ),
+                ],
+              );
+            }).toList();
+          },
+        ),
+      ),
     );
   }
 
@@ -145,5 +208,50 @@ class SensorLineChart extends StatelessWidget {
         child: Text(text, style: style, textAlign: TextAlign.left),
         meta: meta, 
     );
+  }
+
+  // Determinar si mostrar punto (primero, último, máximo, mínimo)
+  bool _shouldShowDot(FlSpot spot, List<FlSpot> spots) {
+    if (spots.isEmpty) return false;
+    
+    final index = spot.x.toInt();
+    final firstIndex = spots.first.x.toInt();
+    final lastIndex = spots.last.x.toInt();
+    
+    // Encontrar índices de máximo y mínimo
+    double maxValue = spots.map((s) => s.y).reduce((a, b) => a > b ? a : b);
+    double minValue = spots.map((s) => s.y).reduce((a, b) => a < b ? a : b);
+    
+    int maxIndex = spots.indexWhere((s) => s.y == maxValue);
+    int minIndex = spots.indexWhere((s) => s.y == minValue);
+    
+    // Mostrar punto si es primero, último, máximo o mínimo
+    return index == firstIndex || 
+           index == lastIndex || 
+           index == maxIndex || 
+           index == minIndex;
+  }
+
+  // Obtener índices para mostrar indicadores (líneas verticales en puntos clave)
+  List<int> _getIndicatorsIndexes(List<FlSpot> spots) {
+    if (spots.isEmpty) return [];
+    
+    List<int> indexes = [];
+    
+    // Primero y último
+    indexes.add(spots.first.x.toInt());
+    indexes.add(spots.last.x.toInt());
+    
+    // Máximo y mínimo
+    double maxValue = spots.map((s) => s.y).reduce((a, b) => a > b ? a : b);
+    double minValue = spots.map((s) => s.y).reduce((a, b) => a < b ? a : b);
+    
+    int maxIndex = spots.indexWhere((s) => s.y == maxValue);
+    int minIndex = spots.indexWhere((s) => s.y == minValue);
+    
+    if (!indexes.contains(maxIndex)) indexes.add(maxIndex);
+    if (!indexes.contains(minIndex)) indexes.add(minIndex);
+    
+    return indexes;
   }
 }
