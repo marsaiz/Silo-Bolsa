@@ -216,7 +216,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
                   final tempSpots = _getSpotsForType(lecturas, 'temp');
                   final humedadSpots = _getSpotsForType(lecturas, 'humedad');
-                  final co2Spots = _getSpotsForType(lecturas, 'co2');
+                  // CO2 se muestra solo en la tabla, no en el gráfico
 
                   // Lógica para la adaptabilidad horizontal (scrolling)
                   final double screenWidth = MediaQuery.of(context).size.width;
@@ -247,7 +247,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             child: SensorLineChart(
                               tempSpots: tempSpots,
                               humedadSpots: humedadSpots,
-                              co2Spots: co2Spots,
                               maxX: maxX,
                               maxY: maxY, // Pasar el valor máximo dinámico
                               timestamps: timestamps, // Pasar las marcas de tiempo
@@ -279,7 +278,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
       children: [
         _LegendItem(color: Colors.red, label: 'Temperatura'),
         _LegendItem(color: Colors.blue, label: 'Humedad'),
-        _LegendItem(color: Colors.green, label: 'CO2'),
       ],
     );
   }

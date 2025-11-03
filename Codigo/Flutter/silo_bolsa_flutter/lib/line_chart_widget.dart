@@ -7,7 +7,6 @@ import 'package:intl/intl.dart';
 class SensorLineChart extends StatelessWidget {
   final List<FlSpot> tempSpots;
   final List<FlSpot> humedadSpots;
-  final List<FlSpot> co2Spots;
   final double maxX;
   final double maxY;
   final List<DateTime> timestamps; // Nueva lista de marcas de tiempo
@@ -16,7 +15,6 @@ class SensorLineChart extends StatelessWidget {
     super.key,
     required this.tempSpots,
     required this.humedadSpots,
-    required this.co2Spots,
     required this.maxX,
     required this.maxY,
     required this.timestamps, // Recibe las marcas de tiempo
@@ -77,7 +75,7 @@ class SensorLineChart extends StatelessWidget {
       
       gridData: const FlGridData(show: false), 
 
-      // **Series de Datos Reales** (sin cambios)
+      // **Series de Datos: Solo Temperatura y Humedad**
       lineBarsData: [
         LineChartBarData(
           spots: tempSpots,
@@ -90,13 +88,6 @@ class SensorLineChart extends StatelessWidget {
           spots: humedadSpots,
           isCurved: true,
           color: Colors.blue,
-          barWidth: 3,
-          dotData: const FlDotData(show: false),
-        ),
-        LineChartBarData(
-          spots: co2Spots,
-          isCurved: true,
-          color: Colors.green,
           barWidth: 3,
           dotData: const FlDotData(show: false),
         ),
@@ -115,16 +106,13 @@ class SensorLineChart extends StatelessWidget {
    // Solo mostramos etiquetas en los intervalos definidos por meta.sideTitles.interval
    if (index >= 0 && index < timestamps.length && index % meta.sideTitles.interval!.toInt() == 0) {
     final dateTime = timestamps[index];
-
-    // Hack: ajustar visualización restando 3 horas (ART) para evitar la conversión del navegador
-    final adjusted = dateTime.subtract(const Duration(hours: 3));
       
-    // Formatear la hora (HH:mm) usando el tiempo ajustado
-    final formattedTime = DateFormat('HH:mm').format(adjusted);
+    // Formatear la hora (HH:mm)
+    final formattedTime = DateFormat('HH:mm').format(dateTime);
 
     // Si es el primer o último punto, mostrar también la fecha
     if (index == 0 || index == maxX.toInt()) {
-      final formattedDate = DateFormat('dd/MM\nHH:mm').format(adjusted);
+      final formattedDate = DateFormat('dd/MM\nHH:mm').format(dateTime);
       text = Text(formattedDate, style: style, textAlign: TextAlign.center);
     } else {
       text = Text(formattedTime, style: style, textAlign: TextAlign.center);
