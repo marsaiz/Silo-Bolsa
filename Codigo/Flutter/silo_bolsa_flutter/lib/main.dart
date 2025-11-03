@@ -49,10 +49,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
     double maxTemp = lecturas.map((l) => l.temp).reduce((a, b) => a > b ? a : b);
     double maxHumedad = lecturas.map((l) => l.humedad).reduce((a, b) => a > b ? a : b);
-    double maxCO2 = lecturas.map((l) => l.dioxidoDeCarbono).reduce((a, b) => a > b ? a : b);
+    // No incluimos CO2 en el cálculo porque tiene valores muy altos (400+ PPM)
+    // que distorsionan la escala del gráfico para temperatura y humedad
 
-    // Encuentra el máximo entre los tres sensores
-    double overallMax = [maxTemp, maxHumedad, maxCO2].reduce((a, b) => a > b ? a : b);
+    // Encuentra el máximo entre temp y humedad solamente
+    double overallMax = maxTemp > maxHumedad ? maxTemp : maxHumedad;
 
     // Aplicar un margen de 10%
     double withMargin = overallMax * 1.1;
@@ -60,8 +61,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
     // Redondear al múltiplo de 10 superior más cercano
     double roundedMax = (withMargin / 10).ceil() * 10;
     
-    // Asegurarse de que el mínimo para Y sea al menos 50 o 100 si los datos son bajos
-    return roundedMax < 50 ? 50.0 : roundedMax.toDouble();
+    // Limitar el máximo a 120 para mantener el gráfico legible
+    // Esto permite ver bien temperatura (0-50°C) y humedad (0-100%)
+    double limitedMax = roundedMax > 120 ? 120.0 : roundedMax;
+    
+    // Asegurarse de que el mínimo para Y sea al menos 50
+    return limitedMax < 50 ? 50.0 : limitedMax;
   }
 
   // 2. FUNCIÓN: Convierte la lista de Lectura a datos FlSpot
