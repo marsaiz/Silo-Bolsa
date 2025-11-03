@@ -23,8 +23,8 @@ class SensorLineChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
-      // Usar AspectRatio para mantener la proporción, lo que ayuda a la adaptabilidad
-      aspectRatio: 2.7,
+      // Reducir la altura del gráfico para que quepa mejor en pantalla
+      aspectRatio: 1.8,
       child: Padding(
         padding: const EdgeInsets.only(
           right: 18,

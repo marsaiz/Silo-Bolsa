@@ -204,25 +204,28 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   // **¡Datos listos! Mapear y mostrar el gráfico.**
                   // Trabajar con una copia ordenada por fecha ascendente
                   final lecturasRaw = snapshot.data!;
-                  final lecturas = [...lecturasRaw]
+                  final lecturasOrdenadas = [...lecturasRaw]
                     ..sort((a, b) => a.fechaHoraLectura.compareTo(b.fechaHoraLectura));
-                  final double maxX = lecturas.length.toDouble() - 1;
-                  final double maxY = _calculateMaxY(lecturas); // Calcular maxY dinámico
+                  
+                  // Limitar a las últimas 30 lecturas para el gráfico (para no hacer el gráfico demasiado ancho)
+                  final lecturasParaGrafico = lecturasOrdenadas.length > 30
+                      ? lecturasOrdenadas.sublist(lecturasOrdenadas.length - 30)
+                      : lecturasOrdenadas;
+                  
+                  final double maxX = lecturasParaGrafico.length.toDouble() - 1;
+                  final double maxY = _calculateMaxY(lecturasParaGrafico); // Calcular maxY dinámico
 
                   // Marcas de tiempo para las etiquetas del eje X (convertidas a local para mostrar)
-                  final List<DateTime> timestamps = lecturas
+                  final List<DateTime> timestamps = lecturasParaGrafico
                       .map((l) => l.fechaHoraLectura.toLocal())
                       .toList();
 
-                  final tempSpots = _getSpotsForType(lecturas, 'temp');
-                  final humedadSpots = _getSpotsForType(lecturas, 'humedad');
+                  final tempSpots = _getSpotsForType(lecturasParaGrafico, 'temp');
+                  final humedadSpots = _getSpotsForType(lecturasParaGrafico, 'humedad');
                   // CO2 se muestra solo en la tabla, no en el gráfico
 
-                  // Lógica para la adaptabilidad horizontal (scrolling)
+                  // Simplificar ancho: usar ancho de pantalla completo (sin scroll horizontal)
                   final double screenWidth = MediaQuery.of(context).size.width;
-                  // Asignar 50 píxeles por punto + 32 de padding. Si es menor que la pantalla, usar el ancho de la pantalla.
-                  final double requiredWidth = (lecturas.length * 50.0) + 32.0;
-                  final double chartWidth = requiredWidth > screenWidth ? requiredWidth : screenWidth - 32;
 
                   return Column(
                     children: [
@@ -240,23 +243,20 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             ),
                           ],
                         ),
-                        child: SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: SizedBox(
-                            width: chartWidth, // Aplicar el ancho dinámico/forzado
-                            child: SensorLineChart(
-                              tempSpots: tempSpots,
-                              humedadSpots: humedadSpots,
-                              maxX: maxX,
-                              maxY: maxY, // Pasar el valor máximo dinámico
-                              timestamps: timestamps, // Pasar las marcas de tiempo
-                            ),
+                        child: SizedBox(
+                          width: screenWidth - 32, // Usar ancho de pantalla menos padding
+                          child: SensorLineChart(
+                            tempSpots: tempSpots,
+                            humedadSpots: humedadSpots,
+                            maxX: maxX,
+                            maxY: maxY, // Pasar el valor máximo dinámico
+                            timestamps: timestamps, // Pasar las marcas de tiempo
                           ),
                         ),
                       ),
                       
-                      // --- TABLA DE LECTURAS (NUEVO) ---
-                      _buildLecturasTable(lecturas),
+                      // --- TABLA DE LECTURAS (usa todas las lecturas, no solo las del gráfico) ---
+                      _buildLecturasTable(lecturasOrdenadas),
                     ],
                   );
                 }
