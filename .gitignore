@@ -203,9 +203,8 @@ __vm/
 app.*.symbols
 app.*.map.json
 
-# Archivos de build de Flutter (excepto wwwroot/flutter que se sube compilado)
-**/Flutter/**/build/
-!**/Web/SiloBolsa.Api/wwwroot/flutter/
+# Archivos de build de Flutter (código fuente)
+Codigo/Flutter/**/build/
 
 # ====================
 # Node.js (si aplica en el futuro)
