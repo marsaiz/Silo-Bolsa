@@ -61,9 +61,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
     // Redondear al múltiplo de 10 superior más cercano
     double roundedMax = (withMargin / 10).ceil() * 10;
     
-    // Limitar el máximo a 120 para mantener el gráfico legible
-    // Esto permite ver bien temperatura (0-50°C) y humedad (0-100%)
-    double limitedMax = roundedMax > 120 ? 120.0 : roundedMax;
+    // Limitar el máximo a 100 para mantener el gráfico legible (Temp < 60, Humedad ≤ 100)
+    double limitedMax = roundedMax > 100 ? 100.0 : roundedMax;
     
     // Asegurarse de que el mínimo para Y sea al menos 50
     return limitedMax < 50 ? 50.0 : limitedMax;
@@ -71,11 +70,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   // 2. FUNCIÓN: Convierte la lista de Lectura a datos FlSpot
   List<FlSpot> _getSpotsForType(List<Lectura> lecturas, String type) {
-    // Trabajar con una copia ordenada para no mutar la lista original
-    final sorted = [...lecturas]
-      ..sort((a, b) => a.fechaHoraLectura.compareTo(b.fechaHoraLectura));
+    // Mantener el orden recibido (ya normalizado a ascendente fuera de esta función)
+    final series = lecturas;
 
-    return sorted.asMap().entries.map((entry) {
+    return series.asMap().entries.map((entry) {
       final index = entry.key; // El índice será nuestra posición en el Eje X
       final lectura = entry.value;
       double value;
@@ -100,9 +98,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   // 3. NUEVA FUNCIÓN: Construye la tabla de lecturas
   Widget _buildLecturasTable(List<Lectura> lecturas) {
-    // Trabajar con copia ordenada ascendente por fecha
-    final ordered = [...lecturas]
-      ..sort((a, b) => a.fechaHoraLectura.compareTo(b.fechaHoraLectura));
+    // Garantizar orden ascendente sin forzar un sort costoso
+    final ordered = _asAscending(lecturas);
     // Tomar solo las últimas 10 y mostrarlas de más reciente a más antigua
     final latestLecturas = ordered.length > 10 
         ? ordered.sublist(ordered.length - 10).reversed.toList()
@@ -143,7 +140,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               cells: [
                 // Celda de Hora
                 DataCell(
-                  Text(dateFormat.format(lectura.fechaHoraLectura.toLocal()), style: dataStyle),
+                  Text(dateFormat.format(lectura.fechaHoraLectura), style: dataStyle),
                 ),
                 // Celda de Temperatura
                 DataCell(
@@ -201,23 +198,30 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     child: Text('No hay datos de lectura disponibles.'),
                   );
                 } else {
-                  // **¡Datos listos! Mapear y mostrar el gráfico.**
-                  // Trabajar con una copia ordenada por fecha ascendente
-                  final lecturasRaw = snapshot.data!;
-                  final lecturasOrdenadas = [...lecturasRaw]
-                    ..sort((a, b) => a.fechaHoraLectura.compareTo(b.fechaHoraLectura));
+                  // **¡Datos listos!** Normalizamos a orden cronológico ascendente sin reordenar innecesariamente
+                  final lecturasDesdeApi = snapshot.data!;
+                  final lecturasOrdenadas = _asAscending(lecturasDesdeApi);
                   
-                  // Limitar a las últimas 30 lecturas para el gráfico (para no hacer el gráfico demasiado ancho)
-                  final lecturasParaGrafico = lecturasOrdenadas.length > 30
-                      ? lecturasOrdenadas.sublist(lecturasOrdenadas.length - 30)
-                      : lecturasOrdenadas;
+                  // Mostrar solo las lecturas de la última semana (si las hay)
+                  final now = DateTime.now();
+                  final weekAgo = now.subtract(const Duration(days: 7));
+                  final lecturasUltimaSemana = lecturasOrdenadas
+                      .where((l) => l.fechaHoraLectura.isAfter(weekAgo))
+                      .toList();
+
+                  // Si no hay lecturas en la última semana, usar las últimas 30 como respaldo
+                  final lecturasParaGrafico = lecturasUltimaSemana.isNotEmpty
+                      ? lecturasUltimaSemana
+                      : (lecturasOrdenadas.length > 30
+                          ? lecturasOrdenadas.sublist(lecturasOrdenadas.length - 30)
+                          : lecturasOrdenadas);
                   
                   final double maxX = lecturasParaGrafico.length.toDouble() - 1;
                   final double maxY = _calculateMaxY(lecturasParaGrafico); // Calcular maxY dinámico
 
                   // Marcas de tiempo para las etiquetas del eje X (convertidas a local para mostrar)
                   final List<DateTime> timestamps = lecturasParaGrafico
-                      .map((l) => l.fechaHoraLectura.toLocal())
+                      .map((l) => l.fechaHoraLectura)
                       .toList();
 
                   final tempSpots = _getSpotsForType(lecturasParaGrafico, 'temp');
@@ -269,6 +273,19 @@ class _DashboardScreenState extends State<DashboardScreen> {
         ),
       ),
     );
+  }
+
+  // Normaliza a orden cronológico ascendente respetando el orden que llega de la API.
+  // Si la lista ya está ascendente: se devuelve tal cual. Si viene descendente: se invierte.
+  List<Lectura> _asAscending(List<Lectura> lecturas) {
+    if (lecturas.length <= 1) return lecturas;
+    final first = lecturas.first.fechaHoraLectura;
+    final last = lecturas.last.fechaHoraLectura;
+    // Si el primero es posterior al último, la lista está descendente → invertir
+    if (first.isAfter(last)) {
+      return lecturas.reversed.toList();
+    }
+    return lecturas;
   }
 
   // 4. FUNCIÓN: Leyenda
