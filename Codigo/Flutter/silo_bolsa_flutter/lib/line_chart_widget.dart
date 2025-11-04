@@ -183,10 +183,10 @@ class SensorLineChart extends StatelessWidget {
    }
 
     return SideTitleWidget(
-        child: text,
         meta: meta, 
         // Rotar el texto 60 grados para evitar superposición
-        angle: 60 * 3.14159 / 180, 
+        angle: 60 * 3.14159 / 180,
+        child: text, 
     );
   }
 
@@ -205,8 +205,8 @@ class SensorLineChart extends StatelessWidget {
     String text = value.toStringAsFixed(0); // Mostrar valor sin decimales
     
     return SideTitleWidget(
-        child: Text(text, style: style, textAlign: TextAlign.left),
-        meta: meta, 
+        meta: meta,
+        child: Text(text, style: style, textAlign: TextAlign.left), 
     );
   }
 

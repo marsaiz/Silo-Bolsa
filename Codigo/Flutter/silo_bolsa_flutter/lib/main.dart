@@ -131,7 +131,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           columnSpacing: 16,
           dataRowMinHeight: 30,
           dataRowMaxHeight: 40,
-          headingRowColor: MaterialStateProperty.resolveWith((states) => Colors.grey.shade200),
+          headingRowColor: WidgetStateProperty.resolveWith((states) => Colors.grey.shade200),
           columns: const [
             DataColumn(label: Text('Hora', style: headerStyle)),
             DataColumn(label: Text('Temp (°C)', style: headerStyle), numeric: true),

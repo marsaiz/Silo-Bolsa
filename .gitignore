@@ -297,11 +297,9 @@ Temporary Items
 # ====================
 # Carpetas de deployment
 # ====================
-wwwroot/
 publish/
 PublishProfiles/
 
-# Permitir subir Flutter Web precompilado en la API
-!Codigo/Web/SiloBolsa.Api/wwwroot/
-!Codigo/Web/SiloBolsa.Api/wwwroot/flutter/
-!Codigo/Web/SiloBolsa.Api/wwwroot/flutter/**
+# wwwroot se incluye en el repositorio
+# - Index.html se sirve desde la raíz
+# - Flutter Web se sirve desde /flutter/
