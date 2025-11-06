@@ -132,4 +132,30 @@ class ApiService {
       throw Exception('Fallo al cargar las alertas de la API');
     }
   }
+
+  // Método para crear un nuevo silo
+  Future<void> createSilo(Map<String, dynamic> siloData) async {
+    final response = await http.post(
+      Uri.parse(_silosUrl),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode(siloData),
+    );
+
+    if (response.statusCode != 200 && response.statusCode != 201) {
+      throw Exception('Fallo al crear el silo: ${response.statusCode}');
+    }
+  }
+
+  // Método para crear un nuevo grano
+  Future<void> createGrano(Map<String, dynamic> granoData) async {
+    final response = await http.post(
+      Uri.parse(_granosUrl),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode(granoData),
+    );
+
+    if (response.statusCode != 200 && response.statusCode != 201) {
+      throw Exception('Fallo al crear el grano: ${response.statusCode}');
+    }
+  }
 }

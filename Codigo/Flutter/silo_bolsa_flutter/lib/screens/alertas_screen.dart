@@ -29,7 +29,6 @@ class _AlertasScreenState extends State<AlertasScreen> {
       case 'humedad':
         return Colors.blue;
       case 'co2':
-      case 'dioxido de carbono':
         return Colors.green;
       default:
         return Colors.orange;
@@ -43,7 +42,6 @@ class _AlertasScreenState extends State<AlertasScreen> {
       case 'humedad':
         return Icons.water_drop;
       case 'co2':
-      case 'dioxido de carbono':
         return Icons.cloud;
       default:
         return Icons.warning;
@@ -110,8 +108,9 @@ class _AlertasScreenState extends State<AlertasScreen> {
               itemCount: alertas.length,
               itemBuilder: (context, index) {
                 final alerta = alertas[index];
-                final color = _getColorByType(alerta.tipoAlerta);
-                final icon = _getIconByType(alerta.tipoAlerta);
+                final tipoAlerta = alerta.getTipoAlerta();
+                final color = _getColorByType(tipoAlerta);
+                final icon = _getIconByType(tipoAlerta);
 
                 return Card(
                   elevation: 2,
@@ -125,25 +124,25 @@ class _AlertasScreenState extends State<AlertasScreen> {
                       children: [
                         Expanded(
                           child: Text(
-                            alerta.tipoAlerta,
+                            tipoAlerta,
                             style: const TextStyle(fontWeight: FontWeight.bold),
                           ),
                         ),
                         Container(
                           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                           decoration: BoxDecoration(
-                            color: alerta.estadoAlerta.toLowerCase() == 'activa'
-                                ? Colors.red.withOpacity(0.1)
-                                : Colors.green.withOpacity(0.1),
+                            color: alerta.correoEnviado
+                                ? Colors.green.withOpacity(0.1)
+                                : Colors.orange.withOpacity(0.1),
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: Text(
-                            alerta.estadoAlerta,
+                            alerta.correoEnviado ? 'Notificado' : 'Pendiente',
                             style: TextStyle(
                               fontSize: 12,
-                              color: alerta.estadoAlerta.toLowerCase() == 'activa'
-                                  ? Colors.red
-                                  : Colors.green,
+                              color: alerta.correoEnviado
+                                  ? Colors.green
+                                  : Colors.orange,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -154,8 +153,8 @@ class _AlertasScreenState extends State<AlertasScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const SizedBox(height: 4),
-                        if (alerta.descripcion != null)
-                          Text(alerta.descripcion!),
+                        if (alerta.mensaje != null)
+                          Text(alerta.mensaje!),
                         const SizedBox(height: 4),
                         Text(
                           DateFormat('dd/MM/yyyy HH:mm').format(alerta.fechaHoraAlerta),
@@ -170,17 +169,17 @@ class _AlertasScreenState extends State<AlertasScreen> {
                       showDialog(
                         context: context,
                         builder: (context) => AlertDialog(
-                          title: Text(alerta.tipoAlerta),
+                          title: Text(tipoAlerta),
                           content: Column(
                             mainAxisSize: MainAxisSize.min,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text('Estado: ${alerta.estadoAlerta}'),
+                              Text('Estado: ${alerta.correoEnviado ? "Notificado" : "Pendiente"}'),
                               const SizedBox(height: 8),
                               Text('Fecha: ${DateFormat('dd/MM/yyyy HH:mm').format(alerta.fechaHoraAlerta)}'),
-                              if (alerta.descripcion != null) ...[
+                              if (alerta.mensaje != null) ...[
                                 const SizedBox(height: 8),
-                                Text('Descripción: ${alerta.descripcion}'),
+                                Text('Mensaje: ${alerta.mensaje}'),
                               ],
                               const SizedBox(height: 8),
                               Text('ID Silo: ${alerta.idSilo}'),

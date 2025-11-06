@@ -1,46 +1,36 @@
 // Archivo: lib/grano_model.dart
 
 class Grano {
-  final String idGrano;
-  final String nombre;
+  final int idGrano;
   final String? descripcion;
-  final double? tempMaxima;
-  final double? tempMinima;
-  final double? humedadMaxima;
-  final double? humedadMinima;
-  final double? co2Maximo;
+  final double humedadMax;
+  final double humedadMin;
+  final double tempMax;
+  final double tempMin;
+  final double nivelDioxidoMax;
+  final double nivelDioxidoMin;
   
   Grano({
     required this.idGrano,
-    required this.nombre,
     this.descripcion,
-    this.tempMaxima,
-    this.tempMinima,
-    this.humedadMaxima,
-    this.humedadMinima,
-    this.co2Maximo,
+    required this.humedadMax,
+    required this.humedadMin,
+    required this.tempMax,
+    required this.tempMin,
+    required this.nivelDioxidoMax,
+    required this.nivelDioxidoMin,
   });
 
   factory Grano.fromJson(Map<String, dynamic> json) {
     return Grano(
-      idGrano: json['idGrano'] as String,
-      nombre: json['nombre'] as String,
+      idGrano: json['idGrano'] as int,
       descripcion: json['descripcion'] as String?,
-      tempMaxima: json['tempMaxima'] != null
-          ? (json['tempMaxima'] as num).toDouble()
-          : null,
-      tempMinima: json['tempMinima'] != null
-          ? (json['tempMinima'] as num).toDouble()
-          : null,
-      humedadMaxima: json['humedadMaxima'] != null
-          ? (json['humedadMaxima'] as num).toDouble()
-          : null,
-      humedadMinima: json['humedadMinima'] != null
-          ? (json['humedadMinima'] as num).toDouble()
-          : null,
-      co2Maximo: json['co2Maximo'] != null
-          ? (json['co2Maximo'] as num).toDouble()
-          : null,
+      humedadMax: (json['humedadMax'] as num).toDouble(),
+      humedadMin: (json['humedadMin'] as num).toDouble(),
+      tempMax: (json['tempMax'] as num).toDouble(),
+      tempMin: (json['tempMin'] as num).toDouble(),
+      nivelDioxidoMax: (json['nivelDioxidoMax'] as num).toDouble(),
+      nivelDioxidoMin: (json['nivelDioxidoMin'] as num).toDouble(),
     );
   }
 }

@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import '../api_service.dart';
 import '../silo_model.dart';
-import 'package:intl/intl.dart';
+import 'add_silo_screen.dart';
 
 class SilosScreen extends StatefulWidget {
   const SilosScreen({super.key});
@@ -82,7 +82,7 @@ class _SilosScreenState extends State<SilosScreen> {
                       child: const Icon(Icons.inventory_2, color: Colors.white),
                     ),
                     title: Text(
-                      silo.nombre,
+                      'Silo ${silo.idSilo.substring(0, 8)}...',
                       style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
                     subtitle: Column(
@@ -90,19 +90,16 @@ class _SilosScreenState extends State<SilosScreen> {
                       children: [
                         if (silo.descripcion != null)
                           Text(silo.descripcion!),
-                        if (silo.ubicacion != null)
-                          Text('Ubicación: ${silo.ubicacion}'),
-                        if (silo.capacidadToneladas != null)
-                          Text('Capacidad: ${silo.capacidadToneladas} ton'),
-                        if (silo.fechaLlenado != null)
-                          Text('Llenado: ${DateFormat('dd/MM/yyyy').format(silo.fechaLlenado!)}'),
+                        Text('Capacidad: ${silo.capacidad} kg'),
+                        Text('Ubicación: ${silo.latitud.toStringAsFixed(4)}, ${silo.longitud.toStringAsFixed(4)}'),
+                        Text('Tipo de grano: ${silo.tipoGrano}'),
                       ],
                     ),
                     trailing: const Icon(Icons.arrow_forward_ios, size: 16),
                     onTap: () {
                       // TODO: Navegar a detalle del silo
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Detalle de ${silo.nombre}')),
+                        SnackBar(content: Text('Detalle de Silo ${silo.idSilo.substring(0, 8)}')),
                       );
                     },
                   ),
@@ -113,11 +110,18 @@ class _SilosScreenState extends State<SilosScreen> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // TODO: Agregar nuevo silo
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Función de agregar silo en desarrollo')),
+        onPressed: () async {
+          final result = await Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const AddSiloScreen()),
           );
+          
+          // Si se creó un silo, recargar la lista
+          if (result == true) {
+            setState(() {
+              _futureSilos = _apiService.fetchSilos();
+            });
+          }
         },
         child: const Icon(Icons.add),
       ),

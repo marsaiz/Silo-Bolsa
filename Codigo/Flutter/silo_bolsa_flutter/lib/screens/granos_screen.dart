@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import '../api_service.dart';
 import '../grano_model.dart';
+import 'add_grano_screen.dart';
 
 class GranosScreen extends StatefulWidget {
   const GranosScreen({super.key});
@@ -81,12 +82,10 @@ class _GranosScreenState extends State<GranosScreen> {
                       child: const Icon(Icons.grass, color: Colors.white),
                     ),
                     title: Text(
-                      grano.nombre,
+                      grano.descripcion ?? 'Grano ID: ${grano.idGrano}',
                       style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
-                    subtitle: grano.descripcion != null
-                        ? Text(grano.descripcion!)
-                        : null,
+                    subtitle: Text('ID: ${grano.idGrano}'),
                     children: [
                       Padding(
                         padding: const EdgeInsets.all(16.0),
@@ -98,27 +97,24 @@ class _GranosScreenState extends State<GranosScreen> {
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
                             const SizedBox(height: 8),
-                            if (grano.tempMinima != null && grano.tempMaxima != null)
-                              _buildParameterRow(
-                                Icons.thermostat,
-                                'Temperatura',
-                                '${grano.tempMinima}°C - ${grano.tempMaxima}°C',
-                                Colors.red,
-                              ),
-                            if (grano.humedadMinima != null && grano.humedadMaxima != null)
-                              _buildParameterRow(
-                                Icons.water_drop,
-                                'Humedad',
-                                '${grano.humedadMinima}% - ${grano.humedadMaxima}%',
-                                Colors.blue,
-                              ),
-                            if (grano.co2Maximo != null)
-                              _buildParameterRow(
-                                Icons.cloud,
-                                'CO2 Máximo',
-                                '${grano.co2Maximo} PPM',
-                                Colors.green,
-                              ),
+                            _buildParameterRow(
+                              Icons.thermostat,
+                              'Temperatura',
+                              '${grano.tempMin}°C - ${grano.tempMax}°C',
+                              Colors.red,
+                            ),
+                            _buildParameterRow(
+                              Icons.water_drop,
+                              'Humedad',
+                              '${grano.humedadMin}% - ${grano.humedadMax}%',
+                              Colors.blue,
+                            ),
+                            _buildParameterRow(
+                              Icons.cloud,
+                              'CO2',
+                              '${grano.nivelDioxidoMin} - ${grano.nivelDioxidoMax} PPM',
+                              Colors.green,
+                            ),
                           ],
                         ),
                       ),
@@ -131,11 +127,18 @@ class _GranosScreenState extends State<GranosScreen> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // TODO: Agregar nuevo grano
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Función de agregar grano en desarrollo')),
+        onPressed: () async {
+          final result = await Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const AddGranoScreen()),
           );
+          
+          // Si se creó un grano, recargar la lista
+          if (result == true) {
+            setState(() {
+              _futureGranos = _apiService.fetchGranos();
+            });
+          }
         },
         child: const Icon(Icons.add),
       ),
