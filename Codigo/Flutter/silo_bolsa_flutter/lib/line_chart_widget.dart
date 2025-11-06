@@ -31,8 +31,23 @@ class _SensorLineChartState extends State<SensorLineChart> {
   static const double _minScale = 0.9;
   static const double _maxScale = 6.0;
 
+  // Ventana de datos visibles (zoom por dominio X)
+  late int _windowStart;
+  late int _windowSize;
+
+  // Datos visibles recalculados
+  List<FlSpot> _visTemp = [];
+  List<FlSpot> _visHum = [];
+  List<DateTime> _visTs = [];
+  double _vMaxX = 0;
+  double _vMaxY = 100;
+
   void _resetZoom() {
     _tx.value = Matrix4.identity();
+    // Resetear ventana al total
+    _windowStart = 0;
+    _windowSize = widget.timestamps.length;
+    _recomputeWindow();
     setState(() {});
   }
 
@@ -40,6 +55,86 @@ class _SensorLineChartState extends State<SensorLineChart> {
   void dispose() {
     _tx.dispose();
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    final total = widget.timestamps.length;
+    _windowStart = 0;
+    // Por defecto mostrar hasta 60 puntos o todo si hay menos
+    _windowSize = total < 60 ? total : 60;
+    _recomputeWindow();
+  }
+
+  void _recomputeWindow() {
+    final total = widget.timestamps.length;
+    if (total == 0) {
+      _visTemp = [];
+      _visHum = [];
+      _visTs = [];
+      _vMaxX = 0;
+      _vMaxY = widget.maxY;
+      return;
+    }
+    // Limitar ventana a rango válido
+    if (_windowStart < 0) _windowStart = 0;
+    if (_windowStart >= total) _windowStart = total - 1;
+    if (_windowSize < 5) _windowSize = 5; // mínimo 5 puntos
+    if (_windowStart + _windowSize > total) {
+      _windowStart = (total - _windowSize).clamp(0, total - 1);
+    }
+
+    final end = (_windowStart + _windowSize).clamp(0, total);
+    // Recortar y reindexar X a 0..N-1
+    _visTemp = widget.tempSpots
+        .where((s) => s.x >= _windowStart && s.x < end)
+        .map((s) => FlSpot(s.x - _windowStart, s.y))
+        .toList();
+    _visHum = widget.humedadSpots
+        .where((s) => s.x >= _windowStart && s.x < end)
+        .map((s) => FlSpot(s.x - _windowStart, s.y))
+        .toList();
+    _visTs = widget.timestamps.sublist(_windowStart, end);
+
+    _vMaxX = (_visTs.length > 0) ? (_visTs.length - 1).toDouble() : 0;
+    // Calcular maxY visible dinámicamente (entre ambas series)
+    final allY = [..._visTemp.map((e) => e.y), ..._visHum.map((e) => e.y)];
+    final maxY = allY.isEmpty ? widget.maxY : allY.reduce((a, b) => a > b ? a : b);
+    // margen 10%
+    _vMaxY = (maxY == 0 ? 1 : maxY) * 1.1;
+  }
+
+  void _zoomIn() {
+    if (_windowSize <= 5) return;
+    setState(() {
+      _windowSize = (_windowSize * 0.8).round().clamp(5, widget.timestamps.length);
+      _recomputeWindow();
+    });
+  }
+
+  void _zoomOut() {
+    setState(() {
+      _windowSize = (_windowSize * 1.25).round().clamp(5, widget.timestamps.length);
+      _recomputeWindow();
+    });
+  }
+
+  void _panLeft() {
+    setState(() {
+      final delta = (_windowSize * 0.3).round();
+      _windowStart = (_windowStart - delta).clamp(0, (widget.timestamps.length - _windowSize).clamp(0, widget.timestamps.length));
+      _recomputeWindow();
+    });
+  }
+
+  void _panRight() {
+    setState(() {
+      final delta = (_windowSize * 0.3).round();
+      final maxStart = (widget.timestamps.length - _windowSize).clamp(0, widget.timestamps.length);
+      _windowStart = (_windowStart + delta).clamp(0, maxStart);
+      _recomputeWindow();
+    });
   }
 
   @override
@@ -92,6 +187,39 @@ class _SensorLineChartState extends State<SensorLineChart> {
               ),
             ),
           ),
+          Positioned(
+            right: 8,
+            bottom: 8,
+            child: Material(
+              color: Colors.black45,
+              shape: const StadiumBorder(),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  IconButton(
+                    visualDensity: VisualDensity.compact,
+                    onPressed: _panLeft,
+                    icon: const Icon(Icons.chevron_left, color: Colors.white, size: 18),
+                  ),
+                  IconButton(
+                    visualDensity: VisualDensity.compact,
+                    onPressed: _zoomOut,
+                    icon: const Icon(Icons.remove, color: Colors.white, size: 18),
+                  ),
+                  IconButton(
+                    visualDensity: VisualDensity.compact,
+                    onPressed: _zoomIn,
+                    icon: const Icon(Icons.add, color: Colors.white, size: 18),
+                  ),
+                  IconButton(
+                    visualDensity: VisualDensity.compact,
+                    onPressed: _panRight,
+                    icon: const Icon(Icons.chevron_right, color: Colors.white, size: 18),
+                  ),
+                ],
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -107,33 +235,33 @@ class _SensorLineChartState extends State<SensorLineChart> {
           sideTitles: SideTitles(
             showTitles: true,
             reservedSize: 40,
-            interval: (widget.maxX / 20).ceilToDouble().clamp(1.0, double.infinity),
+            interval: (_vMaxX / 8).ceilToDouble().clamp(1.0, double.infinity),
             getTitlesWidget: bottomTitleWidgets,
           ),
         ),
         leftTitles: AxisTitles(
           sideTitles: SideTitles(
             showTitles: true,
-            interval: (widget.maxY / 5).ceilToDouble(),
+            interval: (_vMaxY / 5).ceilToDouble(),
             reservedSize: 42,
             getTitlesWidget: leftTitleWidgets,
           ),
         ),
       ),
       minX: 0,
-      maxX: widget.maxX,
+      maxX: _vMaxX,
       minY: 0,
-      maxY: widget.maxY,
+      maxY: _vMaxY,
       gridData: const FlGridData(show: false),
       lineBarsData: [
         LineChartBarData(
-          spots: widget.tempSpots,
+          spots: _visTemp,
           isCurved: true,
           color: Colors.red,
           barWidth: 3,
           dotData: FlDotData(
             show: true,
-            checkToShowDot: (spot, barData) => _shouldShowDot(spot, widget.tempSpots),
+            checkToShowDot: (spot, barData) => _shouldShowDot(spot, _visTemp),
             getDotPainter: (spot, percent, barData, index) => FlDotCirclePainter(
               radius: 5,
               color: Colors.red,
@@ -141,16 +269,16 @@ class _SensorLineChartState extends State<SensorLineChart> {
               strokeColor: Colors.white,
             ),
           ),
-          showingIndicators: _getIndicatorsIndexes(widget.tempSpots),
+          showingIndicators: _getIndicatorsIndexes(_visTemp),
         ),
         LineChartBarData(
-          spots: widget.humedadSpots,
+          spots: _visHum,
           isCurved: true,
           color: Colors.blue,
           barWidth: 3,
           dotData: FlDotData(
             show: true,
-            checkToShowDot: (spot, barData) => _shouldShowDot(spot, widget.humedadSpots),
+            checkToShowDot: (spot, barData) => _shouldShowDot(spot, _visHum),
             getDotPainter: (spot, percent, barData, index) => FlDotCirclePainter(
               radius: 5,
               color: Colors.blue,
@@ -158,7 +286,7 @@ class _SensorLineChartState extends State<SensorLineChart> {
               strokeColor: Colors.white,
             ),
           ),
-          showingIndicators: _getIndicatorsIndexes(widget.humedadSpots),
+          showingIndicators: _getIndicatorsIndexes(_visHum),
         ),
       ],
       lineTouchData: LineTouchData(
@@ -175,7 +303,7 @@ class _SensorLineChartState extends State<SensorLineChart> {
                 const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12),
                 children: [
                   TextSpan(
-                    text: '\n${DateFormat('HH:mm').format(widget.timestamps[spot.x.toInt()])}',
+                    text: '\n${DateFormat('HH:mm').format(_visTs.isEmpty ? DateTime.now() : _visTs[spot.x.toInt().clamp(0, _visTs.length - 1)])}',
                     style: const TextStyle(color: Colors.white70, fontSize: 10),
                   ),
                 ],
@@ -193,10 +321,10 @@ class _SensorLineChartState extends State<SensorLineChart> {
     Widget text = const Text('');
 
     final index = value.toInt();
-    if (index >= 0 && index < widget.timestamps.length && index % meta.sideTitles.interval!.toInt() == 0) {
-      final dateTime = widget.timestamps[index];
+    if (index >= 0 && index < _visTs.length && index % meta.sideTitles.interval!.toInt() == 0) {
+      final dateTime = _visTs[index];
       final formattedTime = DateFormat('HH:mm').format(dateTime);
-      if (index == 0 || index == widget.maxX.toInt()) {
+      if (index == 0 || index == _vMaxX.toInt()) {
         final formattedDate = DateFormat('dd/MM\nHH:mm').format(dateTime);
         text = Text(formattedDate, style: style, textAlign: TextAlign.center);
       } else {
