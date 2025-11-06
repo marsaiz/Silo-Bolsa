@@ -1,15 +1,15 @@
-// Archivo: lib/line_chart_widget.dart (Version actualizada)
+// Archivo: lib/line_chart_widget.dart (con soporte de zoom/pan)
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class SensorLineChart extends StatelessWidget {
+class SensorLineChart extends StatefulWidget {
   final List<FlSpot> tempSpots;
   final List<FlSpot> humedadSpots;
   final double maxX;
   final double maxY;
-  final List<DateTime> timestamps; // Nueva lista de marcas de tiempo
+  final List<DateTime> timestamps; // Marcas de tiempo alineadas con X
 
   const SensorLineChart({
     super.key,
@@ -17,24 +17,82 @@ class SensorLineChart extends StatelessWidget {
     required this.humedadSpots,
     required this.maxX,
     required this.maxY,
-    required this.timestamps, // Recibe las marcas de tiempo
+    required this.timestamps,
   });
+
+  @override
+  State<SensorLineChart> createState() => _SensorLineChartState();
+}
+
+class _SensorLineChartState extends State<SensorLineChart> {
+  // Control del zoom/pan
+  final TransformationController _tx = TransformationController();
+
+  static const double _minScale = 0.9;
+  static const double _maxScale = 6.0;
+
+  void _resetZoom() {
+    _tx.value = Matrix4.identity();
+    setState(() {});
+  }
+
+  @override
+  void dispose() {
+    _tx.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
-      // Gráfico más bajo para que quepa sin scroll vertical
       aspectRatio: 2.5,
-      child: Padding(
-        padding: const EdgeInsets.only(
-          right: 18,
-          left: 12,
-          top: 24,
-          bottom: 12, // Dar más espacio para la etiqueta rotada
-        ),
-        child: LineChart(
-          sensorData(), // Llama a la función con los datos reales
-        ),
+      child: Stack(
+        children: [
+          // Doble click/tap para resetear zoom rápido
+          GestureDetector(
+            onDoubleTap: _resetZoom,
+            child: InteractiveViewer(
+              transformationController: _tx,
+              minScale: _minScale,
+              maxScale: _maxScale,
+              panEnabled: true,
+              scaleEnabled: true,
+              boundaryMargin: const EdgeInsets.all(48),
+              child: Padding(
+                padding: const EdgeInsets.only(
+                  right: 18,
+                  left: 12,
+                  top: 24,
+                  bottom: 12,
+                ),
+                child: LineChart(sensorData()),
+              ),
+            ),
+          ),
+          Positioned(
+            right: 8,
+            top: 8,
+            child: Material(
+              color: Colors.black45,
+              shape: const StadiumBorder(),
+              child: InkWell(
+                borderRadius: BorderRadius.circular(20),
+                onTap: _resetZoom,
+                child: const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(Icons.zoom_out_map, size: 16, color: Colors.white),
+                      SizedBox(width: 6),
+                      Text('Reset', style: TextStyle(color: Colors.white, fontSize: 12)),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -45,85 +103,64 @@ class SensorLineChart extends StatelessWidget {
         show: true,
         topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
         rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-        // Configuración Eje X (inferior)
         bottomTitles: AxisTitles(
           sideTitles: SideTitles(
             showTitles: true,
-            reservedSize: 40, // Más espacio para la rotación
-            // Mostrar más etiquetas: cada 3 puntos en lugar de cada 5
-            interval: (maxX / 20).ceilToDouble().clamp(1.0, double.infinity), 
+            reservedSize: 40,
+            interval: (widget.maxX / 20).ceilToDouble().clamp(1.0, double.infinity),
             getTitlesWidget: bottomTitleWidgets,
           ),
         ),
-        // Configuración Eje Y (izquierdo)
         leftTitles: AxisTitles(
           sideTitles: SideTitles(
             showTitles: true,
-            // Usamos maxY para calcular el intervalo (ej. 5 divisiones)
-            interval: (maxY / 5).ceilToDouble(), 
+            interval: (widget.maxY / 5).ceilToDouble(),
             reservedSize: 42,
             getTitlesWidget: leftTitleWidgets,
           ),
         ),
       ),
-      
-      // Ajustar límites de la gráfica al número de lecturas
       minX: 0,
-      maxX: maxX, 
+      maxX: widget.maxX,
       minY: 0,
-      maxY: maxY, // <--- Usa el valor dinámico recibido
-      
-      gridData: const FlGridData(show: false), 
-
-      // **Series de Datos: Solo Temperatura y Humedad**
+      maxY: widget.maxY,
+      gridData: const FlGridData(show: false),
       lineBarsData: [
         LineChartBarData(
-          spots: tempSpots,
-          isCurved: true, 
+          spots: widget.tempSpots,
+          isCurved: true,
           color: Colors.red,
           barWidth: 3,
           dotData: FlDotData(
             show: true,
-            checkToShowDot: (spot, barData) {
-              // Mostrar punto solo en primero, último, máximo y mínimo
-              return _shouldShowDot(spot, tempSpots);
-            },
-            getDotPainter: (spot, percent, barData, index) {
-              return FlDotCirclePainter(
-                radius: 5,
-                color: Colors.red,
-                strokeWidth: 2,
-                strokeColor: Colors.white,
-              );
-            },
+            checkToShowDot: (spot, barData) => _shouldShowDot(spot, widget.tempSpots),
+            getDotPainter: (spot, percent, barData, index) => FlDotCirclePainter(
+              radius: 5,
+              color: Colors.red,
+              strokeWidth: 2,
+              strokeColor: Colors.white,
+            ),
           ),
-          // Mostrar etiquetas con valores en puntos clave
-          showingIndicators: _getIndicatorsIndexes(tempSpots),
+          showingIndicators: _getIndicatorsIndexes(widget.tempSpots),
         ),
         LineChartBarData(
-          spots: humedadSpots,
+          spots: widget.humedadSpots,
           isCurved: true,
           color: Colors.blue,
           barWidth: 3,
           dotData: FlDotData(
             show: true,
-            checkToShowDot: (spot, barData) {
-              return _shouldShowDot(spot, humedadSpots);
-            },
-            getDotPainter: (spot, percent, barData, index) {
-              return FlDotCirclePainter(
-                radius: 5,
-                color: Colors.blue,
-                strokeWidth: 2,
-                strokeColor: Colors.white,
-              );
-            },
+            checkToShowDot: (spot, barData) => _shouldShowDot(spot, widget.humedadSpots),
+            getDotPainter: (spot, percent, barData, index) => FlDotCirclePainter(
+              radius: 5,
+              color: Colors.blue,
+              strokeWidth: 2,
+              strokeColor: Colors.white,
+            ),
           ),
-          showingIndicators: _getIndicatorsIndexes(humedadSpots),
+          showingIndicators: _getIndicatorsIndexes(widget.humedadSpots),
         ),
       ],
-      
-      // Configurar tooltips con valores
       lineTouchData: LineTouchData(
         enabled: true,
         touchTooltipData: LineTouchTooltipData(
@@ -133,21 +170,13 @@ class SensorLineChart extends StatelessWidget {
               final isTempLine = spot.barIndex == 0;
               final label = isTempLine ? 'Temp' : 'Hum';
               final unit = isTempLine ? '°C' : '%';
-              
               return LineTooltipItem(
                 '$label: ${spot.y.toStringAsFixed(1)}$unit',
-                const TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 12,
-                ),
+                const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12),
                 children: [
                   TextSpan(
-                    text: '\n${DateFormat('HH:mm').format(timestamps[spot.x.toInt()])}',
-                    style: const TextStyle(
-                      color: Colors.white70,
-                      fontSize: 10,
-                    ),
+                    text: '\n${DateFormat('HH:mm').format(widget.timestamps[spot.x.toInt()])}',
+                    style: const TextStyle(color: Colors.white70, fontSize: 10),
                   ),
                 ],
               );
@@ -158,100 +187,68 @@ class SensorLineChart extends StatelessWidget {
     );
   }
 
-  // EJE X: Muestra las marcas de tiempo
+  // Eje X: tiempo
   Widget bottomTitleWidgets(double value, TitleMeta meta) {
     const style = TextStyle(fontWeight: FontWeight.bold, fontSize: 10);
-    Widget text = const Text(''); // Inicializar por defecto como vacío
+    Widget text = const Text('');
 
-    // Convertir el índice (value) a entero
     final index = value.toInt();
-
-   // Solo mostramos etiquetas en los intervalos definidos por meta.sideTitles.interval
-   if (index >= 0 && index < timestamps.length && index % meta.sideTitles.interval!.toInt() == 0) {
-    final dateTime = timestamps[index];
-      
-    // Formatear la hora (HH:mm)
-    final formattedTime = DateFormat('HH:mm').format(dateTime);
-
-    // Si es el primer o último punto, mostrar también la fecha
-    if (index == 0 || index == maxX.toInt()) {
-      final formattedDate = DateFormat('dd/MM\nHH:mm').format(dateTime);
-      text = Text(formattedDate, style: style, textAlign: TextAlign.center);
-    } else {
-      text = Text(formattedTime, style: style, textAlign: TextAlign.center);
+    if (index >= 0 && index < widget.timestamps.length && index % meta.sideTitles.interval!.toInt() == 0) {
+      final dateTime = widget.timestamps[index];
+      final formattedTime = DateFormat('HH:mm').format(dateTime);
+      if (index == 0 || index == widget.maxX.toInt()) {
+        final formattedDate = DateFormat('dd/MM\nHH:mm').format(dateTime);
+        text = Text(formattedDate, style: style, textAlign: TextAlign.center);
+      } else {
+        text = Text(formattedTime, style: style, textAlign: TextAlign.center);
+      }
     }
-   }
 
     return SideTitleWidget(
-        meta: meta, 
-        // Rotar el texto 60 grados para evitar superposición
-        angle: 60 * 3.14159 / 180,
-        child: text, 
+      meta: meta,
+      angle: 60 * 3.14159 / 180,
+      child: text,
     );
   }
 
-  // EJE Y: Muestra los valores de los sensores
+  // Eje Y: valores
   Widget leftTitleWidgets(double value, TitleMeta meta) {
-    const style = TextStyle(
-      fontWeight: FontWeight.bold,
-      fontSize: 12,
-    );
-    
-    // Solo muestra títulos si el valor es un múltiplo del intervalo (evita demasiadas etiquetas)
+    const style = TextStyle(fontWeight: FontWeight.bold, fontSize: 12);
     if (value % meta.sideTitles.interval! != 0) {
-      return Container();
+      return const SizedBox.shrink();
     }
-
-    String text = value.toStringAsFixed(0); // Mostrar valor sin decimales
-    
+    final text = value.toStringAsFixed(0);
     return SideTitleWidget(
-        meta: meta,
-        child: Text(text, style: style, textAlign: TextAlign.left), 
+      meta: meta,
+      child: Text(text, style: style, textAlign: TextAlign.left),
     );
   }
 
-  // Determinar si mostrar punto (primero, último, máximo, mínimo)
   bool _shouldShowDot(FlSpot spot, List<FlSpot> spots) {
     if (spots.isEmpty) return false;
-    
     final index = spot.x.toInt();
     final firstIndex = spots.first.x.toInt();
     final lastIndex = spots.last.x.toInt();
-    
-    // Encontrar índices de máximo y mínimo
-    double maxValue = spots.map((s) => s.y).reduce((a, b) => a > b ? a : b);
-    double minValue = spots.map((s) => s.y).reduce((a, b) => a < b ? a : b);
-    
-    int maxIndex = spots.indexWhere((s) => s.y == maxValue);
-    int minIndex = spots.indexWhere((s) => s.y == minValue);
-    
-    // Mostrar punto si es primero, último, máximo o mínimo
-    return index == firstIndex || 
-           index == lastIndex || 
-           index == maxIndex || 
-           index == minIndex;
+
+    final maxValue = spots.map((s) => s.y).reduce((a, b) => a > b ? a : b);
+    final minValue = spots.map((s) => s.y).reduce((a, b) => a < b ? a : b);
+    final maxIndex = spots.indexWhere((s) => s.y == maxValue);
+    final minIndex = spots.indexWhere((s) => s.y == minValue);
+
+    return index == firstIndex || index == lastIndex || index == maxIndex || index == minIndex;
   }
 
-  // Obtener índices para mostrar indicadores (líneas verticales en puntos clave)
   List<int> _getIndicatorsIndexes(List<FlSpot> spots) {
     if (spots.isEmpty) return [];
-    
-    List<int> indexes = [];
-    
-    // Primero y último
+    final indexes = <int>[];
     indexes.add(spots.first.x.toInt());
     indexes.add(spots.last.x.toInt());
-    
-    // Máximo y mínimo
-    double maxValue = spots.map((s) => s.y).reduce((a, b) => a > b ? a : b);
-    double minValue = spots.map((s) => s.y).reduce((a, b) => a < b ? a : b);
-    
-    int maxIndex = spots.indexWhere((s) => s.y == maxValue);
-    int minIndex = spots.indexWhere((s) => s.y == minValue);
-    
+    final maxValue = spots.map((s) => s.y).reduce((a, b) => a > b ? a : b);
+    final minValue = spots.map((s) => s.y).reduce((a, b) => a < b ? a : b);
+    final maxIndex = spots.indexWhere((s) => s.y == maxValue);
+    final minIndex = spots.indexWhere((s) => s.y == minValue);
     if (!indexes.contains(maxIndex)) indexes.add(maxIndex);
     if (!indexes.contains(minIndex)) indexes.add(minIndex);
-    
     return indexes;
   }
 }
