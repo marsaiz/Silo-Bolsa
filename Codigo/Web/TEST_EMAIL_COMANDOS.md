@@ -148,19 +148,27 @@ Por favor, tome las medidas necesarias.
 
 ## 💡 Notas Importantes
 
-1. **Una alerta por silo:** El sistema solo envía 1 email por silo mientras las condiciones sean extremas. No enviará otro hasta que las condiciones vuelvan a la normalidad.
+1. **⏰ Análisis cada 60 minutos:** El sistema usa un `BackgroundService` que analiza las condiciones **cada 60 minutos**. Las lecturas enviadas con curl se guardan inmediatamente, pero el análisis y envío de email ocurre en el próximo ciclo del background service.
+   
+   - **Ubicación:** `AnalisisAlertasBackgroundService.cs` línea 27
+   - **Intervalo:** `TimeSpan.FromMinutes(60)`
+   - **Lógica:** Recorre todos los silos, analiza sus lecturas y genera alertas si encuentra condiciones extremas
 
-2. **Campo `correoEnviado`:** 
+2. **Una alerta por silo:** El sistema solo envía 1 email por silo mientras las condiciones sean extremas. No enviará otro hasta que las condiciones vuelvan a la normalidad.
+
+3. **Campo `correoEnviado`:** 
    - `true` = Email enviado correctamente
    - `false` = Email no enviado (error o condiciones normalizadas)
 
-3. **Logs en Railway:** Puedes ver los logs del envío de email en el dashboard de Railway:
+4. **Logs en Railway:** Puedes ver los logs del envío de email en el dashboard de Railway:
    ```
+   Iniciando analisis de condiciones para todos los Silos
    Alerta creada para el silo trigo 2025 : Condiciones extremas...
    Correo de alerta enviado a marcelosaizestudio@gmail.com
+   Análisis completado.
    ```
 
-4. **Configuración SMTP:** Verifica que las variables de entorno estén configuradas en Railway:
+5. **Configuración SMTP:** Verifica que las variables de entorno estén configuradas en Railway:
    - `EmailSettings__SmtpServer`
    - `EmailSettings__SmtpPort`
    - `EmailSettings__SmtpUser`
