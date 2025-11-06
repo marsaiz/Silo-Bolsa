@@ -2,13 +2,21 @@
 
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'lectura_model.dart'; // Importa el modelo
+import 'lectura_model.dart';
+import 'silo_model.dart';
+import 'grano_model.dart';
+import 'alerta_model.dart';
 
 class ApiService {
-  final String _apiUrl = 'https://remarkable-healing-production.up.railway.app/api/lecturas';
+  final String _baseUrl = 'https://remarkable-healing-production.up.railway.app/api';
+  
+  String get _lecturasUrl => '$_baseUrl/lecturas';
+  String get _silosUrl => '$_baseUrl/silos';
+  String get _granosUrl => '$_baseUrl/granos';
+  String get _alertasUrl => '$_baseUrl/alertas';
 
   Future<List<Lectura>> fetchLecturas() async {
-    final response = await http.get(Uri.parse(_apiUrl));
+    final response = await http.get(Uri.parse(_lecturasUrl));
 
     if (response.statusCode == 200) {
       // 1. Decodificar la respuesta JSON (que es una lista con el formato .NET)
@@ -65,6 +73,63 @@ class ApiService {
     } else {
       // Si la respuesta no es 200 (OK), lanza un error.
       throw Exception('Fallo al cargar las lecturas de la API');
+    }
+  }
+
+  // Método para obtener todos los silos
+  Future<List<Silo>> fetchSilos() async {
+    final response = await http.get(Uri.parse(_silosUrl));
+
+    if (response.statusCode == 200) {
+      final jsonResponse = jsonDecode(response.body);
+      final List<dynamic> silosJson = jsonResponse['\$values'];
+      
+      return silosJson.map((jsonItem) {
+        if (jsonItem is Map<String, dynamic>) {
+          return Silo.fromJson(jsonItem);
+        }
+        throw Exception('Formato de silo inválido');
+      }).toList();
+    } else {
+      throw Exception('Fallo al cargar los silos de la API');
+    }
+  }
+
+  // Método para obtener todos los granos
+  Future<List<Grano>> fetchGranos() async {
+    final response = await http.get(Uri.parse(_granosUrl));
+
+    if (response.statusCode == 200) {
+      final jsonResponse = jsonDecode(response.body);
+      final List<dynamic> granosJson = jsonResponse['\$values'];
+      
+      return granosJson.map((jsonItem) {
+        if (jsonItem is Map<String, dynamic>) {
+          return Grano.fromJson(jsonItem);
+        }
+        throw Exception('Formato de grano inválido');
+      }).toList();
+    } else {
+      throw Exception('Fallo al cargar los granos de la API');
+    }
+  }
+
+  // Método para obtener todas las alertas
+  Future<List<Alerta>> fetchAlertas() async {
+    final response = await http.get(Uri.parse(_alertasUrl));
+
+    if (response.statusCode == 200) {
+      final jsonResponse = jsonDecode(response.body);
+      final List<dynamic> alertasJson = jsonResponse['\$values'];
+      
+      return alertasJson.map((jsonItem) {
+        if (jsonItem is Map<String, dynamic>) {
+          return Alerta.fromJson(jsonItem);
+        }
+        throw Exception('Formato de alerta inválido');
+      }).toList();
+    } else {
+      throw Exception('Fallo al cargar las alertas de la API');
     }
   }
 }
