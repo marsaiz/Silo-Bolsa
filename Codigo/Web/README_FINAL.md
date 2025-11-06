@@ -67,7 +67,73 @@ Codigo/Web/
 
 ---
 
-## 🚀 Próximos Pasos para Desplegar
+## � Servicios de Email
+
+El proyecto incluye **dos implementaciones** de envío de correos electrónicos para las alertas:
+
+### 1. **EmailServiceSMTP** (✅ En Uso Actualmente)
+- **Librería**: `System.Net.Mail` (nativa de .NET)
+- **Interfaz**: `IEmailServicesSMTP`
+- **Método**: `SendEmailSMTP(recipientEmail, subject, body)`
+- **Ventajas**:
+  - ✅ Sin dependencias externas
+  - ✅ Más simple y ligera
+  - ✅ Ya probada en producción
+- **Uso**: Inyectada en `LecturaServicio` para enviar alertas cuando se detectan condiciones anormales
+
+### 2. **EmailServices** (⚠️ Disponible pero No Usada)
+- **Librería**: `MailKit` + `MimeKit` (librerías externas)
+- **Interfaz**: `IEmailServices`
+- **Método**: `SendEmail(recipientEmail, subject, body)`
+- **Ventajas**:
+  - ✅ Más moderna (recomendada por Microsoft)
+  - ✅ Mejor manejo de MIME
+  - ✅ Mayor compatibilidad con servidores SMTP complejos
+- **Estado**: Registrada en DI pero no se utiliza actualmente
+
+### 🔧 Configuración de Email
+
+Ambos servicios usan la misma configuración desde `appsettings.json` o variables de entorno:
+
+```json
+"EmailSettings": {
+  "SmtpServer": "smtp.gmail.com",
+  "SmtpPort": 587,
+  "SmtpUser": "silobolsaproyecto@gmail.com",
+  "SmtpPassword": "tu-contraseña-app"
+}
+```
+
+### 🔄 Cambiar de Servicio
+
+Para usar **EmailServices** (MailKit) en lugar de **EmailServiceSMTP**:
+
+1. En `LecturaServicio.cs`, cambiar:
+   ```csharp
+   // De:
+   private IEmailServicesSMTP _emailServiceSMTP;
+   
+   // A:
+   private IEmailServices _emailService;
+   ```
+
+2. Actualizar el constructor y las llamadas:
+   ```csharp
+   // Llamada:
+   await _emailService.SendEmail(email, subject, body);
+   ```
+
+3. **Nota**: Asegúrate de que el paquete `MailKit` esté instalado en `SiloBolsa.Servicios.csproj`
+
+### 💡 Recomendación
+
+- **Mantén ambas implementaciones** si planeas migrar a MailKit en el futuro
+- **EmailServiceSMTP** es suficiente para necesidades básicas
+- **MailKit** es mejor si necesitas características avanzadas (adjuntos, HTML complejo, etc.)
+
+---
+
+## �🚀 Próximos Pasos para Desplegar
 
 ### 1. **Commit y Push**:
 ```powershell
@@ -115,6 +181,7 @@ curl https://tu-proyecto.railway.app/weatherforecast
 | **VARIABLES_ENTORNO.md** | ⚙️ Configuración de variables en Railway |
 | **MIGRACIONES_GUIA.md** | 🔄 Cómo funcionan las migraciones EF Core |
 | **RESUMEN_CAMBIOS.md** | 📝 Resumen de todos los cambios |
+| **README_FINAL.md** | 📧 Incluye documentación de servicios de email |
 
 ---
 
