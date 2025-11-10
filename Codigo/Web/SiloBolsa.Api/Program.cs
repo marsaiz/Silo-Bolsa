@@ -183,3 +183,5 @@ record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
 {
     public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
 }
+
+// Deploy trigger: 2025-11-10 16:45 - Flutter threshold fixes
