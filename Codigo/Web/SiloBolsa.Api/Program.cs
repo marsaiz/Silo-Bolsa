@@ -156,6 +156,10 @@ app.UseStaticFiles(); // Asegúrate de que esta línea esté presente para servi
 
 app.MapControllers();
 
+// >>> FALTA ESTA LÍNEA CRÍTICA <<<
+// Si ninguna ruta de la API coincide, redirige todo a la página de inicio de Flutter.
+// La ruta que usa Flutter es 'wwwroot/flutter/index.html'
+app.MapFallbackToFile("/flutter/index.html");
 
 var summaries = new[]
 {
