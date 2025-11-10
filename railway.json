@@ -2,20 +2,9 @@
   "$schema": "https://railway.com/railway.schema.json",
   "build": {
     "builder": "DOCKERFILE",
-    "dockerfilePath": "Codigo/Dockerfile",
-    "watchPatterns": [
-      "Codigo/Web/**/*.cs",
-      "Codigo/Web/**/*.csproj",
-      "Codigo/Web/**/appsettings*.json",
-      "Codigo/Web/SiloBolsa.Api/wwwroot/Index.html",
-      "Codigo/Web/SiloBolsa.Api/wwwroot/flutter/**",
-      "Codigo/Dockerfile"
-    ]
+    "dockerfilePath": "Codigo/Dockerfile"
   },
   "deploy": {
-    "runtime": "V2",
-    "numReplicas": 1,
-    "sleepApplication": false,
     "restartPolicyType": "ON_FAILURE",
     "restartPolicyMaxRetries": 10
   }
