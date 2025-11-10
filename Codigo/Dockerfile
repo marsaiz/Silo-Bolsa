@@ -1,4 +1,5 @@
 # Imagen base para aplicaciones ASP.NET Core
+# Build: 2025-11-10 Flutter threshold fixes
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
 EXPOSE 8080
