@@ -10,9 +10,6 @@ class SensorLineChart extends StatefulWidget {
   final double maxX;
   final double maxY;
   final List<DateTime> timestamps; // Marcas de tiempo alineadas con X
-  // NUEVO: Variables para los umbrales de temperatura y humedad
-  final double temperaturaUmbral = 35.0;
-  final double humedadUmbral = 55.0;
 
   const SensorLineChart({
     super.key,
@@ -28,6 +25,10 @@ class SensorLineChart extends StatefulWidget {
 }
 
 class _SensorLineChartState extends State<SensorLineChart> {
+  // NUEVO: Umbrales como constantes estáticas
+  static const double temperaturaUmbral = 35.0;
+  static const double humedadUmbral = 55.0;
+
   // Control del zoom/pan
   final TransformationController _tx = TransformationController();
 
@@ -103,8 +104,8 @@ class _SensorLineChartState extends State<SensorLineChart> {
     _vMaxX = (_visTs.length > 0) ? (_visTs.length - 1).toDouble() : 0;
     // Calcular maxY visible dinámicamente (entre ambas series)
     final allY = [..._visTemp.map((e) => e.y), ..._visHum.map((e) => e.y)];
-    if (widget.temperaturaUmbral != null) allY.add(widget.temperaturaUmbral!);
-    if (widget.humedadUmbral != null) allY.add(widget.humedadUmbral!);
+    allY.add(temperaturaUmbral);
+    allY.add(humedadUmbral);
 
     final maxY = allY.isEmpty
         ? widget.maxY
@@ -270,49 +271,45 @@ class _SensorLineChartState extends State<SensorLineChart> {
     // ==================================================================
     List<HorizontalLine> umbralLines = [];
 
-    if (widget.temperaturaUmbral != null) {
-      umbralLines.add(
-        HorizontalLine(
-          y: widget.temperaturaUmbral!,
-          color: Colors.red.shade700.withOpacity(0.6), // Color para Temp
-          strokeWidth: 2,
-          dashArray: [5, 5],
-          label: HorizontalLineLabel(
-            show: true,
-            alignment: Alignment.topRight,
-            padding: const EdgeInsets.only(right: 5, bottom: 2),
-            style: const TextStyle(
-              color: Colors.red,
-              fontWeight: FontWeight.bold,
-              fontSize: 10,
-            ),
-            labelResolver: (line) => 'UMBRAL TEMPERATURA: ${line.y.toStringAsFixed(0)}°C',
+    umbralLines.add(
+      HorizontalLine(
+        y: temperaturaUmbral,
+        color: Colors.red.shade700.withOpacity(0.6), // Color para Temp
+        strokeWidth: 2,
+        dashArray: [5, 5],
+        label: HorizontalLineLabel(
+          show: true,
+          alignment: Alignment.topRight,
+          padding: const EdgeInsets.only(right: 5, bottom: 2),
+          style: const TextStyle(
+            color: Colors.red,
+            fontWeight: FontWeight.bold,
+            fontSize: 10,
           ),
+          labelResolver: (line) => 'UMBRAL TEMPERATURA: ${line.y.toStringAsFixed(0)}°C',
         ),
-      );
-    }
+      ),
+    );
 
-    if (widget.humedadUmbral != null) {
-      umbralLines.add(
-        HorizontalLine(
-          y: widget.humedadUmbral!,
-          color: Colors.blue.shade700.withOpacity(0.6), // Color para Humedad
-          strokeWidth: 2,
-          dashArray: [5, 5],
-          label: HorizontalLineLabel(
-            show: true,
-            alignment: Alignment.bottomRight,
-            padding: const EdgeInsets.only(right: 5, top: 2),
-            style: const TextStyle(
-              color: Colors.blue,
-              fontWeight: FontWeight.bold,
-              fontSize: 10,
-            ),
-            labelResolver: (line) => 'UMBRAL HUMEDAD: ${line.y.toStringAsFixed(0)}%',
+    umbralLines.add(
+      HorizontalLine(
+        y: humedadUmbral,
+        color: Colors.blue.shade700.withOpacity(0.6), // Color para Humedad
+        strokeWidth: 2,
+        dashArray: [5, 5],
+        label: HorizontalLineLabel(
+          show: true,
+          alignment: Alignment.bottomRight,
+          padding: const EdgeInsets.only(right: 5, top: 2),
+          style: const TextStyle(
+            color: Colors.blue,
+            fontWeight: FontWeight.bold,
+            fontSize: 10,
           ),
+          labelResolver: (line) => 'UMBRAL HUMEDAD: ${line.y.toStringAsFixed(0)}%',
         ),
-      );
-    }
+      ),
+    );
     // ==================================================================
     // ------------------- FIN: BLOQUE PARA UMBRALES ----------------------
     // ==================================================================
