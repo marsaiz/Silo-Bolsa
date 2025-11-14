@@ -9,11 +9,7 @@
     "restartPolicyType": "ON_FAILURE",
     "restartPolicyMaxRetries": 10,
     "watchPatterns": [
-      "Codigo/Dockerfile",
-      "Codigo/Web/SiloBolsa.Api/**",
-      "Codigo/Web/SiloBolsa.Api/wwwroot/**",
-      "Codigo/Web/SiloBolsa.Api/Program.cs",
-      "Codigo/railway.json"
+      "Codigo/**"
     ]
   }
 }
