@@ -5,9 +5,9 @@
 
 set -e  # Salir si hay errores
 
-echo "🚀 Compilando Flutter Web con base-href /flutter/..."
+echo "🚀 Compilando Flutter Web sin Service Worker (pwa-strategy=none)..."
 cd ../Flutter/silo_bolsa_flutter
-flutter build web --release --base-href /flutter/
+flutter build web --release --base-href /flutter/ --pwa-strategy=none
 
 echo "📦 Copiando archivos a wwwroot/flutter..."
 cd ../../Web
