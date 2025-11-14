@@ -135,7 +135,14 @@ if (System.IO.Directory.Exists(flutterWebRoot))
     {
         FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(flutterWebRoot),
         RequestPath = "/flutter",
-        ContentTypeProvider = contentTypes
+        ContentTypeProvider = contentTypes,
+        OnPrepareResponse = ctx =>
+        {
+            // Disable caching for Flutter assets to avoid stale deployments
+            ctx.Context.Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
+            ctx.Context.Response.Headers["Pragma"] = "no-cache";
+            ctx.Context.Response.Headers["Expires"] = "0";
+        }
     });
 }
 
