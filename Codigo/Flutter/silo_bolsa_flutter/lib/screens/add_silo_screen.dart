@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 import '../api_service.dart';
+import 'location_picker_screen.dart'; // ¡Importa la nueva pantalla!
+import 'package:latlong2/latlong.dart'; // Necesitas esto para LatLng
 
 class AddSiloScreen extends StatefulWidget {
   const AddSiloScreen({super.key});
@@ -13,13 +15,13 @@ class AddSiloScreen extends StatefulWidget {
 class _AddSiloScreenState extends State<AddSiloScreen> {
   final _formKey = GlobalKey<FormState>();
   final ApiService _apiService = ApiService();
-  
+
   final _latitudController = TextEditingController();
   final _longitudController = TextEditingController();
   final _capacidadController = TextEditingController();
   final _tipoGranoController = TextEditingController();
   final _descripcionController = TextEditingController();
-  
+
   bool _isLoading = false;
 
   @override
@@ -30,6 +32,38 @@ class _AddSiloScreenState extends State<AddSiloScreen> {
     _tipoGranoController.dispose();
     _descripcionController.dispose();
     super.dispose();
+  }
+
+  // Nuevo método para abrir el selector de ubicación
+  Future<void> _pickLocation() async {
+    // Intenta usar la ubicación actual si ya está en los controladores
+    LatLng? initialLocation;
+    if (_latitudController.text.isNotEmpty && _longitudController.text.isNotEmpty) {
+      try {
+        initialLocation = LatLng(
+          double.parse(_latitudController.text),
+          double.parse(_longitudController.text),
+        );
+      } catch (e) {
+        // Ignorar si los valores actuales no son válidos
+      }
+    }
+
+    final LatLng? pickedLocation = await Navigator.push<LatLng>(
+      context,
+      MaterialPageRoute(
+        builder: (context) => LocationPickerScreen(
+          initialLocation: initialLocation,
+        ),
+      ),
+    );
+
+    if (pickedLocation != null) {
+      setState(() {
+        _latitudController.text = pickedLocation.latitude.toStringAsFixed(6);
+        _longitudController.text = pickedLocation.longitude.toStringAsFixed(6);
+      });
+    }
   }
 
   Future<void> _submitForm() async {
@@ -43,7 +77,6 @@ class _AddSiloScreenState extends State<AddSiloScreen> {
 
     try {
       final siloData = {
-        // No enviamos idSilo porque el backend lo genera automáticamente
         'latitud': double.parse(_latitudController.text),
         'longitud': double.parse(_longitudController.text),
         'capacidad': int.parse(_capacidadController.text),
@@ -60,7 +93,7 @@ class _AddSiloScreenState extends State<AddSiloScreen> {
             backgroundColor: Colors.green,
           ),
         );
-        Navigator.pop(context, true); // Retorna true para indicar que se creó
+        Navigator.pop(context, true);
       }
     } catch (e) {
       if (mounted) {
@@ -100,8 +133,21 @@ class _AddSiloScreenState extends State<AddSiloScreen> {
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 16),
-              
-              // Latitud
+
+              // Botón para abrir el mapa
+              ElevatedButton.icon(
+                onPressed: _pickLocation,
+                icon: const Icon(Icons.map),
+                label: const Text('Seleccionar Ubicación en el Mapa'),
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  backgroundColor: Theme.of(context).colorScheme.secondary, // Un color diferente para distinguirlo
+                  foregroundColor: Colors.white,
+                ),
+              ),
+              const SizedBox(height: 16),
+
+              // Latitud (ahora se puede rellenar desde el mapa)
               TextFormField(
                 controller: _latitudController,
                 decoration: const InputDecoration(
@@ -123,8 +169,8 @@ class _AddSiloScreenState extends State<AddSiloScreen> {
                 },
               ),
               const SizedBox(height: 16),
-              
-              // Longitud
+
+              // Longitud (ahora se puede rellenar desde el mapa)
               TextFormField(
                 controller: _longitudController,
                 decoration: const InputDecoration(
@@ -146,8 +192,8 @@ class _AddSiloScreenState extends State<AddSiloScreen> {
                 },
               ),
               const SizedBox(height: 16),
-              
-              // Capacidad
+
+              // Resto de los campos (Capacidad, Tipo de Grano, Descripción)
               TextFormField(
                 controller: _capacidadController,
                 decoration: const InputDecoration(
@@ -169,8 +215,7 @@ class _AddSiloScreenState extends State<AddSiloScreen> {
                 },
               ),
               const SizedBox(height: 16),
-              
-              // Tipo de Grano
+
               TextFormField(
                 controller: _tipoGranoController,
                 decoration: const InputDecoration(
@@ -193,8 +238,7 @@ class _AddSiloScreenState extends State<AddSiloScreen> {
                 },
               ),
               const SizedBox(height: 16),
-              
-              // Descripción (opcional)
+
               TextFormField(
                 controller: _descripcionController,
                 decoration: const InputDecoration(
@@ -206,7 +250,7 @@ class _AddSiloScreenState extends State<AddSiloScreen> {
                 maxLines: 3,
               ),
               const SizedBox(height: 24),
-              
+
               // Botón de submit
               ElevatedButton(
                 onPressed: _isLoading ? null : _submitForm,

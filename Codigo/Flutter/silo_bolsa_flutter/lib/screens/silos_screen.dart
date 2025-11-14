@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../api_service.dart';
 import '../silo_model.dart';
 import 'add_silo_screen.dart';
+import 'map_screen.dart'; // ¡Importa tu MapScreen aquí!
 
 class SilosScreen extends StatefulWidget {
   const SilosScreen({super.key});
@@ -20,6 +21,13 @@ class _SilosScreenState extends State<SilosScreen> {
   void initState() {
     super.initState();
     _futureSilos = _apiService.fetchSilos();
+  }
+
+  // Método para recargar la lista de silos
+  void _refreshSilos() {
+    setState(() {
+      _futureSilos = _apiService.fetchSilos();
+    });
   }
 
   @override
@@ -45,11 +53,7 @@ class _SilosScreenState extends State<SilosScreen> {
                   Text('Error al cargar silos: ${snapshot.error}'),
                   const SizedBox(height: 16),
                   ElevatedButton(
-                    onPressed: () {
-                      setState(() {
-                        _futureSilos = _apiService.fetchSilos();
-                      });
-                    },
+                    onPressed: _refreshSilos, // Usa el método de refresco
                     child: const Text('Reintentar'),
                   ),
                 ],
@@ -82,24 +86,55 @@ class _SilosScreenState extends State<SilosScreen> {
                       child: const Icon(Icons.inventory_2, color: Colors.white),
                     ),
                     title: Text(
-                      'Silo ${silo.idSilo.substring(0, 8)}...',
+                      // Muestra el ID completo o un fragmento, como prefieras
+                      'Silo: ${silo.idSilo}',
                       style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
                     subtitle: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        if (silo.descripcion != null)
-                          Text(silo.descripcion!),
+                        if (silo.descripcion != null && silo.descripcion!.isNotEmpty)
+                          Text('Descripción: ${silo.descripcion!}'),
                         Text('Capacidad: ${silo.capacidad} kg'),
-                        Text('Ubicación: ${silo.latitud.toStringAsFixed(4)}, ${silo.longitud.toStringAsFixed(4)}'),
                         Text('Tipo de grano: ${silo.tipoGrano}'),
+                        // Agrega una fila para mostrar la ubicación y el botón
+                        Row(
+                          children: [
+                            Text('Ubicación: ${silo.latitud.toStringAsFixed(4)}, ${silo.longitud.toStringAsFixed(4)}'),
+                            const Spacer(), // Empuja el botón al final de la fila
+                            // Botón para ver en el mapa
+                            ElevatedButton.icon(
+                              onPressed: () {
+                                // Navegar a MapScreen cuando se presione el botón
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => MapScreen(
+                                      latitude: silo.latitud,
+                                      longitude: silo.longitud,
+                                      title: 'Ubicación de Silo ${silo.idSilo.substring(0, 8)}',
+                                    ),
+                                  ),
+                                );
+                              },
+                              icon: const Icon(Icons.map, size: 18),
+                              label: const Text('Ver Mapa'),
+                              style: ElevatedButton.styleFrom(
+                                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                                  minimumSize: Size.zero, // Para hacer el botón más compacto
+                                  tapTargetSize: MaterialTapTargetSize.shrinkWrap, // Para reducir el área de tap invisible
+                              ),
+                            ),
+                          ],
+                        ),
                       ],
                     ),
-                    trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+                    // Eliminamos el trailing de flecha si ya no lo usas, o lo puedes mover
+                    // trailing: const Icon(Icons.arrow_forward_ios, size: 16),
                     onTap: () {
-                      // TODO: Navegar a detalle del silo
+                      // Puedes mantener esta navegación para ver el detalle del silo
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Detalle de Silo ${silo.idSilo.substring(0, 8)}')),
+                        SnackBar(content: Text('Detalle de Silo ${silo.idSilo}')),
                       );
                     },
                   ),
@@ -115,12 +150,10 @@ class _SilosScreenState extends State<SilosScreen> {
             context,
             MaterialPageRoute(builder: (context) => const AddSiloScreen()),
           );
-          
+
           // Si se creó un silo, recargar la lista
           if (result == true) {
-            setState(() {
-              _futureSilos = _apiService.fetchSilos();
-            });
+            _refreshSilos(); // Usa el método de refresco
           }
         },
         child: const Icon(Icons.add),
