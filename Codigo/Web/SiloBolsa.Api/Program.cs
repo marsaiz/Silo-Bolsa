@@ -6,6 +6,7 @@ using SiloBolsa.Servicios.Negocio;
 using SiloBolsa.Servicios;
 
 //El servicio de logging esta configurado automaticamente por el WebApplicationBuilder
+// Trigger redeploy (no-op): 2025-11-14 19:58 UTC
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Logging.ClearProviders(); //Limpiar los providers por defecto si no los quieres
