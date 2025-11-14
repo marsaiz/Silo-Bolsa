@@ -46,5 +46,5 @@ COPY --from=build /src/Web/paginaWeb ./paginaWeb
 COPY --from=build /src/Web/SiloBolsa.Api/wwwroot ./wwwroot
 
 # La aplicación aplicará las migraciones automáticamente al iniciar (ver Program.cs)
-# Build: Nov 14, 2025 21:35 UTC - Force redeploy after removing Railway ignore files
+# Build: Nov 14, 2025 21:40 UTC - Clean slate after removing all Railway deploys
 ENTRYPOINT ["dotnet", "SiloBolsa.Api.dll"]
