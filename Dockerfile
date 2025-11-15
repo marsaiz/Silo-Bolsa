@@ -12,16 +12,16 @@ WORKDIR /src
 RUN dotnet tool install --global dotnet-ef --version 8.0.8
 ENV PATH="${PATH}:/root/.dotnet/tools"
 
-# Copiar archivos de proyecto y restaurar dependencias (el contexto es Codigo/)
-COPY ["Web/SiloBolsa.Api/SiloBolsa.Api.csproj", "Web/SiloBolsa.Api/"]
-COPY ["Web/SiloBolsa.Persistencia/SiloBolsa.Persistencia.csproj", "Web/SiloBolsa.Persistencia/"]
-COPY ["Web/SiloBolsa.Core/SiloBolsa.Core.csproj", "Web/SiloBolsa.Core/"]
-COPY ["Web/SiloBolsa.Servicios/SiloBolsa.Servicios.csproj", "Web/SiloBolsa.Servicios/"]
+# Copiar archivos de proyecto y restaurar dependencias (el contexto es raíz del repo)
+COPY ["Codigo/Web/SiloBolsa.Api/SiloBolsa.Api.csproj", "Web/SiloBolsa.Api/"]
+COPY ["Codigo/Web/SiloBolsa.Persistencia/SiloBolsa.Persistencia.csproj", "Web/SiloBolsa.Persistencia/"]
+COPY ["Codigo/Web/SiloBolsa.Core/SiloBolsa.Core.csproj", "Web/SiloBolsa.Core/"]
+COPY ["Codigo/Web/SiloBolsa.Servicios/SiloBolsa.Servicios.csproj", "Web/SiloBolsa.Servicios/"]
 
 RUN dotnet restore "Web/SiloBolsa.Api/SiloBolsa.Api.csproj"
 
 # Copiar el resto del código fuente
-COPY . .
+COPY Codigo/ .
 
 # Construir la API
 WORKDIR "/src/Web/SiloBolsa.Api"
