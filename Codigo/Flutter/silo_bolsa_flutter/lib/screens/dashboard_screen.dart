@@ -147,6 +147,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.transparent,
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
         title: const Text('Dashboard de Sensores', style: TextStyle(color: Colors.white)),

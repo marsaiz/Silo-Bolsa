@@ -25,6 +25,7 @@ class _GranosScreenState extends State<GranosScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.transparent,
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
         title: const Text('Granos', style: TextStyle(color: Colors.white)),

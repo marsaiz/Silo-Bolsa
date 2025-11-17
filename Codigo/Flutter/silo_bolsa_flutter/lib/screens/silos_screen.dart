@@ -33,6 +33,7 @@ class _SilosScreenState extends State<SilosScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.transparent,
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
         title: const Text('Silos', style: TextStyle(color: Colors.white)),

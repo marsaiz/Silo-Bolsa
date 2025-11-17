@@ -51,6 +51,7 @@ class _AlertasScreenState extends State<AlertasScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.transparent,
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
         title: const Text('Alertas', style: TextStyle(color: Colors.white)),

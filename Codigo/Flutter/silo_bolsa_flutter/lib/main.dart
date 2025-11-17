@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Silo Bolsa - Monitoreo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.red),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
         useMaterial3: true,
       ),
       home: const MainNavigationScreen(),
@@ -59,6 +59,16 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
         backgroundColor: Theme.of(context).colorScheme.primary,
         title: Text(_titles[_selectedIndex], style: const TextStyle(color: Colors.white)),
         iconTheme: const IconThemeData(color: Colors.white),
+      ),
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/images/molino_tranquera.png'),
+            fit: BoxFit.contain, // Mostrar la imagen completa sin recortar
+            opacity: 0.3,
+          ),
+        ),
+        child: _screens[_selectedIndex],
       ),
       drawer: Drawer(
         child: ListView(
@@ -162,7 +172,6 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
           ],
         ),
       ),
-      body: _screens[_selectedIndex],
     );
   }
 }
