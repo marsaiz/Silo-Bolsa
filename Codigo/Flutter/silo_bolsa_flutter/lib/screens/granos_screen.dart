@@ -26,11 +26,7 @@ class _GranosScreenState extends State<GranosScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.transparent,
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        title: const Text('Granos', style: TextStyle(color: Colors.white)),
-        iconTheme: const IconThemeData(color: Colors.white),
-      ),
+      // AppBar centralizado en main.dart
       body: FutureBuilder<List<Grano>>(
         future: _futureGranos,
         builder: (context, snapshot) {

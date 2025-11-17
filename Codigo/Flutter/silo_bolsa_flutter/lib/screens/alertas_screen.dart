@@ -52,11 +52,7 @@ class _AlertasScreenState extends State<AlertasScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.transparent,
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        title: const Text('Alertas', style: TextStyle(color: Colors.white)),
-        iconTheme: const IconThemeData(color: Colors.white),
-      ),
+      // AppBar centralizado en main.dart
       body: FutureBuilder<List<Alerta>>(
         future: _futureAlertas,
         builder: (context, snapshot) {

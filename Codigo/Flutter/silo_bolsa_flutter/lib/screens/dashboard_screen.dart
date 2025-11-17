@@ -148,11 +148,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.transparent,
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        title: const Text('Dashboard de Sensores', style: TextStyle(color: Colors.white)),
-        iconTheme: const IconThemeData(color: Colors.white),
-      ),
+      // AppBar centralizado en main.dart
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(

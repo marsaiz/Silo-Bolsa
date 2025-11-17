@@ -34,11 +34,7 @@ class _SilosScreenState extends State<SilosScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.transparent,
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        title: const Text('Silos', style: TextStyle(color: Colors.white)),
-        iconTheme: const IconThemeData(color: Colors.white),
-      ),
+      // AppBar centralizado en main.dart
       body: FutureBuilder<List<Silo>>(
         future: _futureSilos,
         builder: (context, snapshot) {

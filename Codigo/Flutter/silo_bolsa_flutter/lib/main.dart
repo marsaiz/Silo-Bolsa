@@ -57,8 +57,39 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
-        title: Text(_titles[_selectedIndex], style: const TextStyle(color: Colors.white)),
         iconTheme: const IconThemeData(color: Colors.white),
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              _titles[_selectedIndex],
+              style: const TextStyle(color: Colors.white),
+            ),
+            const SizedBox(height: 2),
+            const Text(
+              'Marcelo A. Saiz — ITES · EPET Nº 10',
+              style: TextStyle(color: Colors.white70, fontSize: 18),
+            ),
+          ],
+        ),
+        flexibleSpace: Stack(
+          children: [
+            Positioned(
+              right: 8,
+              top: 0,
+              bottom: 0,
+              child: Opacity(
+                opacity: 0.18,
+                child: Image.asset(
+                  'assets/images/molino_tranquera.png',
+                  fit: BoxFit.contain,
+                  height: kToolbarHeight * 1.2,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
       body: Container(
         decoration: BoxDecoration(
